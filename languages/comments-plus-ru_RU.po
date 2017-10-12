@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: clearfy\n"
-"POT-Creation-Date: 2017-10-04 23:26+0300\n"
-"PO-Revision-Date: 2017-10-04 23:27+0300\n"
+"POT-Creation-Date: 2017-10-05 17:35+0300\n"
+"PO-Revision-Date: 2017-10-05 17:36+0300\n"
 "Last-Translator: alex.kovalevv@gmail.com <alex.kovalevv@gmail.com>\n"
 "Language-Team: Alex Kovalev <alex.kovalevv@gmail.com>\n"
 "Language: ru_RU\n"
@@ -30,7 +30,7 @@ msgstr "Отключить обновления плагинов"
 msgid "Disable theme updates"
 msgstr "Отключить обновления тем"
 
-#: admin/boot.php:50 admin/pages/updates.php:82
+#: admin/boot.php:50
 msgid "Disable Automatic Translation Updates"
 msgstr "Отключить автоматические обновления переводов"
 
@@ -38,111 +38,133 @@ msgstr "Отключить автоматические обновления п�
 msgid "Disable wordPress core updates"
 msgstr "Отключить обновления ядра Wordpress"
 
-#: admin/boot.php:61 admin/pages/updates.php:107
+#: admin/boot.php:61
 msgid "Enable updates for VCS Installations"
 msgstr "Включить обновления для установок VCS"
 
 #: admin/boot.php:72
-msgid "Disable all updates"
-msgstr "Отключить обновления"
+msgid "Disable all comments"
+msgstr ""
 
-#: admin/pages/updates.php:34
-msgid "Updates"
-msgstr "Обновления"
+#: admin/pages/comments.php:34
+msgid "Comments"
+msgstr ""
 
-#: admin/pages/updates.php:35
+#: admin/pages/comments.php:35
 msgid "General"
 msgstr "Основные"
 
-#: admin/pages/updates.php:52
-msgid "Plugin Updates"
-msgstr "Обновления плагина"
+#: admin/pages/comments.php:57
+msgid "Disable comments"
+msgstr ""
 
-#: admin/pages/updates.php:54 admin/pages/updates.php:69
-msgid "Monual updates"
-msgstr "Ручные"
+#: admin/pages/comments.php:59
+msgid "Enable comments"
+msgstr ""
 
-#: admin/pages/updates.php:55 admin/pages/updates.php:70
-msgid "Enable auto updates"
-msgstr "Автоматические"
+#: admin/pages/comments.php:60
+msgid "Everywhere"
+msgstr ""
 
-#: admin/pages/updates.php:56 admin/pages/updates.php:71
-#: admin/pages/updates.php:92
-msgid "Disable updates"
-msgstr "Отключить все"
+#: admin/pages/comments.php:61
+msgid "On certain post types"
+msgstr ""
 
-#: admin/pages/updates.php:59
+#: admin/pages/comments.php:64
 msgid ""
-"You can disable all plugin updates or choose manual or automatic update mode."
+"Everywhere - Warning: This option is global and will affect your entire "
+"site. Use it only if you want to disable comments everywhere. A complete "
+"description of what this option does is available here"
 msgstr ""
-"Вы можете отключить все обновления плагинов или выбрать режим ручного или "
-"автоматического обновления."
 
-#: admin/pages/updates.php:67
-msgid "Theme Updates"
-msgstr "Обновления тем"
-
-#: admin/pages/updates.php:74
+#: admin/pages/comments.php:64
 msgid ""
-"You can disable all themes updates or choose manual or automatic update mode."
+"On certain post types - Disabling comments will also disable trackbacks and "
+"pingbacks. All comment-related fields will also be hidden from the edit/"
+"quick-edit screens of the affected posts. These settings cannot be "
+"overridden for individual posts."
 msgstr ""
-"Вы можете отключить все обновления тем или выбрать режим ручного или "
-"автоматического обновления."
 
-#: admin/pages/updates.php:90
-msgid "WordPress Core Updates"
-msgstr "Базовые обновления Wordpress"
+#: admin/pages/comments.php:83
+msgid "Select post types"
+msgstr ""
 
-#: admin/pages/updates.php:93
-msgid "Disable auto updates"
-msgstr "Отключить автоматические обновления"
+#: admin/pages/comments.php:86
+msgid "fsdfsdf"
+msgstr ""
 
-#: admin/pages/updates.php:94
-msgid "Allow minor auto updates"
-msgstr "Разрешить незначительные автоматические обновления"
+#: admin/pages/comments.php:94
+msgid "Remove field \"site\" in comment form"
+msgstr "Удаляет поле \"Сайт\" в форме комментариев"
 
-#: admin/pages/updates.php:95
-msgid "Allow major auto updates"
-msgstr "Разрешить основные автоматические обновления"
-
-#: admin/pages/updates.php:96
-msgid "Allow development auto updates"
-msgstr "Разрешить разрабатываемые автоматические обновления"
-
-#: admin/pages/updates.php:99
+#: admin/pages/comments.php:96
 msgid ""
-"You can disable all core WordPress updates, or disable only automatic "
-"updates. Also you can select the update mode. By default (minor)"
+"Tired of spam in the comments? Do visitors leave \"blank\" comments for the "
+"sake of a link to their site?"
 msgstr ""
-"Вы можете отключить все основные обновления WordPress или отключить только "
-"автоматические обновления. Также вы можете выбрать режим обновления. По "
-"умолчанию (младший)"
+"Надоел спам в комментариях? Посетители оставляют «пустые» комментарии ради "
+"ссылки на свой сайт?"
 
-#: admin/pages/updates.php:99
-msgid "Major - automatically update to major releases (e.g., 4.1, 4.2, 4.3)."
-msgstr ""
-"Основные - автоматически обновления основных версий (4.1, 4.2, 4.3 и т.д)."
+#: admin/pages/comments.php:96
+msgid "Removes the \"Site\" field from the comment form."
+msgstr "Убирает поле «Сайт» из формы комментирования."
 
-#: admin/pages/updates.php:99
+#: admin/pages/comments.php:96
 msgid ""
-"Minor - automatically update to minor releases (e.g., 4.1.1, 4.1.2, 4.1.3).."
+"Works with the standard comment form, if the form is manually written in "
+"your theme-it probably will not work!"
 msgstr ""
-"Незначительные - автоматически обновления промежуточных версий (4.1.1, "
-"4.1.2, 4.1.3 и т.д)."
+"Работает со стандартной формой комментирования, если в Вашей теме форма "
+"прописана вручную - скорей всего не сработает!"
 
-#: admin/pages/updates.php:99
-msgid "Development - update automatically to Bleeding Edge releases."
-msgstr "Разрабатываемые - автоматические обновления до финальных выпусков."
+#: admin/pages/comments.php:104
+msgid "Replace external links in comments on the JavaScript code"
+msgstr "Заменить внешние ссылки в комментариях на JavaScript код"
 
-#: admin/pages/updates.php:109
+#: admin/pages/comments.php:104 admin/pages/comments.php:114
+msgid "Recommended"
+msgstr "Рекомендовано"
+
+#: admin/pages/comments.php:106
 msgid ""
-"Enable Automatic Updates even if a VCS folder (.git, .hg, .svn) was found in "
-"the WordPress directory"
+"Superfluous external links from comments, which can be typed from a dozen "
+"and more for one article, do not bring anything good for promotion."
 msgstr ""
-"Включить автоматическое обновление, даже если папка VCS (.git, .hg, .svn) "
-"была найдена в каталоге WordPress"
+"Внешние ссылки в комментариях, которых может быть десятки или больше на "
+"одной странице, могут ухудшить продвижение вашего сайта."
 
-#: update-services.php:17
+#: admin/pages/comments.php:106
+#, php-format
+msgid "Replaces the links of this kind of %s, on links of this kind %s"
+msgstr ""
+"Заменяет ссылки %s, на span тег и устанавливает переход с помощью JavaScript "
+"%s"
+
+#: admin/pages/comments.php:114
+msgid "Replace external links from comment authors on the JavaScript code"
+msgstr "Заменить внешние ссылки от авторов комментариев на код JavaScript"
+
+#: admin/pages/comments.php:116
+msgid ""
+"Up to 90 percent of comments in the blog can be left for the sake of an "
+"external link. Even nofollow from page weight loss here does not help."
+msgstr ""
+"До 90 процентов комментариев в блоге оставляют ради внешней ссылки. Не "
+"поможет даже nofollow от потери веса страницы."
+
+#: admin/pages/comments.php:116
+msgid ""
+"Replaces the links of the authors of comments on the JavaScript code, it is "
+"impossible to distinguish it from usual links."
+msgstr ""
+"Заменяет ссылки авторов комментариев на JavaScript код, его невозможно "
+"отличить от обычной ссылки."
+
+#: admin/pages/comments.php:116
+msgid "In some Wordpress topics this may not work."
+msgstr "В некоторых темах Wordpress это может не сработать."
+
+#: comments-plus.php:17
 msgid ""
 "We found that you have the \"Clearfy - disable unused features\" plugin "
 "installed, this plugin already has update manager functions, so you can "
@@ -152,9 +174,92 @@ msgstr ""
 "неиспользуемые функции», этот плагин уже имеет функции менеджера обновлений, "
 "поэтому вы можете отключить плагин «Менеджер обновлений»!"
 
-#: update-services.php:82
-msgid "Webcraftic Updates Manager"
-msgstr "Webcraftic менеджер обновлений"
+#: comments-plus.php:82
+msgid "Webcraftic Disable comments"
+msgstr ""
+
+#~ msgid "Disable all updates"
+#~ msgstr "Отключить обновления"
+
+#~ msgid "Updates"
+#~ msgstr "Обновления"
+
+#~ msgid "Plugin Updates"
+#~ msgstr "Обновления плагина"
+
+#~ msgid "Monual updates"
+#~ msgstr "Ручные"
+
+#~ msgid "Enable auto updates"
+#~ msgstr "Автоматические"
+
+#~ msgid "Disable updates"
+#~ msgstr "Отключить все"
+
+#~ msgid ""
+#~ "You can disable all plugin updates or choose manual or automatic update "
+#~ "mode."
+#~ msgstr ""
+#~ "Вы можете отключить все обновления плагинов или выбрать режим ручного или "
+#~ "автоматического обновления."
+
+#~ msgid "Theme Updates"
+#~ msgstr "Обновления тем"
+
+#~ msgid ""
+#~ "You can disable all themes updates or choose manual or automatic update "
+#~ "mode."
+#~ msgstr ""
+#~ "Вы можете отключить все обновления тем или выбрать режим ручного или "
+#~ "автоматического обновления."
+
+#~ msgid "WordPress Core Updates"
+#~ msgstr "Базовые обновления Wordpress"
+
+#~ msgid "Disable auto updates"
+#~ msgstr "Отключить автоматические обновления"
+
+#~ msgid "Allow minor auto updates"
+#~ msgstr "Разрешить незначительные автоматические обновления"
+
+#~ msgid "Allow major auto updates"
+#~ msgstr "Разрешить основные автоматические обновления"
+
+#~ msgid "Allow development auto updates"
+#~ msgstr "Разрешить разрабатываемые автоматические обновления"
+
+#~ msgid ""
+#~ "You can disable all core WordPress updates, or disable only automatic "
+#~ "updates. Also you can select the update mode. By default (minor)"
+#~ msgstr ""
+#~ "Вы можете отключить все основные обновления WordPress или отключить "
+#~ "только автоматические обновления. Также вы можете выбрать режим "
+#~ "обновления. По умолчанию (младший)"
+
+#~ msgid ""
+#~ "Major - automatically update to major releases (e.g., 4.1, 4.2, 4.3)."
+#~ msgstr ""
+#~ "Основные - автоматически обновления основных версий (4.1, 4.2, 4.3 и т.д)."
+
+#~ msgid ""
+#~ "Minor - automatically update to minor releases (e.g., 4.1.1, 4.1.2, "
+#~ "4.1.3).."
+#~ msgstr ""
+#~ "Незначительные - автоматически обновления промежуточных версий (4.1.1, "
+#~ "4.1.2, 4.1.3 и т.д)."
+
+#~ msgid "Development - update automatically to Bleeding Edge releases."
+#~ msgstr "Разрабатываемые - автоматические обновления до финальных выпусков."
+
+#~ msgid ""
+#~ "Enable Automatic Updates even if a VCS folder (.git, .hg, .svn) was found "
+#~ "in the WordPress directory"
+#~ msgstr ""
+#~ "Включить автоматическое обновление, даже если папка VCS (.git, .hg, .svn) "
+#~ "была найдена в каталоге WordPress"
+
+#~ msgid "Webcraftic Updates Manager"
+#~ msgstr "Webcraftic менеджер обновлений"
 
 #~ msgid "General1"
 #~ msgstr "Основные"
@@ -278,12 +383,6 @@ msgstr "Webcraftic менеджер обновлений"
 #~ msgid "Automatically set the alt attribute"
 #~ msgstr "Автоматически устанавливать атрибут alt"
 
-#~ msgid "Replace external links in comments on the JavaScript code"
-#~ msgstr "Заменить внешние ссылки в комментариях на JavaScript код"
-
-#~ msgid "Replace external links from comment authors on the JavaScript code"
-#~ msgstr "Заменить внешние ссылки от авторов комментариев на код JavaScript"
-
 #~ msgid "Automatically insert the Last Modified header"
 #~ msgstr "Автоматически вставлять заголовок Last Modified"
 
@@ -404,9 +503,6 @@ msgstr "Webcraftic менеджер обновлений"
 #~ msgid "Disable RSS feeds"
 #~ msgstr "Отключить RSS каналы"
 
-#~ msgid "Remove field \"site\" in comment form"
-#~ msgstr "Удаляет поле \"Сайт\" в форме комментариев"
-
 #~ msgid "Removes links to wordpress.org site from the admin bar"
 #~ msgstr "Удаляет ссылки на wordpress.org сайт из панели администратора"
 
@@ -418,23 +514,6 @@ msgstr "Webcraftic менеджер обновлений"
 
 #~ msgid "Eclude stylesheet/script file names"
 #~ msgstr "Исключает файлы стилей/сприптов"
-
-#~ msgid ""
-#~ "Tired of spam in the comments? Do visitors leave \"blank\" comments for "
-#~ "the sake of a link to their site?"
-#~ msgstr ""
-#~ "Надоел спам в комментариях? Посетители оставляют «пустые» комментарии "
-#~ "ради ссылки на свой сайт?"
-
-#~ msgid "Removes the \"Site\" field from the comment form."
-#~ msgstr "Убирает поле «Сайт» из формы комментирования."
-
-#~ msgid ""
-#~ "Works with the standard comment form, if the form is manually written in "
-#~ "your theme-it probably will not work!"
-#~ msgstr ""
-#~ "Работает со стандартной формой комментирования, если в Вашей теме форма "
-#~ "прописана вручную - скорей всего не сработает!"
 
 #~ msgid ""
 #~ "The first item in the toolbar goes wordpress logo and external links to "
@@ -522,9 +601,6 @@ msgstr "Webcraftic менеджер обновлений"
 #~ "Removes REST API link tag from the front end and the REST API header link "
 #~ "from page requests."
 #~ msgstr "Отключает REST API и удаляет все ссылки из исходного кода страницы."
-
-#~ msgid "Recommended"
-#~ msgstr "Рекомендовано"
 
 #~ msgid ""
 #~ "Emojis are fun and all, but if you are aren’t using them they actually "
@@ -945,35 +1021,6 @@ msgstr "Webcraftic менеджер обновлений"
 
 #~ msgid "Replaces the %s, on attribute with an article name %s"
 #~ msgstr "Заменяет %s, на атрибут с названием статьи %s"
-
-#~ msgid ""
-#~ "Superfluous external links from comments, which can be typed from a dozen "
-#~ "and more for one article, do not bring anything good for promotion."
-#~ msgstr ""
-#~ "Внешние ссылки в комментариях, которых может быть десятки или больше на "
-#~ "одной странице, могут ухудшить продвижение вашего сайта."
-
-#~ msgid "Replaces the links of this kind of %s, on links of this kind %s"
-#~ msgstr ""
-#~ "Заменяет ссылки %s, на span тег и устанавливает переход с помощью "
-#~ "JavaScript %s"
-
-#~ msgid ""
-#~ "Up to 90 percent of comments in the blog can be left for the sake of an "
-#~ "external link. Even nofollow from page weight loss here does not help."
-#~ msgstr ""
-#~ "До 90 процентов комментариев в блоге оставляют ради внешней ссылки. Не "
-#~ "поможет даже nofollow от потери веса страницы."
-
-#~ msgid ""
-#~ "Replaces the links of the authors of comments on the JavaScript code, it "
-#~ "is impossible to distinguish it from usual links."
-#~ msgstr ""
-#~ "Заменяет ссылки авторов комментариев на JavaScript код, его невозможно "
-#~ "отличить от обычной ссылки."
-
-#~ msgid "In some Wordpress topics this may not work."
-#~ msgstr "В некоторых темах Wordpress это может не сработать."
 
 #~ msgid ""
 #~ "After installation, WP does not contain a robots.txt file and create it "

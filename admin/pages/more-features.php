@@ -5,8 +5,8 @@
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrUpm_MoreFeaturesPage extends FactoryClearfy000_MoreFeaturesPage {
+	class WbcrCmp_MoreFeaturesPage extends FactoryClearfy000_MoreFeaturesPage {
 
 	}
 
-	FactoryPages000::register($wbcr_update_services_plugin, 'WbcrUpm_MoreFeaturesPage');
+	FactoryPages000::register($wbcr_comments_plus_plugin, 'WbcrCmp_MoreFeaturesPage');

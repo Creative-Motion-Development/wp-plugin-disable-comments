@@ -66,7 +66,7 @@
 
 		function wbcr_cmp_plugin_init()
 		{
-			global $wbcr_update_services_plugin;
+			global $wbcr_comments_plus_plugin;
 
 			// Localization plugin
 			load_plugin_textdomain('comments-plus', false, dirname(WBCR_CMP_PLUGIN_BASE) . '/languages/');
@@ -74,10 +74,10 @@
 			if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				//return;
 				global $wbcr_clearfy_plugin;
-				$wbcr_update_services_plugin = $wbcr_clearfy_plugin;
+				$wbcr_comments_plus_plugin = $wbcr_clearfy_plugin;
 			} else {
 
-				$wbcr_update_services_plugin = new Factory000_Plugin(__FILE__, array(
+				$wbcr_comments_plus_plugin = new Factory000_Plugin(__FILE__, array(
 					'name' => 'wbcr_comments_plus',
 					'title' => __('Webcraftic Disable comments', 'comments-plus'),
 					'version' => '1.0.0',
@@ -88,22 +88,23 @@
 				));
 
 				// requires factory modules
-				$wbcr_update_services_plugin->load(array(
+				$wbcr_comments_plus_plugin->load(array(
 					array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
 					array('libs/factory/forms', 'factory_forms_000', 'admin'),
 					array('libs/factory/pages', 'factory_pages_000', 'admin'),
 					array('libs/factory/font-awesome', 'factory_pages_000', 'admin'),
-					array('libs/factory/clearfy', 'factory_clearfy_000', 'admin')
+					array('libs/factory/clearfy', 'factory_clearfy_000', 'all')
 				));
 			}
 
 			// loading other files
 			if( is_admin() ) {
 				require(WBCR_CMP_PLUGIN_DIR . '/admin/boot.php');
-				/*require(WBCR_CMP_PLUGIN_DIR . '/includes/classes/class.configurate-updates.php');
-
-				new WbcrUpm_ConfigUpdates();*/
 			}
+
+			require(WBCR_CMP_PLUGIN_DIR . '/includes/classes/class.configurate-comments.php');
+
+			new WbcrCmp_ConfigComments($wbcr_comments_plus_plugin);
 		}
 
 		if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {

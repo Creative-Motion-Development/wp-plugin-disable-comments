@@ -6,25 +6,42 @@
 	 * @copyright (c) 2017 Webraftic Ltd
 	 * @version 1.0
 	 */
-	class WbcrClearfy_ConfigAdvanced extends WbcrClearfy_Configurate {
+	class WbcrCmp_ConfigComments extends WbcrFactoryClearfy_Configurate {
 
 		private $modified_types = array();
 
 		public function registerActionsAndFilters()
 		{
-			/*if( $this->getOption('remove_url_from_comment_form') ) {
-				add_filter('comment_form_default_fields', array($this, 'removeUrlFromCommentForm'));
-			}*/
+			// Removes the server responses a reference to the xmlrpc file.
+			if( $this->getOption('remove_x_pingback') || $this->isDisabledAllPosts() ) {
+				add_filter('template_redirect', array($this, 'removeXPingbackHeaders'));
+				add_filter('wp_headers', array($this, 'removeXPingback'));
+
+				add_action('template_redirect', array($this, 'linkRelBufferStart'), -1);
+				add_action('get_header', array($this, 'linkRelBufferStart'));
+				add_action('wp_head', array($this, 'linkRelBufferEnd'), 999);
+			}
 
 			// These need to happen now
 			if( $this->isDisabledAllPosts() ) {
-				add_action('widgets_init', array($this, 'disable_rc_widget'));
-				add_filter('wp_headers', array($this, 'filter_wp_headers'));
-				add_action('template_redirect', array($this, 'filter_query'), 9);    // before redirect_canonical
+				add_action('widgets_init', array($this, 'disableRcWidget'));
+				add_action('template_redirect', array($this, 'filterQuery'), 9);    // before redirect_canonical
 
 				// Admin bar filtering has to happen here since WP 3.6
-				add_action('template_redirect', array($this, 'filter_admin_bar'));
-				add_action('admin_init', array($this, 'filter_admin_bar'));
+				add_action('template_redirect', array($this, 'filterAdminBar'));
+				add_action('admin_init', array($this, 'filterAdminBar'));
+			} else {
+				if( $this->getOption('remove_url_from_comment_form') ) {
+					add_filter('comment_form_default_fields', array($this, 'removeUrlFromCommentForm'));
+				}
+
+				if( $this->getOption('comment_text_convert_links_pseudo') ) {
+					add_filter('comment_text', array($this, 'commentTextConvertLinksPseudo'));
+				}
+
+				if( $this->getOption('pseudo_comment_author_link') ) {
+					add_filter('get_comment_author_link', array($this, 'pseudoCommentAuthorLink'), 100, 3);
+				}
 			}
 
 			// These can happen later
@@ -37,13 +54,39 @@
 			return $this->getOption('disable_comments', 'enable_comments') == 'disable_comments';
 		}
 
+		private function isDisabledCertainPostTypes()
+		{
+			return $this->getOption('disable_comments', 'enable_comments') == 'disable_certain_post_types_comments';
+		}
+
+		private function isEnabledComments()
+		{
+			return $this->getOption('disable_comments', 'enable_comments') == 'enable_comments';
+		}
+
 
 		/*
 		 * Get an array of disabled post type.
 		 */
 		private function getDisabledPostTypes()
 		{
-			return $this->getOption('disable_comments_for_post_types');
+			$post_types = $this->getOption('disable_comments_for_post_types');
+
+			if( empty($post_types) ) {
+				return array('post', 'page', 'attachment');
+			}
+
+			if( $this->isDisabledAllPosts() ) {
+				$all_post_types = get_post_types(array('public' => true), 'objects');
+				$select_types = array();
+				foreach($all_post_types as $type_name => $type) {
+					$select_types[] = $type_name;
+				}
+
+				return $select_types;
+			}
+
+			return explode(',', $post_types);
 		}
 
 		/*
@@ -57,7 +100,7 @@
 		public function initWploadedFilters()
 		{
 			$disabled_post_types = $this->getDisabledPostTypes();
-			if( !empty($disabled_post_types) ) {
+			if( !empty($disabled_post_types) && !$this->isEnabledComments() ) {
 				foreach($disabled_post_types as $type) {
 					// we need to know what native support was for later
 					if( post_type_supports($type, 'comments') ) {
@@ -66,37 +109,35 @@
 						remove_post_type_support($type, 'trackbacks');
 					}
 				}
-				add_filter('comments_array', array($this, 'filter_existing_comments'), 20, 2);
-				add_filter('comments_open', array($this, 'filter_comment_status'), 20, 2);
-				add_filter('pings_open', array($this, 'filter_comment_status'), 20, 2);
+				add_filter('comments_array', array($this, 'filterExistingComments'), 20, 2);
+				add_filter('comments_open', array($this, 'filterCommentStatus'), 20, 2);
+				add_filter('pings_open', array($this, 'filterCommentStatus'), 20, 2);
 			} elseif( is_admin() ) {
-				add_action('all_admin_notices', array($this, 'setup_notice'));
+				add_action('all_admin_notices', array($this, 'setupNotice'));
 			}
 
 			// Filters for the admin only
 			if( is_admin() ) {
-				add_action('admin_menu', array($this, 'settings_menu'));
-				add_action('admin_menu', array($this, 'tools_menu'));
-				add_filter('plugin_action_links', array($this, 'plugin_actions_links'), 10, 2);
+				//add_action('admin_menu', array($this, 'settings_menu'));
+				//add_action('admin_menu', array($this, 'tools_menu'));
+				//add_filter('plugin_action_links', array($this, 'plugin_actions_links'), 10, 2);
 
-				add_action('admin_print_footer_scripts', array($this, 'discussion_notice'));
-				add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
+				add_action('admin_print_footer_scripts', array($this, 'discussionNotice'));
+				//add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
 
 				// if only certain types are disabled, remember the original post status
-				if( !($this->persistentModeAllowed() && $this->options['permanent']) && !$this->isDisabledAllPosts() ) {
-					add_action('edit_form_advanced', array($this, 'edit_form_inputs'));
-					add_action('edit_page_form', array($this, 'edit_form_inputs'));
-				}
-
-				if( $this->isDisabledAllPosts() ) {
-					add_action('admin_menu', array($this, 'filter_admin_menu'), 9999);    // do this as late as possible
-					add_action('admin_print_footer_scripts-index.php', array($this, 'dashboard_js'));
-					add_action('wp_dashboard_setup', array($this, 'filter_dashboard'));
+				if( !$this->isDisabledAllPosts() ) {
+					add_action('edit_form_advanced', array($this, 'editFormInputs'));
+					add_action('edit_page_form', array($this, 'editFormInputs'));
+				} else {
+					add_action('admin_menu', array($this, 'filterAdminMenu'), 9999);    // do this as late as possible
+					add_action('admin_print_footer_scripts-index.php', array($this, 'dashboardJs'));
+					add_action('wp_dashboard_setup', array($this, 'filterDashboard'));
 					add_filter('pre_option_default_pingback_flag', '__return_zero');
 				}
 			} // Filters for front end only
 			else {
-				add_action('template_redirect', array($this, 'check_comment_template'));
+				add_action('template_redirect', array($this, 'checkCommentTemplate'));
 
 				if( $this->isDisabledAllPosts() ) {
 					add_filter('feed_links_show_comments_feed', '__return_false');
@@ -104,10 +145,302 @@
 			}
 		}
 
-		private function persistentModeAllowed()
+		/*
+	 * Replace the theme's comment template with a blank one.
+	 * To prevent this, define DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE
+	 * and set it to True
+	 */
+		public function checkCommentTemplate()
 		{
-			if( defined('DISABLE_COMMENTS_ALLOW_PERSISTENT_MODE') && DISABLE_COMMENTS_ALLOW_PERSISTENT_MODE == false ) {
-				return false;
+			if( is_singular() && ($this->isDisabledAllPosts() || $this->isPostTypeDisabled(get_post_type())) ) {
+				if( !defined('DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE') || DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE == true ) {
+					// Kill the comments template.
+					add_filter('comments_template', array($this, 'dummyCommentsTemplate'), 20);
+				}
+				// Remove comment-reply script for themes that include it indiscriminately
+				wp_deregister_script('comment-reply');
+				// feed_links_extra inserts a comments RSS link
+				remove_action('wp_head', 'feed_links_extra', 3);
 			}
+		}
+
+		public function dummyCommentsTemplate()
+		{
+			return dirname(__FILE__) . '/includes/comments-template.php';
+		}
+
+		/*
+	        * Remove the X-Pingback HTTP header
+	    */
+		/*public function filter_wp_headers( $headers ) {
+			unset( $headers['X-Pingback'] );
+			return $headers;
+		}*/
+
+		/*
+		 * Issue a 403 for all comment feed requests.
+		 */
+		public function filterQuery()
+		{
+			if( is_comment_feed() ) {
+				wp_die(__('Comments are closed.'), '', array('response' => 403));
+			}
+		}
+
+		/*
+		 * Remove comment links from the admin bar.
+		 */
+		public function filterAdminBar()
+		{
+			if( is_admin_bar_showing() ) {
+				// Remove comments links from admin bar
+				remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
+			}
+		}
+
+		public function editFormInputs()
+		{
+			global $post;
+			// Without a dicussion meta box, comment_status will be set to closed on new/updated posts
+			if( in_array($post->post_type, $this->modified_types) ) {
+				echo '<input type="hidden" name="comment_status" value="' . $post->comment_status . '" /><input type="hidden" name="ping_status" value="' . $post->ping_status . '" />';
+			}
+		}
+
+		public function discussionNotice()
+		{
+			$disabled_post_types = $this->getDisabledPostTypes();
+			if( get_current_screen()->id == 'options-discussion' && !empty($disabled_post_types) ) {
+				$names = array();
+				foreach($disabled_post_types as $type)
+					$names[$type] = get_post_type_object($type)->labels->name;
+				?>
+				<script>
+					jQuery(document).ready(function($) {
+						$(".wrap h2").first().after(<?php echo json_encode( '<div style="color: #900"><p>' . sprintf( __( 'Note: The <em>%s</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types.', 'comments-plus' ), $this->plugin->pluginTitle, implode( __( ', ' ), $names ) ) . '</p></div>' );?>);
+					});
+				</script>
+			<?php
+			}
+		}
+
+		/**
+		 * Return context-aware settings page URL
+		 */
+		private function settingsPageUrl()
+		{
+			return admin_url('options-general.php?page=comments-' . $this->plugin->pluginName) . '&' . $this->plugin->pluginName . '_screen=comments';
+		}
+
+		/**
+		 * Return context-aware tools page URL
+		 */
+		/*private function tools_page_url()
+		{
+			$base = $this->networkactive
+				? network_admin_url('settings.php')
+				: admin_url('tools.php');
+
+			return add_query_arg('page', 'disable_comments_tools', $base);
+		}*/
+
+		public function setupNotice()
+		{
+			if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') || strpos(get_current_screen()->id, 'settings_page_comments-' . $this->plugin->pluginName) === 0 ) {
+				return;
+			}
+
+			if( current_user_can('manage_options') ) {
+				echo '<div class="updated fade"><p>' . sprintf(__('The <em>%s</em> plugin is active, but isn\'t configured to do anything yet. Visit the <a href="%s">configuration page</a> to choose which post types to disable comments on.', 'comments-plus'), $this->plugin->pluginTitle, esc_attr($this->settingsPageUrl())) . '</p></div>';
+			}
+		}
+
+		public function filterAdminMenu()
+		{
+			global $pagenow;
+
+			if( $pagenow == 'comment.php' || $pagenow == 'edit-comments.php' || $pagenow == 'options-discussion.php' ) {
+				wp_die(__('Comments are closed.'), '', array('response' => 403));
+			}
+
+			remove_menu_page('edit-comments.php');
+			remove_submenu_page('options-general.php', 'options-discussion.php');
+		}
+
+		public function filterDashboard()
+		{
+			remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
+		}
+
+		public function dashboardJs()
+		{
+			echo '<script>
+		jQuery(function($){
+			$("#dashboard_right_now .comment-count, #latest-comments").hide();
+		 	$("#welcome-panel .welcome-comments").parent().hide();
+		});
+		</script>';
+		}
+
+		public function filterExistingComments($comments, $post_id)
+		{
+			$post = get_post($post_id);
+
+			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type))
+				? array()
+				: $comments;
+		}
+
+		public function filterCommentStatus($open, $post_id)
+		{
+			$post = get_post($post_id);
+
+			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type))
+				? false
+				: $open;
+		}
+
+		public function disableRcWidget()
+		{
+			unregister_widget('WP_Widget_Recent_Comments');
+		}
+
+		/*public function set_plugin_meta($links, $file)
+		{
+			static $plugin;
+			$plugin = plugin_basename(__FILE__);
+			if( $file == $plugin ) {
+				$links[] = '<a href="https://github.com/solarissmoke/disable-comments">GitHub</a>';
+			}
+
+			return $links;
+		}*/
+
+		/**
+		 * Add links to Settings page
+		 */
+		/*public function plugin_actions_links($links, $file)
+		{
+			static $plugin;
+			$plugin = plugin_basename(__FILE__);
+			if( $file == $plugin && current_user_can('manage_options') ) {
+				array_unshift($links, sprintf('<a href="%s">%s</a>', esc_attr($this->settingsPageUrl()), __('Settings')), sprintf('<a href="%s">%s</a>', esc_attr($this->tools_page_url()), __('Tools')));
+			}
+
+			return $links;
+		}*/
+
+		/**
+		 * Convert links in comment text into span pseudo links
+		 *
+		 * @param $comment_text
+		 * @return mixed
+		 */
+
+		public function commentTextConvertLinksPseudo($comment_text)
+		{
+
+			return $this->convertLinksPseudo($comment_text);
+		}
+
+		/**
+		 * Convert links into span pseudo links
+		 *
+		 * @param $text
+		 * @return mixed
+		 */
+
+		public function convertLinksPseudo($text)
+		{
+
+			return preg_replace_callback('/<a[^>]+href=[\'"](https?:\/\/[^"\']+)[\'"][^>]+>(.*?)<\/a>/i', array(
+				$this,
+				'replaceLinks'
+			), $text);
+		}
+
+		public function replaceLinks($matches)
+		{
+			if( $matches[1] == get_home_url() ) {
+				return $matches[0];
+			}
+
+			return '<span class="wbcr-clearfy-pseudo-link" data-uri="' . $matches[1] . '" > ' . $matches[2] . '</span>';
+		}
+
+		/**
+		 * Convert author link to pseudo link
+		 *
+		 * @return string
+		 */
+
+		public function pseudoCommentAuthorLink($return, $author, $comment_ID)
+		{
+			$url = get_comment_author_url($comment_ID);
+			$author = get_comment_author($comment_ID);
+
+			if( empty($url) || 'http://' == $url ) {
+				$return = $author;
+			} else {
+				$return = '<span class="wbcr-clearfy-pseudo-link" data-uri="' . $url . '">' . $author . '</span>';
+			}
+
+			return $return;
+		}
+
+		/**
+		 * Remove url field from comment form
+		 *
+		 * @param $fields
+		 * @return mixed
+		 */
+
+		public function removeUrlFromCommentForm($fields)
+		{
+			if( isset($fields['url']) ) {
+				unset($fields['url']);
+			}
+
+			return $fields;
+		}
+
+		/**
+		 * Remove X-Pingback
+		 * https://github.com/nickyurov/
+
+		 */
+
+		public function removeXPingback($headers)
+		{
+			unset($headers['X-Pingback']);
+
+			return $headers;
+		}
+
+		public function removeXPingbackHeaders($headers)
+		{
+			if( function_exists('header_remove') ) {
+				header_remove('X-Pingback');
+				header_remove('Server');
+			}
+		}
+
+		//https://wordpress.stackexchange.com/questions/158700/how-to-remove-pingback-from-head
+
+		public function linkRelBufferCallback($buffer)
+		{
+			$buffer = preg_replace('/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer);
+
+			return $buffer;
+		}
+
+		public function linkRelBufferStart()
+		{
+			ob_start(array($this, "linkRelBufferCallback"));
+		}
+
+		public function linkRelBufferEnd()
+		{
+			ob_flush();
 		}
 	}

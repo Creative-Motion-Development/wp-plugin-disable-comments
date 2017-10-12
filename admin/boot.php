@@ -1,15 +1,15 @@
 <?php
 	/**
 	 * Admin boot
-	 * @author Webcraftic <alex.kovalevv@gmail.com>
+	 * @author Webcraftic <wordpress.webraftic@gmail.com>
 	 * @copyright Webcraftic 25.05.2017
 	 * @version 1.0
 	 */
 
-	require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/updates.php');
+	require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/comments.php');
 
-	if( !defined('LOADING_UPDATE_SERVICES_AS_ADDON') ) {
-		require_once(WBCR_UPM_PLUGIN_DIR . '/admin/pages/more-features.php');
+	if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
+		require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/more-features.php');
 	}
 
 	/**
@@ -18,20 +18,20 @@
 	 * @param $links
 	 * @return mixed
 	 */
-	function wbcr_upm_add_settings_link($links)
+	function wbcr_cmp_add_settings_link($links)
 	{
-		global $wbcr_update_services_plugin;
+		global $wbcr_comments_plus_plugin;
 
-		$settings_link = '<a href="' . admin_url('options-general.php?page=updates-' . $wbcr_update_services_plugin->pluginName) . '&' . $wbcr_update_services_plugin->pluginName . '_screen=updates">' . __('Settings') . '</a>';
+		$settings_link = '<a href="' . admin_url('options-general.php?page=comments-' . $wbcr_comments_plus_plugin->pluginName) . '&' . $wbcr_comments_plus_plugin->pluginName . '_screen=comments">' . __('Settings') . '</a>';
 		array_unshift($links, $settings_link);
 
 		return $links;
 	}
 
 	// plugin settings link
-	add_filter("plugin_action_links_" . WBCR_UPM_PLUGIN_BASE, 'wbcr_upm_add_settings_link');
+	add_filter("plugin_action_links_" . WBCR_CMP_PLUGIN_BASE, 'wbcr_cmp_add_settings_link');
 
-	function wbcr_upm_group_options($options)
+	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
 			'name' => 'plugin_updates',
@@ -65,16 +65,16 @@
 		return $options;
 	}
 
-	add_filter("wbcr_clearfy_group_options", 'wbcr_upm_group_options');
+	add_filter("wbcr_clearfy_group_options", 'wbcr_cmp_group_options');
 
-	function wbcr_upm_allow_quick_mods($mods)
+	function wbcr_cmp_allow_quick_mods($mods)
 	{
-		$mods['disable_all_updates'] = __('Disable all updates', 'update-services');
+		$mods['disable_all_updates'] = __('Disable all comments', 'update-services');
 
 		return $mods;
 	}
 
-	add_filter("wbcr_clearfy_allow_quick_mods", 'wbcr_upm_allow_quick_mods');
+	add_filter("wbcr_clearfy_allow_quick_mods", 'wbcr_cmp_allow_quick_mods');
 
 
 
