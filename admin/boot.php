@@ -34,31 +34,29 @@
 	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
-			'name' => 'plugin_updates',
-			'title' => __('Disable plugin updates', 'update-services'),
-			'tags' => array('disable_all_updates'),
-			'values' => array('disable_all_updates' => 'disable_plugin_updates')
+			'name' => 'disable_comments',
+			'title' => __('Disable comments on the entire site', 'comments-plus'),
+			'tags' => array('disable_all_comments'),
+			'values' => array('disable_all_comments' => 'disable_comments')
 		);
 		$options[] = array(
-			'name' => 'theme_updates',
-			'title' => __('Disable theme updates', 'update-services'),
-			'tags' => array('disable_all_updates'),
-			'values' => array('disable_all_updates' => 'disable_theme_updates')
+			'name' => 'comment_text_convert_links_pseudo',
+			'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus'),
+			'tags' => array('recommended', 'seo_optimize')
 		);
 		$options[] = array(
-			'name' => 'auto_tran_update',
-			'title' => __('Disable Automatic Translation Updates', 'update-services'),
-			'tags' => array('disable_all_updates')
+			'name' => 'pseudo_comment_author_link',
+			'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus'),
+			'tags' => array('recommended', 'seo_optimize')
 		);
 		$options[] = array(
-			'name' => 'wp_update_core',
-			'title' => __('Disable wordPress core updates', 'update-services'),
-			'tags' => array('disable_all_updates'),
-			'values' => array('disable_all_updates' => 'disable_core_updates')
+			'name' => 'remove_x_pingback',
+			'title' => __('Disable X-Pingback', 'comments-plus'),
+			'tags' => array('recommended', 'defence', 'disable_all_comments')
 		);
 		$options[] = array(
-			'name' => 'enable_update_vcs',
-			'title' => __('Enable updates for VCS Installations', 'update-services'),
+			'name' => 'remove_url_from_comment_form',
+			'title' => __('Remove field "site" in comment form', 'comments-plus'),
 			'tags' => array()
 		);
 
@@ -69,8 +67,8 @@
 
 	function wbcr_cmp_allow_quick_mods($mods)
 	{
-		$mods['disable_all_updates'] = __('Disable all comments', 'update-services');
-
+		$mods['disable_all_comments'] = __('Disable all comments', 'comments-plus');
+		
 		return $mods;
 	}
 

@@ -18,7 +18,7 @@
 		 */
 		public $id = "comments";
 
-		public $dashicon = 'dashicons-testimonial';
+		public $page_menu_dashicon = 'dashicons-testimonial';
 
 		public function __construct(Factory000_Plugin $plugin)
 		{
@@ -245,8 +245,8 @@
 				'title' => __('Select post types', 'comments-plus'),
 				'data' => $post_types,
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
-				'hint' => __('fsdfsdf', 'comments-plus'),
-				//'default' => array('post', 'page', 'attachments')
+				'hint' => __('Select the post types for which comments will be disabled', 'comments-plus'),
+				'default' => array('post', 'page', 'attachments')
 			);
 
 			$options[] = array(
