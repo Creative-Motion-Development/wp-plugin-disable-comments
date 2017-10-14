@@ -251,7 +251,7 @@
 				'data' => $post_types,
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'hint' => __('Select the post types for which comments will be disabled', 'comments-plus'),
-				'default' => array('post', 'page', 'attachments')
+				'default' => 'post,page,attachment'
 			);
 
 			$options[] = array(
