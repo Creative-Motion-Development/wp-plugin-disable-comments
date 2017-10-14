@@ -21,6 +21,11 @@
 			'values' => array('disable_all_comments' => 'disable_comments')
 		);
 		$options[] = array(
+			'name' => 'disable_comments_for_post_types',
+			'title' => __('Select post types', 'comments-plus'),
+			'tags' => array()
+		);
+		$options[] = array(
 			'name' => 'comment_text_convert_links_pseudo',
 			'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus'),
 			'tags' => array('recommended', 'seo_optimize')
