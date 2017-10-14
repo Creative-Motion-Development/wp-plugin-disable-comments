@@ -44,7 +44,7 @@ You can also bulk-edit the comment status of multiple posts from the [posts scre
 
 = I want to delete comments from my database. What do I do? =
 
-Go to the settings page for the disable comments plugin and utlize the Delete Comments tool to delete all comments or according to the specified post types from your database.
+If you change the plugin settings, you will be prompted to delete comments from the database.
 
 == Details ==
 
@@ -60,8 +60,6 @@ The plugin provides the option to **completely disable the commenting feature in
 * Replace external links
 * Remove comment form fields
 
-**Please delete any existing comments on your site before applying this setting, otherwise (depending on your theme) those comments may still be displayed to visitors. You can use the Delete Comments tool to delete any existing comments on your site.**
-
 == Advanced Configuration ==
 
 Some of the plugin's behaviour can be modified by site administrators and plugin/theme developers through code:
@@ -69,6 +67,19 @@ Some of the plugin's behaviour can be modified by site administrators and plugin
 * Define `DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE` and set it to `false` to prevent the plugin from replacing the theme's comment template with an empty one.
 
 These definitions can be made either in your main `wp-config.php` or in your theme's `functions.php` file.
+
+== Translations ==
+
+* English - default, always included
+* Russian
+
+If you want to help with the translation, please contact me through this site or through the contacts inside the plugin.
+
+== Installation ==
+
+1. Upload the plugin folder to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. The plugin settings can be accessed via the 'Settings' menu in the administration area (either your site administration for single-site installs).
 
 == Screenshots ==
 

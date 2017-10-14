@@ -2,7 +2,7 @@
 	/**
 	 * Plugin Name: Webcraftic Disable comments
 	 * Plugin URI: https://wordpress.org/plugins/comments-plus/
-	 * Description: Disable comments description.
+	 * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
 	 * Version: 1.0.0
 	 * Text Domain: comments-plus
