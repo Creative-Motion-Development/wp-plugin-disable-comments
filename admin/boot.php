@@ -12,25 +12,6 @@
 		require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/more-features.php');
 	}
 
-	/**
-	 * Add settings link in plugins list
-	 *
-	 * @param $links
-	 * @return mixed
-	 */
-	function wbcr_cmp_add_settings_link($links)
-	{
-		global $wbcr_comments_plus_plugin;
-
-		$settings_link = '<a href="' . admin_url('options-general.php?page=comments-' . $wbcr_comments_plus_plugin->pluginName) . '&' . $wbcr_comments_plus_plugin->pluginName . '_screen=comments">' . __('Settings') . '</a>';
-		array_unshift($links, $settings_link);
-
-		return $links;
-	}
-
-	// plugin settings link
-	add_filter("plugin_action_links_" . WBCR_CMP_PLUGIN_BASE, 'wbcr_cmp_add_settings_link');
-
 	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
@@ -74,7 +55,18 @@
 
 	add_filter("wbcr_clearfy_allow_quick_mods", 'wbcr_cmp_allow_quick_mods');
 
+	function wbcr_cmp_set_plugin_meta($links, $file)
+	{
+		if( $file == WBCR_CMP_PLUGIN_BASE ) {
+			$links[] = '<a href="https://goo.gl/TcMcS4" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'comments-plus') . '</a>';
+		}
 
+		return $links;
+	}
+
+	if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
+		add_filter('plugin_row_meta', 'wbcr_cmp_set_plugin_meta', 10, 2);
+	}
 
 
 

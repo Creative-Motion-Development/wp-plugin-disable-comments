@@ -112,16 +112,10 @@
 				add_filter('comments_array', array($this, 'filterExistingComments'), 20, 2);
 				add_filter('comments_open', array($this, 'filterCommentStatus'), 20, 2);
 				add_filter('pings_open', array($this, 'filterCommentStatus'), 20, 2);
-			} elseif( is_admin() ) {
-				add_action('all_admin_notices', array($this, 'setupNotice'));
 			}
 
 			// Filters for the admin only
 			if( is_admin() ) {
-				//add_action('admin_menu', array($this, 'settings_menu'));
-				//add_action('admin_menu', array($this, 'tools_menu'));
-				//add_filter('plugin_action_links', array($this, 'plugin_actions_links'), 10, 2);
-
 				add_action('admin_print_footer_scripts', array($this, 'discussionNotice'));
 				//add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
 
@@ -146,10 +140,10 @@
 		}
 
 		/*
-	 * Replace the theme's comment template with a blank one.
-	 * To prevent this, define DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE
-	 * and set it to True
-	 */
+		 * Replace the theme's comment template with a blank one.
+		 * To prevent this, define DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE
+		 * and set it to True
+	    */
 		public function checkCommentTemplate()
 		{
 			if( is_singular() && ($this->isDisabledAllPosts() || $this->isPostTypeDisabled(get_post_type())) ) {
@@ -166,16 +160,8 @@
 
 		public function dummyCommentsTemplate()
 		{
-			return dirname(__FILE__) . '/includes/comments-template.php';
+			return WBCR_CMP_PLUGIN_DIR . '/includes/comments-template.php';
 		}
-
-		/*
-	        * Remove the X-Pingback HTTP header
-	    */
-		/*public function filter_wp_headers( $headers ) {
-			unset( $headers['X-Pingback'] );
-			return $headers;
-		}*/
 
 		/*
 		 * Issue a 403 for all comment feed requests.
@@ -217,41 +203,10 @@
 				?>
 				<script>
 					jQuery(document).ready(function($) {
-						$(".wrap h2").first().after(<?php echo json_encode( '<div style="color: #900"><p>' . sprintf( __( 'Note: The <em>%s</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types.', 'comments-plus' ), $this->plugin->pluginTitle, implode( __( ', ' ), $names ) ) . '</p></div>' );?>);
+						$(".wrap h2").first().after(<?php echo json_encode( '<div style="color: #900"><p>' . sprintf( __( 'Note: The <em>%s</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types.', 'comments-plus' ), $this->plugin->pluginTitle, implode(', ', $names ) ) . '</p></div>' );?>);
 					});
 				</script>
 			<?php
-			}
-		}
-
-		/**
-		 * Return context-aware settings page URL
-		 */
-		private function settingsPageUrl()
-		{
-			return admin_url('options-general.php?page=comments-' . $this->plugin->pluginName) . '&' . $this->plugin->pluginName . '_screen=comments';
-		}
-
-		/**
-		 * Return context-aware tools page URL
-		 */
-		/*private function tools_page_url()
-		{
-			$base = $this->networkactive
-				? network_admin_url('settings.php')
-				: admin_url('tools.php');
-
-			return add_query_arg('page', 'disable_comments_tools', $base);
-		}*/
-
-		public function setupNotice()
-		{
-			if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') || strpos(get_current_screen()->id, 'settings_page_comments-' . $this->plugin->pluginName) === 0 ) {
-				return;
-			}
-
-			if( current_user_can('manage_options') ) {
-				echo '<div class="updated fade"><p>' . sprintf(__('The <em>%s</em> plugin is active, but isn\'t configured to do anything yet. Visit the <a href="%s">configuration page</a> to choose which post types to disable comments on.', 'comments-plus'), $this->plugin->pluginTitle, esc_attr($this->settingsPageUrl())) . '</p></div>';
 			}
 		}
 
@@ -304,31 +259,6 @@
 		{
 			unregister_widget('WP_Widget_Recent_Comments');
 		}
-
-		/*public function set_plugin_meta($links, $file)
-		{
-			static $plugin;
-			$plugin = plugin_basename(__FILE__);
-			if( $file == $plugin ) {
-				$links[] = '<a href="https://github.com/solarissmoke/disable-comments">GitHub</a>';
-			}
-
-			return $links;
-		}*/
-
-		/**
-		 * Add links to Settings page
-		 */
-		/*public function plugin_actions_links($links, $file)
-		{
-			static $plugin;
-			$plugin = plugin_basename(__FILE__);
-			if( $file == $plugin && current_user_can('manage_options') ) {
-				array_unshift($links, sprintf('<a href="%s">%s</a>', esc_attr($this->settingsPageUrl()), __('Settings')), sprintf('<a href="%s">%s</a>', esc_attr($this->tools_page_url()), __('Tools')));
-			}
-
-			return $links;
-		}*/
 
 		/**
 		 * Convert links in comment text into span pseudo links

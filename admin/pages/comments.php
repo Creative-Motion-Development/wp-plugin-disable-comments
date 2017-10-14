@@ -17,13 +17,18 @@
 		 * @var string
 		 */
 		public $id = "comments";
-
 		public $page_menu_dashicon = 'dashicons-testimonial';
+
+		public $addLinkToPluginActions = true;
 
 		public function __construct(Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = $plugin->pluginTitle;
-			$this->internal = defined('LOADING_COMMENTS_PLUS_AS_ADDON');
+			$this->menuTitle = __('Disable comments', 'comments-plus');
+
+			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
+				$this->internal = false;
+				$this->menuTarget = 'options-general.php';
+			}
 
 			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'));
 
@@ -150,7 +155,7 @@
 			}
 
 			$this->confirmPageTemplate(array(
-				'title' => sprintf(__('Are you sure that you desire to delete all comments from the database for the selected post types (%s)?', 'comments-plus'), $post_types),
+				'title' => sprintf(__('Are you sure that you desire to delete all comments from the database for the selected post types (%s)?', 'comments-plus'), implode(',', $post_types)),
 				'description' => __('Deleting comments will remove existing comment entries in the database and cannot be reverted without a database backup.', 'comments-plus'),
 				'hint' => sprintf(__('You have %s comments', 'comments-plus'), $comments_count),
 				'actions' => array(
@@ -209,7 +214,7 @@
 				'way' => 'buttons',
 				'title' => __('Disable comments', 'comments-plus'),
 				'data' => array(
-					array('enable_comments', __('Enable comments', 'comments-plus')),
+					array('enable_comments', __('Not disable', 'comments-plus')),
 					array(
 						'disable_comments',
 						__('Everywhere', 'comments-plus'),
@@ -285,7 +290,7 @@
 				'name' => 'remove_x_pingback',
 				'title' => __('Disable XML-RPC', 'clearfy') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
 				'layout' => array('hint-type' => 'icon'),
-				'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'clearfy') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
+				'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
 				'default' => false
 			);
 
