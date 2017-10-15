@@ -72,18 +72,14 @@
 		{
 			$post_types = $this->getOption('disable_comments_for_post_types');
 
-			if( empty($post_types) ) {
-				return array('post', 'page', 'attachment');
-			}
-
 			if( $this->isDisabledAllPosts() ) {
 				$all_post_types = get_post_types(array('public' => true), 'objects');
-				$select_types = array();
-				foreach($all_post_types as $type_name => $type) {
-					$select_types[] = $type_name;
-				}
 
-				return $select_types;
+				return array_keys($all_post_types);
+			}
+
+			if( is_array($post_types) ) {
+				return $post_types;
 			}
 
 			return explode(',', $post_types);
@@ -94,12 +90,13 @@
 		 */
 		private function isPostTypeDisabled($type)
 		{
-			return in_array($type, $this->getDisabledPostTypes());
+			return $this->isDisabledCertainPostTypes() && in_array($type, $this->getDisabledPostTypes());
 		}
 
 		public function initWploadedFilters()
 		{
 			$disabled_post_types = $this->getDisabledPostTypes();
+
 			if( !empty($disabled_post_types) && !$this->isEnabledComments() ) {
 				foreach($disabled_post_types as $type) {
 					// we need to know what native support was for later

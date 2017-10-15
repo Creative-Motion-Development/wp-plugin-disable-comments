@@ -19,8 +19,6 @@
 		public $id = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
 
-		public $addLinkToPluginActions = true;
-
 		public function __construct(Factory000_Plugin $plugin)
 		{
 			$this->menuTitle = __('Disable comments', 'comments-plus');
@@ -28,6 +26,7 @@
 			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				$this->internal = false;
 				$this->menuTarget = 'options-general.php';
+				$this->addLinkToPluginActions = true;
 			}
 
 			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'));
@@ -251,7 +250,7 @@
 				'data' => $post_types,
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
 				'hint' => __('Select the post types for which comments will be disabled', 'comments-plus'),
-				'default' => array('post', 'page', 'attachments')
+				'default' => 'post,page,attachment'
 			);
 
 			$options[] = array(
