@@ -9,3 +9,4 @@
 	global $wpdb;
 
 	$wpdb->query("DELETE FROM {$wpdb->prefix}options WHERE option_name LIKE 'wbcr_comments_plus_%';");
+
