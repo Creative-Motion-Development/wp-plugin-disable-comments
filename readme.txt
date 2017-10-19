@@ -1,5 +1,5 @@
 === Disable comments, Disable XML-RPC Pingback, Remove Comments  ===
-Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields
+Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields, bulk comments management, spam comments cleaner, delete comments by status, no page comment, wp disable comments
 Contributors: webcraftic
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 4.2
@@ -12,7 +12,7 @@ Allows administrators to disable comments on their website. Comments can be disa
 
 == Description ==
 
-This plugin allows administrators to globally disable comments on any post type (posts, pages, attachments, etc.) so that these settings cannot be overridden for individual posts. It also removes all comment-related fields from edit and quick-edit screens. On multisite installations, it can be used to disable comments on the entire network.
+This plugin allows administrators to globally <strong>disable comments</strong> on any post type (posts, pages, attachments, etc.) so that these settings cannot be overridden for individual posts. It also removes all comment-related fields from edit and quick-edit screens. On multisite installations, it can be used to disable comments on the entire network.
 
 Additionally, comment-related items can be removed from the Dashboard, Widgets, the Admin Menu and the Admin Bar.
 
@@ -50,15 +50,19 @@ If you change the plugin settings, you will be prompted to delete comments from 
 
 The plugin provides the option to **completely disable the commenting feature in WordPress**. When this option is selected, the following changes are made:
 
-* All "Comments" links are hidden from the Admin Menu and Admin Bar;
-* All comment-related sections ("Recent Comments", "Discussion" etc.) are hidden from the WordPress Dashboard;
-* All comment-related widgets are disabled (so your theme cannot use them);
-* The "Discussion" settings page is hidden;
-* All comment RSS/Atom feeds are disabled (and requests for these will be redirected to the parent post);
-* The X-Pingback HTTP header is removed from all pages;
-* Outgoing pingbacks are disabled.
-* Replace external links
-* Remove comment form fields
+* <strong>Disable all comments links in the Admin Menu and Admin Bar;</strong>
+* <strong>Disable comment-related sections ("Recent Comments", "Discussion" etc.) and hidden from the WordPress Dashboard;</strong>
+* <strong>Disable comment-related widgets (so your theme cannot use them);</strong>
+* <strong>The "Discussion" settings page is hidden;</strong>
+* <strong>All comment RSS/Atom feeds are disabled (and requests for these will be redirected to the parent post);</strong>
+* <strong>Disable X-Pingback HTTP header and removed from all pages;</strong>
+* <strong>Disable outgoing pingbacks.</strong>
+* <strong>Replace external links</strong>
+* <strong>Remove comment form fields</strong>
+
+We recently added new features in the plugin to disable comments. This is a <strong>Disable X-Pingback</strong> function,  <strong>Replace external links</strong>,  <strong>Remove comment form fields</strong>.
+
+Some functions are taken from the following popular plugins <strong>Bulk Comments Management</strong>, <strong>Spam Comments Cleaner</strong>, <strong>Delete Comments By Status</strong>, <strong>No Page Comment</strong>, <strong>WP Disable Comments</strong>, <strong>Hide "Comments are closed"</strong>, <strong>Hide Show Comment</strong>
 
 == Advanced Configuration ==
 
@@ -82,10 +86,11 @@ If you want to help with the translation, please contact me through this site or
 3. The plugin settings can be accessed via the 'Settings' menu in the administration area (either your site administration for single-site installs).
 
 == Screenshots ==
-
 1. Control panel
 
 == Changelog ==
+= 1.0.1 =
+* Fixed a bug where you selected the recommended mode, on some pages you see a white screen. Now you will not encounter this error.
 
 = 1.0.0 =
 * Plugin release
