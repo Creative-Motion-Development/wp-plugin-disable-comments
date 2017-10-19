@@ -356,7 +356,13 @@
 
 		public function linkRelBufferCallback($buffer)
 		{
+			$old_buffer = $buffer;
 			$buffer = preg_replace('/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer);
+
+			// todo: fixed bug when return buffer null
+			if( empty($buffer) ) {
+				return $old_buffer;
+			}
 
 			return $buffer;
 		}
