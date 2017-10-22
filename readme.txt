@@ -12,11 +12,21 @@ Allows administrators to disable comments on their website. Comments can be disa
 
 == Description ==
 
-This plugin allows administrators to globally <strong>disable comments</strong> on any post type (posts, pages, attachments, etc.) so that these settings cannot be overridden for individual posts. It also removes all comment-related fields from edit and quick-edit screens. On multisite installations, it can be used to disable comments on the entire network.
+<strong>Disable comments</strong> is a useful tool for administrators to manage comments.
+Our plugin allows administrators to fully disable or hide the comments on the site in all posts, pages, attachments.
+It remove all comment related features and options.  All related items in the admin panel will be removed (from the menu, dashboard, widgets).
 
-Additionally, comment-related items can be removed from the Dashboard, Widgets, the Admin Menu and the Admin Bar.
+Completely <strong>disables all XML-RPC</strong> related functions in WordPress including pingbacks and trackbacks, and helps prevent attacks on the xmlrpc.php file. Lastly, it attempts to generate a 403 Denied error for requests to the /xmlrpc.php URL, but does not affect that file or your server in any way.
 
-**Important note**: Use this plugin if you don't want comments at all on your site (or on certain post types). Don't use it if you want to selectively disable comments on individual posts - WordPress lets you do that anyway. If you don't know how to disable comments on individual posts, there are instructions in [the FAQ](https://wordpress.org/plugins/comments-plus/faq/).
+Superfluous external links from comments, which can be typed from a dozen and more for one article, do not bring anything good for promotion. Plugin Disable comments replaces the links of this kind of a href="http://yourdomain.com" rel="nofollow", on links of this kind span data-uri="http://yourdomain.com"
+
+Plugin <strong>Disabled comments</strong> uses intelligent algorithm to <strong>hide comments</strong> and <strong>delete comments</strong> you just need to do a couple of options.
+It’s makes it very simple.
+
+Important note! Don't use this plugin if you need to <strong>disable comments</strong> individually for a posts or page. If you don't know how to <strong>disable comments</strong> on individual posts, there are instructions in [the FAQ](https://wordpress.org/plugins/comments-plus/faq/).
+Use this plugin if you don't want comments at all on your site (or on certain post types).
+
+****
 
 If you come across any bugs or have suggestions, please use the plugin support forum. I can't fix it if I don't know it's broken! Please check the [FAQ](https://wordpress.org/plugins/comments-plus/faq/) for common issues.
 
@@ -50,15 +60,21 @@ If you change the plugin settings, you will be prompted to delete comments from 
 
 The plugin provides the option to **completely disable the commenting feature in WordPress**. When this option is selected, the following changes are made:
 
-* <strong>Disable all comments links in the Admin Menu and Admin Bar;</strong>
-* <strong>Disable comment-related sections ("Recent Comments", "Discussion" etc.) and hidden from the WordPress Dashboard;</strong>
-* <strong>Disable comment-related widgets (so your theme cannot use them);</strong>
-* <strong>The "Discussion" settings page is hidden;</strong>
-* <strong>All comment RSS/Atom feeds are disabled (and requests for these will be redirected to the parent post);</strong>
+* <strong>Easy Enable or disable Comments </strong>
+* <strong>Disable comments globally</strong>
+* <strong>Disable comments on certain Pages</strong>
+* <strong>Disable comments on posts Only</strong>
+* <strong>Disable comments on pages Only</strong>
+* <strong>Disable comments links in the Admin Menu and Admin Bar;</strong>
+* <strong>Disable comments related sections ("Recent Comments", "Discussion" etc.) and hidden from the WordPress Dashboard;</strong>
+* <strong>Disable comments related widgets (so your theme cannot use them);</strong>
+* <strong>Disable comments "Discussion" settings page is hidden;</strong>
+* <strong>Disable comments in RSS/Atom feeds (and requests for these will be redirected to the parent post);</strong>
 * <strong>Disable X-Pingback HTTP header and removed from all pages;</strong>
 * <strong>Disable outgoing pingbacks.</strong>
 * <strong>Replace external links</strong>
 * <strong>Remove comment form fields</strong>
+* <strong>Remove comments, Delete comments</strong>
 
 We recently added new features in the plugin to disable comments. This is a <strong>Disable X-Pingback</strong> function,  <strong>Replace external links</strong>,  <strong>Remove comment form fields</strong>.
 
@@ -89,8 +105,11 @@ If you want to help with the translation, please contact me through this site or
 1. Control panel
 
 == Changelog ==
-= 1.0.1 =
+= 1.0.3 =
+* Update plugin core
+
+= 1.0.2 =
 * Fixed a bug where you selected the recommended mode, on some pages you see a white screen. Now you will not encounter this error.
 
-= 1.0.0 =
+= 1.0.1 =
 * Plugin release
