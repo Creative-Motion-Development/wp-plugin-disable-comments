@@ -53,7 +53,10 @@
 
 	function wbcr_cmp_allow_quick_mods($mods)
 	{
-		$mods['disable_all_comments'] = __('Disable all comments', 'comments-plus');
+		$mods['disable_all_comments'] = array(
+			'title' => __('Disable all comments', 'comments-plus'),
+			'icon' => 'fa-comments-o'
+		);
 		
 		return $mods;
 	}
