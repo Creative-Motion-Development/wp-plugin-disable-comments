@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: clearfy\n"
+"POT-Creation-Date: 2017-11-09 10:26+0300\n"
+"PO-Revision-Date: 2017-11-09 17:46+0300\n"
+"Last-Translator: alex.kovalevv@gmail.com <alex.kovalevv@gmail.com>\n"
+"Language-Team: Alex Kovalev <alex.kovalevv@gmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: libs\n"
+
+#: admin/boot.php:19
+msgid "Disable comments on the entire site"
+msgstr "Désactiver les commentaires sur l'ensemble du site"
+
+#: admin/boot.php:25 admin/pages/comments.php:249
+msgid "Select post types"
+msgstr "Sélectionnez types de publication"
+
+#: admin/boot.php:30 admin/pages/comments.php:270
+msgid "Replace external links in comments on the JavaScript code"
+msgstr ""
+"Remplacer les liens externes dans les commentaires sur le code JavaScript"
+
+#: admin/boot.php:35 admin/pages/comments.php:280
+msgid "Replace external links from comment authors on the JavaScript code"
+msgstr ""
+"Remplacer les liens externes des auteurs de commentaires sur le code "
+"JavaScript"
+
+#: admin/boot.php:40
+msgid "Disable X-Pingback"
+msgstr "Désactiver X-Pingback"
+
+#: admin/boot.php:45 admin/pages/comments.php:260
+msgid "Remove field \"site\" in comment form"
+msgstr "Supprimer le champ \"site\" dans le formulaire de commentaire"
+
+#: admin/boot.php:56
+msgid "Disable all comments"
+msgstr "Désactiver tous les commentaires"
+
+#: admin/boot.php:66
+msgid "Get ultimate plugin free"
+msgstr "Obtenez le plugin ultime gratuitement"
+
+#: admin/pages/comments.php:24 admin/pages/comments.php:214
+msgid "Disable comments"
+msgstr "Désactiver les commentaires"
+
+#: admin/pages/comments.php:40
+msgid "Comments"
+msgstr "Commentaires"
+
+#: admin/pages/comments.php:41
+msgid "General"
+msgstr "Général"
+
+#: admin/pages/comments.php:56
+msgid "All comments have been deleted."
+msgstr "Tous les commentaires ont été supprimés."
+
+#: admin/pages/comments.php:65
+msgid ""
+"An error occurred while trying to delete comments. Internal error occured. "
+"Please try again later."
+msgstr ""
+"Une erreur s'est produite lors de la tentative de suppression des "
+"commentaires. Erreur interne s'est produite. Veuillez réessayer plus tard."
+
+#: admin/pages/comments.php:79
+msgid "You are not allowed to view this page."
+msgstr "Vous n’êtes pas autorisé à voir cette page."
+
+#: admin/pages/comments.php:89
+msgid "You do not have the selected post types!"
+msgstr "Vous n'avez pas les types de postes sélectionnés!"
+
+#: admin/pages/comments.php:104
+msgid "No comments available for deletion."
+msgstr "Aucun commentaire disponible pour la suppression."
+
+#: admin/pages/comments.php:109
+msgid "Are you sure that you desire to delete all comments from the database?"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer tous les commentaires de la base de "
+"données?"
+
+#: admin/pages/comments.php:110 admin/pages/comments.php:158
+msgid ""
+"Deleting comments will remove existing comment entries in the database and "
+"cannot be reverted without a database backup."
+msgstr ""
+"La suppression des commentaires supprime les entrées de commentaire "
+"existantes dans la base de données et ne peut pas être restaurée sans une "
+"sauvegarde de base de données."
+
+#: admin/pages/comments.php:111 admin/pages/comments.php:159
+#, php-format
+msgid "You have %s comments"
+msgstr "Vous avez des commentaires %s"
+
+#: admin/pages/comments.php:115 admin/pages/comments.php:163
+msgid "Yes, I'm sure"
+msgstr "Oui, je suis sûr"
+
+#: admin/pages/comments.php:123 admin/pages/comments.php:171
+msgid "No, return back"
+msgstr "Non, revenez"
+
+#: admin/pages/comments.php:157
+#, php-format
+msgid ""
+"Are you sure that you desire to delete all comments from the database for "
+"the selected post types (%s)?"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer tous les commentaires de la base de "
+"données pour les types de publication sélectionnés (%s)?"
+
+#: admin/pages/comments.php:216
+msgid "Not disable"
+msgstr "Ne pas désactiver"
+
+#: admin/pages/comments.php:219
+msgid "Everywhere"
+msgstr "Partout"
+
+#: admin/pages/comments.php:220
+#, php-format
+msgid ""
+"You can delete all comments in the database by clicking on this link (<a "
+"href=\"%s\">cleaning comments in database</a>)."
+msgstr ""
+"Vous pouvez supprimer tous les commentaires de la base de données en "
+"cliquant sur ce lien (<a href=\"%s\"> nettoyer les commentaires dans la "
+"base de données </a>)."
+
+#: admin/pages/comments.php:224
+msgid "On certain post types"
+msgstr "Sur certains types de postes"
+
+#: admin/pages/comments.php:225
+#, php-format
+msgid ""
+"You can delete all comments for the selected post types. Select the post "
+"types below and save the settings. After that, click the link (<a href=\"%s"
+"\">delete all comments for the selected post types in database</a>)."
+msgstr ""
+"Vous pouvez supprimer tous les commentaires pour les types de publication "
+"sélectionnés. Sélectionnez les types de publication ci-dessous et "
+"enregistrez les paramètres. Après cela, cliquez sur le lien (<a href=\"%s"
+"\"> supprimer tous les commentaires pour les types de publication "
+"sélectionnés dans la base de données </a>)."
+
+#: admin/pages/comments.php:229
+msgid ""
+"Everywhere - Warning: This option is global and will affect your entire "
+"site. Use it only if you want to disable comments everywhere. A complete "
+"description of what this option does is available here"
+msgstr ""
+"Partout - Attention: Cette option est globale et aura une incidence sur "
+"l'ensemble de votre site. Utilisez-le uniquement si vous souhaitez "
+"désactiver les commentaires partout. Une description complète de ce que "
+"cette option fait est disponible ici"
+
+#: admin/pages/comments.php:229
+msgid ""
+"On certain post types - Disabling comments will also disable trackbacks and "
+"pingbacks. All comment-related fields will also be hidden from the edit/"
+"quick-edit screens of the affected posts. These settings cannot be "
+"overridden for individual posts."
+msgstr ""
+"Sur certains types de publication - Désactiver les commentaires désactivera "
+"également les rétroliens et les pingbacks. Tous les champs relatifs aux "
+"commentaires seront également masqués dans les écrans d'édition / de "
+"modification rapide des publications concernées. Ces paramètres ne peuvent "
+"pas être remplacés pour les messages individuels."
+
+#: admin/pages/comments.php:252
+msgid "Select the post types for which comments will be disabled"
+msgstr ""
+"Sélectionnez les types de postes pour lesquels les commentaires seront "
+"désactivés"
+
+#: admin/pages/comments.php:262
+msgid ""
+"Tired of spam in the comments? Do visitors leave \"blank\" comments for the "
+"sake of a link to their site?"
+msgstr ""
+"Fatigué de spam dans les commentaires? Est-ce que les visiteurs laissent "
+"des commentaires «vides» pour un lien vers leur site?"
+
+#: admin/pages/comments.php:262
+msgid "Removes the \"Site\" field from the comment form."
+msgstr "Supprime le champ \"site\" du formulaire de commentaire."
+
+#: admin/pages/comments.php:262
+msgid ""
+"Works with the standard comment form, if the form is manually written in "
+"your theme-it probably will not work!"
+msgstr ""
+"Fonctionne avec le formulaire de commentaire standard, si le formulaire est "
+"écrit manuellement dans votre thème-il ne fonctionnera probablement pas!"
+
+#: admin/pages/comments.php:270 admin/pages/comments.php:280
+#: admin/pages/comments.php:290
+msgid "Recommended"
+msgstr "Recommandées"
+
+#: admin/pages/comments.php:272
+msgid ""
+"Superfluous external links from comments, which can be typed from a dozen "
+"and more for one article, do not bring anything good for promotion."
+msgstr ""
+"Superflu Liens externes de commentaires, qui peut être tapé à partir d'une "
+"douzaine et plus pour un article, ne pas apporter quelque chose de bon pour "
+"la promotion."
+
+#: admin/pages/comments.php:272
+#, php-format
+msgid "Replaces the links of this kind of %s, on links of this kind %s"
+msgstr "Remplace les liens de ce type de %s, sur les liens de ce type %s"
+
+#: admin/pages/comments.php:282
+msgid ""
+"Up to 90 percent of comments in the blog can be left for the sake of an "
+"external link. Even nofollow from page weight loss here does not help."
+msgstr ""
+"Jusqu'à 90% des commentaires dans le blog peuvent être laissés pour un lien "
+"externe. Même nofollow de la perte de poids de page ici ne aide pas."
+
+#: admin/pages/comments.php:282
+msgid ""
+"Replaces the links of the authors of comments on the JavaScript code, it is "
+"impossible to distinguish it from usual links."
+msgstr ""
+"Remplace les liens des auteurs de commentaires sur le code JavaScript, il "
+"est impossible de le distinguer des liens habituels."
+
+#: admin/pages/comments.php:282
+msgid "In some Wordpress topics this may not work."
+msgstr "Dans certains sujets WordPress cela peut ne pas fonctionner."
+
+#: admin/pages/comments.php:290
+msgid "Disable XML-RPC"
+msgstr "Désactiver xml-rpc"
+
+#: admin/pages/comments.php:292
+msgid ""
+"A pingback is basically an automated comment that gets created when another "
+"blog links to you. A self-pingback is created when you link to an article "
+"within your own blog. Pingbacks are essentially nothing more than spam and "
+"simply waste resources."
+msgstr ""
+"Un Pingback est fondamentalement un commentaire automatisé qui obtient créé "
+"quand un autre blog lie à vous. Un self-Pingback est créé lorsque vous liez "
+"à un article dans votre propre blog. Pingbacks sont essentiellement rien de "
+"plus que du spam et simplement des ressources de gaspillage."
+
+#: admin/pages/comments.php:292
+msgid "Removes the server responses a reference to the xmlrpc file."
+msgstr "Supprime les réponses du serveur une référence au fichier xml-rpc."
+
+#: comments-plus.php:17
+msgid ""
+"We found that you have the \"Clearfy - disable unused features\" plugin "
+"installed, this plugin already has disable comments functions, so you can "
+"deactivate plugin \"Disable comments\"!"
+msgstr ""
+"Nous avons trouvé que vous aviez installé le plugin \"Clarifier - "
+"désactiver les fonctionnalités inutilisées\", ce plugin a déjà désactivé "
+"les fonctions de commentaires, vous pouvez donc désactiver le plugin "
+"\"Désactiver les commentaires\"!"
+
+#: comments-plus.php:82
+msgid "Webcraftic Disable comments"
+msgstr "Webcraftic Désactiver les commentaires"
+
+#: includes/classes/class.configurate-comments.php:169
+#: includes/classes/class.configurate-comments.php:215
+msgid "Comments are closed."
+msgstr "Les commentaires sont fermés."
+
+#: includes/classes/class.configurate-comments.php:203
+#, php-format
+msgid ""
+"Note: The <em>%s</em> plugin is currently active, and comments are "
+"completely disabled on: %s. Many of the settings below will not be "
+"applicable for those post types."
+msgstr ""
+"Note: Le plugin <em>%s</em> est actuellement actif, et les commentaires "
+"sont complètement désactivés sur: %s. La plupart des paramètres ci-dessous "
+"ne seront pas applicables pour ces types de publication."
