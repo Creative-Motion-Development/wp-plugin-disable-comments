@@ -31,8 +31,10 @@
 				add_action('template_redirect', array($this, 'filterAdminBar'));
 				add_action('admin_init', array($this, 'filterAdminBar'));
 			} else {
-				if( $this->getOption('remove_url_from_comment_form') ) {
-					add_filter('comment_form_default_fields', array($this, 'removeUrlFromCommentForm'));
+
+				if( $this->getOption('comment_text_convert_links_pseudo') || $this->getOption('remove_url_from_comment_form') ) {
+
+					add_action('wp_enqueue_scripts', array($this, 'assetsUrlSpanScripts'));
 				}
 
 				if( $this->getOption('comment_text_convert_links_pseudo') ) {
@@ -41,6 +43,10 @@
 
 				if( $this->getOption('pseudo_comment_author_link') ) {
 					add_filter('get_comment_author_link', array($this, 'pseudoCommentAuthorLink'), 100, 3);
+				}
+
+				if( $this->getOption('remove_url_from_comment_form') ) {
+					add_filter('comment_form_default_fields', array($this, 'removeUrlFromCommentForm'));
 				}
 			}
 
@@ -63,7 +69,6 @@
 		{
 			return $this->getOption('disable_comments', 'enable_comments') == 'enable_comments';
 		}
-
 
 		/*
 		 * Get an array of disabled post type.
@@ -375,5 +380,17 @@
 		public function linkRelBufferEnd()
 		{
 			ob_flush();
+		}
+
+		public function assetsUrlSpanScripts()
+		{
+			global $wbcr_comments_plus_plugin;
+
+			if( !is_singular() ) {
+				return;
+			}
+
+			wp_enqueue_style('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/css/url-span.css', array(), $wbcr_comments_plus_plugin->version, false);
+			wp_enqueue_script('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/js/url-span.js', array(), $wbcr_comments_plus_plugin->version, true);
 		}
 	}
