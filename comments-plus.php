@@ -14,7 +14,7 @@
 		{
 			?>
 			<div class="notice notice-error">
-				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Disable comments"!'); ?></p>
+				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Comments tweaks"!'); ?></p>
 			</div>
 		<?php
 		}
@@ -79,7 +79,7 @@
 
 				$wbcr_comments_plus_plugin = new Factory000_Plugin(__FILE__, array(
 					'name' => 'wbcr_comments_plus',
-					'title' => __('Webcraftic Disable comments', 'comments-plus'),
+					'title' => __('Webcraftic comments tweaks', 'comments-plus'),
 					'version' => '1.0.4',
 					'host' => 'wordpress.org',
 					'url' => 'https://wordpress.org/plugins/comments-plus/',
