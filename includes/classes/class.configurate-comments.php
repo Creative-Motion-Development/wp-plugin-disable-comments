@@ -390,7 +390,7 @@
 				return;
 			}
 
-			wp_enqueue_style('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/css/url-span.css', array(), $wbcr_comments_plus_plugin->version, false);
+			wp_enqueue_style('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/css/url-span.css', array(), $wbcr_comments_plus_plugin->version);
 			wp_enqueue_script('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/js/url-span.js', array(), $wbcr_comments_plus_plugin->version, true);
 		}
 	}
