@@ -21,7 +21,7 @@
 
 		public function __construct(Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Disable comments', 'comments-plus');
+			$this->menuTitle = __('Comments tweaks', 'comments-plus');
 
 			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				$this->internal = false;

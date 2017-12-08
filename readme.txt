@@ -1,4 +1,4 @@
-=== Disable comments, Disable XML-RPC Pingback, Remove Comments  ===
+=== Comments tweaks (disable comments, disable XML-RPC, disable self pings)  ===
 Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields, bulk comments management, spam comments cleaner, delete comments by status, no page comment, wp disable comments
 Contributors: webcraftic
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
@@ -23,8 +23,6 @@ Superfluous external links from comments, which can be typed from a dozen and mo
 Plugin <strong>Disabled comments</strong> uses intelligent algorithm to <strong>hide comments</strong> and <strong>delete comments</strong> you just need to do a couple of options.
 It’s makes it very simple.
 
-Important note! Don't use this plugin if you need to <strong>disable comments</strong> individually for a posts or page. If you don't know how to <strong>disable comments</strong> on individual posts, there are instructions in [the FAQ](https://wordpress.org/plugins/comments-plus/faq/).
-Use this plugin if you don't want comments at all on your site (or on certain post types).
 
 ****
 
@@ -78,7 +76,7 @@ The plugin provides the option to **completely disable the commenting feature in
 
 We recently added new features in the plugin to disable comments. This is a <strong>Disable X-Pingback</strong> function,  <strong>Replace external links</strong>,  <strong>Remove comment form fields</strong>.
 
-Some functions are taken from the following popular plugins <strong>Bulk Comments Management</strong>, <strong>Spam Comments Cleaner</strong>, <strong>Delete Comments By Status</strong>, <strong>No Page Comment</strong>, <strong>WP Disable Comments</strong>, <strong>Hide "Comments are closed"</strong>, <strong>Hide Show Comment</strong>
+Some functions are taken from the following popular plugins <strong>Clearfy – disable unused features</strong>, <strong>Bulk Comments Management</strong>, <strong>Spam Comments Cleaner</strong>, <strong>Delete Comments By Status</strong>, <strong>No Page Comment</strong>, <strong>WP Disable Comments</strong>, <strong>Hide "Comments are closed"</strong>, <strong>Hide Show Comment</strong>
 
 == Advanced Configuration ==
 
@@ -91,6 +89,7 @@ These definitions can be made either in your main `wp-config.php` or in your the
 == Translations ==
 
 * English - default, always included
+* French - Thank you very much to user (kingteamdunet)
 * Russian
 
 If you want to help with the translation, please contact me through this site or through the contacts inside the plugin.
@@ -105,6 +104,11 @@ If you want to help with the translation, please contact me through this site or
 1. Control panel
 
 == Changelog ==
+= 1.0.4 =
+* Update plugin core
+* Fixed bug reduced plugin weight.
+* Fixed JS error with external links option.
+
 = 1.0.3 =
 * Update plugin core
 

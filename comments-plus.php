@@ -1,10 +1,10 @@
 <?php
 	/**
-	 * Plugin Name: Webcraftic Disable comments
+	 * Plugin Name: Webcraftic comments tweaks
 	 * Plugin URI: https://wordpress.org/plugins/comments-plus/
 	 * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
-	 * Version: 1.0.3
+	 * Version: 1.0.4
 	 * Text Domain: comments-plus
 	 * Domain Path: /languages/
 	 */
@@ -14,7 +14,7 @@
 		{
 			?>
 			<div class="notice notice-error">
-				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Disable comments"!'); ?></p>
+				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Comments tweaks"!'); ?></p>
 			</div>
 		<?php
 		}
@@ -79,8 +79,8 @@
 
 				$wbcr_comments_plus_plugin = new Factory000_Plugin(__FILE__, array(
 					'name' => 'wbcr_comments_plus',
-					'title' => __('Webcraftic Disable comments', 'comments-plus'),
-					'version' => '1.0.3',
+					'title' => __('Webcraftic comments tweaks', 'comments-plus'),
+					'version' => '1.0.4',
 					'host' => 'wordpress.org',
 					'url' => 'https://wordpress.org/plugins/comments-plus/',
 					'assembly' => BUILD_TYPE,
@@ -92,7 +92,6 @@
 					array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
 					array('libs/factory/forms', 'factory_forms_000', 'admin'),
 					array('libs/factory/pages', 'factory_pages_000', 'admin'),
-					array('libs/factory/font-awesome', 'factory_pages_000', 'admin'),
 					array('libs/factory/clearfy', 'factory_clearfy_000', 'all')
 				));
 			}

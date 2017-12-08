@@ -10,12 +10,12 @@
 [submodule "libs/factory/pages"]
 	path = libs/factory/pages
 	url = ssh://git@bitbucket.org/OnePress/factory-pages/
-[submodule "libs/onepress/compiler"]
-	path = libs/onepress/compiler
-	url = ssh://git@bitbucket.org/OnePress/onp-compiler/
 [submodule "libs/factory/font-awesome"]
 	path = libs/factory/font-awesome
 	url = ssh://git@bitbucket.org/OnePress/factory-fontawesome
+[submodule "libs/onepress/compiler"]
+	path = libs/onepress/compiler
+	url = ssh://git@bitbucket.org/OnePress/onp-compiler/
 [submodule "libs/factory/clearfy"]
 	path = libs/factory/clearfy
 	url = ssh://git@bitbucket.org/alex_kovalev/factory-clearfy
