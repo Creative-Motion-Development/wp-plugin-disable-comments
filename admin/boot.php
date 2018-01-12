@@ -55,7 +55,7 @@
 	{
 		$mods['disable_all_comments'] = array(
 			'title' => __('Disable all comments', 'comments-plus'),
-			'icon' => 'fa-comments-o'
+			'icon' => 'dashicons-testimonial'
 		);
 		
 		return $mods;
