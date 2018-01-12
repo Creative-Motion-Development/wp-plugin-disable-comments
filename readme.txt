@@ -1,4 +1,4 @@
-=== Comments tweaks (disable comments, disable XML-RPC, disable self pings)  ===
+=== Disable Comments for Any Post Types (Disable XML-RPC, Disable Self Pingbacks, Remove Comments)  ===
 Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields, bulk comments management, spam comments cleaner, delete comments by status, no page comment, wp disable comments
 Contributors: webcraftic
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
@@ -12,79 +12,86 @@ Allows administrators to disable comments on their website. Comments can be disa
 
 == Description ==
 
-<strong>Disable comments</strong> is a useful tool for administrators to manage comments.
-Our plugin allows administrators to fully disable or hide the comments on the site in all posts, pages, attachments.
-It remove all comment related features and options.  All related items in the admin panel will be removed (from the menu, dashboard, widgets).
+<strong>Disable comments</strong> plugin is a useful tool for blog or site administrators that allows fully disabling or hiding comments for any post types, pages or attachments.
 
-Completely <strong>disables all XML-RPC</strong> related functions in WordPress including pingbacks and trackbacks, and helps prevent attacks on the xmlrpc.php file. Lastly, it attempts to generate a 403 Denied error for requests to the /xmlrpc.php URL, but does not affect that file or your server in any way.
+It removes the all comments related features and options:
 
-Superfluous external links from comments, which can be typed from a dozen and more for one article, do not bring anything good for promotion. Plugin Disable comments replaces the links of this kind of a href="http://yourdomain.com" rel="nofollow", on links of this kind span data-uri="http://yourdomain.com"
+* <strong>disable comments</strong> on frontend at all;
+* <strong>remove comments</strong> option from WordPress dashboard menu;
+* <strong>hide comments</strong> option from the admin bar;
+* <strong>Turn off comments widgets.</strong>
 
-Plugin <strong>Disabled comments</strong> uses intelligent algorithm to <strong>hide comments</strong> and <strong>delete comments</strong> you just need to do a couple of options.
-It’s makes it very simple.
+In addition, this plugin can <strong>disable XML-RPC</strong> related functions in WordPress including disable pingbacks and disable trackbacks, and helps to prevent the attacks on the xmlrpc.php file. Lastly, it attempts to generate a “403 Denied” error for requests to the /xmlrpc.php URL, but does not affect that file or your server in any way.
 
+If you want <strong>completely remove comments</strong>, you can do this individually for selected post types. You can easily bulk delete all WordPress comments in some clicks. No any other “Delete All Comments” plugins or phpMyAdmin needed.
 
-****
+You can disable comments but if you decide to leave them, you need to close comments external links from the search engines. By default when users places comments, the WordPress adds rel=”nofollow” attribute to the comment author URL and for all links in the comments text. However, already for a long time, search engines ignores this and follows links. It makes dozens of superfluous external links from comments that are do not bring anything good for your SEO. <strong>Disable Comments</strong> plugin makes all external links in WordPress comments invisible for search engines with Javascript and improves your blog or website SEO.
 
-If you come across any bugs or have suggestions, please use the plugin support forum. I can't fix it if I don't know it's broken! Please check the [FAQ](https://wordpress.org/plugins/comments-plus/faq/) for common issues.
+In addition, if you do not want to disable comments you may need to remove website field from the WordPress comment form. Note: you can remove comment author URL but this feature can be not work with some themes.
+
+Generally, the <strong>Disable Comments</strong> plugin uses the intelligent algorithm to <strong>hide comments</strong> and <strong>remove comments</strong>. You just need to turn some toggles on.
+
+If you come across any bugs or have suggestions with <strong>Disable Comments</strong>, please use the plugin support forum. I cannot fix them if I do not know about! Please check the FAQ for common issues.
+
 
 == Frequently Asked Questions ==
 
-= Nothing happens after I disable comments on all posts - comment forms still appear when I view my posts. =
+= Nothing happens after I disable comments on all posts – comment forms are still appears inside my posts. =
 
-This is because your theme is not checking the comment status of posts in the correct way.
+That is because your theme is not checking the comment status of posts in the correct way.
 
-You may like to point your theme's author to [this explanation](http://www.rayofsolaris.net/blog/2012/how-to-check-if-comments-are-allowed-in-wordpress/) of what they are doing wrong, and how to fix it.
+You may like to point your theme’s author to this explanation of what they are doing wrong, and how to fix it.
 
-= How can I remove the text that says "comments are closed" at the bottom of articles where comments are disabled? =
+= How can I remove the text “comments are closed” at the bottom of articles when comments are disabled? =
 
-The plugin tries its very best to hide this (and any other comment-related) messages.
+The plugin tries to hide it (and any other comment-related elements) as well as possible.
 
-If you still see the message, then it means your theme is overriding this behaviour, and you will have to edit its files manually to remove it. Two common approaches are to either delete or comment out the relevant lines in `wp-content/your-theme/comments.php`, or to add a declaration to `wp-content/your-theme/style.css` that hides the message from your visitors. In either case, make you you know what you are doing!
+If you still see this message, it means that your theme is overrides this behavior and you will have to edit its files manually for fix it. Two common approaches are to either delete or comment out the relevant lines in wp-content/your-theme/comments.php, or to add a declaration to wp-content/your-theme/style.css that hides the message from your visitors. In either case, make know what you are doing!
 
-= I only want to disable comments on certain posts, not globally. What do I do? =
+= I only want to disable comments on certain posts, not globally. What do I need to do? =
 
-Don't install this plugin!
+Do not install this plugin!
 
-Go to the edit page for the post you want to disable comments on. Scroll down to the "Discussion" box, where you will find the comment options for that post. If you don't see a "Discussion" box, then click on "Screen Options" at the top of your screen, and make sure the "Discussion" checkbox is checked.
+Go to the edit page for the post you want to disable comments. Scroll down to the “Discussion” box, where you will find the comment options for that post. If you do not see a “Discussion” box, then click on “Screen Options” at the top of your screen, and make sure the “Discussion” checkbox is checked.
 
-You can also bulk-edit the comment status of multiple posts from the [posts screen](https://codex.wordpress.org/Posts_Screen).
+You can also bulk-edit the comment status of multiple posts from the posts screen.
 
-= I want to delete comments from my database. What do I do? =
+= I want to delete comments from my database. What do I need to do? =
 
-If you change the plugin settings, you will be prompted to delete comments from the database.
+When you will change the plugin settings, you will be prompt to delete comments from the database.
 
 == Details ==
 
-The plugin provides the option to **completely disable the commenting feature in WordPress**. When this option is selected, the following changes are made:
+The Disable Comments plugin allows you <strong>completely disable the commenting feature in WordPress</strong>. When this option is on you will get the following changes:
 
-* <strong>Easy Enable or disable Comments </strong>
-* <strong>Disable comments globally</strong>
-* <strong>Disable comments on certain Pages</strong>
-* <strong>Disable comments on posts Only</strong>
-* <strong>Disable comments on pages Only</strong>
-* <strong>Disable comments links in the Admin Menu and Admin Bar;</strong>
-* <strong>Disable comments related sections ("Recent Comments", "Discussion" etc.) and hidden from the WordPress Dashboard;</strong>
-* <strong>Disable comments related widgets (so your theme cannot use them);</strong>
-* <strong>Disable comments "Discussion" settings page is hidden;</strong>
-* <strong>Disable comments in RSS/Atom feeds (and requests for these will be redirected to the parent post);</strong>
-* <strong>Disable X-Pingback HTTP header and removed from all pages;</strong>
-* <strong>Disable outgoing pingbacks.</strong>
-* <strong>Replace external links</strong>
-* <strong>Remove comment form fields</strong>
-* <strong>Remove comments, Delete comments</strong>
+<strong>* Easy Enable or disable Comments;</strong>
+<strong>* Disable comments globally;</strong>
+<strong>* Disable comments on certain Pages;</strong>
+<strong>* Disable comments on posts Only;</strong>
+<strong>* Disable comments on pages Only;</strong>
+<strong>* Disable comments for any post types;</strong>
+<strong>* Disable comments links in the Admin Menu and Admin Bar;</strong>
+<strong>* Disable comments related sections (“Recent Comments”, “Discussion” etc.) and hide from the WordPress Dashboard;</strong>
+<strong>* Disable comments related widgets (so your theme cannot to use them);</strong>
+<strong>* Disable comments “Discussion” settings page;</strong>
+<strong>* Disable comments in RSS/Atom feeds (and requests for comments RSS will be redirect to the parent post);</strong>
+<strong>* Disable X-Pingback HTTP header and remove from all pages;</strong>
+<strong>* Disable outgoing pingbacks;</strong>
+<strong>* Making comments external links “nofollow” and invisible for search engines;</strong>
+<strong>* Remove website/URL field from the comment form;</strong>
+<strong>* Remove comments, Delete comments in one click.</strong>
 
-We recently added new features in the plugin to disable comments. This is a <strong>Disable X-Pingback</strong> function,  <strong>Replace external links</strong>,  <strong>Remove comment form fields</strong>.
+We recently added brand new features into the <strong>Disable Comments plugin</strong>. These are <strong>Disable X-Pingback</strong> function, <strong>Replace external links</strong> and <strong>Remove website/url comment field</strong>.
 
-Some functions are taken from the following popular plugins <strong>Clearfy – disable unused features</strong>, <strong>Bulk Comments Management</strong>, <strong>Spam Comments Cleaner</strong>, <strong>Delete Comments By Status</strong>, <strong>No Page Comment</strong>, <strong>WP Disable Comments</strong>, <strong>Hide "Comments are closed"</strong>, <strong>Hide Show Comment</strong>
+Some functions was taken from the following popular plugins: <strong>Clearfy – disable unused features</strong>, <strong>Bulk Comments Management</strong>, <strong>Spam Comments Cleaner</strong>, <strong>Delete Comments By Status</strong>, <strong>No Page Comment</strong>, <strong>WP Disable Comments</strong>, <strong>Hide “Comments are closed”</strong>, <strong>Hide Show Comment</strong>.
 
 == Advanced Configuration ==
 
-Some of the plugin's behaviour can be modified by site administrators and plugin/theme developers through code:
+Site administrators and plugin/theme developers can modify some of the plugin’s behavior through the code:
 
-* Define `DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE` and set it to `false` to prevent the plugin from replacing the theme's comment template with an empty one.
+Define DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE and set it to false to prevent the plugin from replacing theme’s comment template with an empty one.
 
-These definitions can be made either in your main `wp-config.php` or in your theme's `functions.php` file.
+These definitions can be make either in your main wp-config.php or in your theme’s functions.php file.
 
 == Translations ==
 
@@ -108,6 +115,7 @@ If you want to help with the translation, please contact me through this site or
 * Update plugin core
 * Fixed bug reduced plugin weight.
 * Fixed JS error with external links option.
+* Add french translation
 
 = 1.0.3 =
 * Update plugin core

@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Plugin Name: Webcraftic comments tweaks
+	 * Plugin Name: Disable Comments for Any Types (Disable XML-RPC, Disable Self Pingbacks)
 	 * Plugin URI: https://wordpress.org/plugins/comments-plus/
 	 * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
