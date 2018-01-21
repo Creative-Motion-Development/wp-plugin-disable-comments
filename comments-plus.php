@@ -1,10 +1,10 @@
 <?php
 	/**
-	 * Plugin Name: Disable Comments for Any Types (Disable XML-RPC, Disable Self Pingbacks)
+	 * Plugin Name: Webcraftic Disable Comments
 	 * Plugin URI: https://wordpress.org/plugins/comments-plus/
 	 * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
-	 * Version: 1.0.4
+	 * Version: 1.0.5
 	 * Text Domain: comments-plus
 	 * Domain Path: /languages/
 	 */
@@ -14,7 +14,7 @@
 		{
 			?>
 			<div class="notice notice-error">
-				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Comments tweaks"!'); ?></p>
+				<p><?php _e('We found that you have the "Clearfy - disable unused features" plugin installed, this plugin already has disable comments functions, so you can deactivate plugin "Disable comments"!'); ?></p>
 			</div>
 		<?php
 		}
@@ -79,8 +79,8 @@
 
 				$wbcr_comments_plus_plugin = new Factory000_Plugin(__FILE__, array(
 					'name' => 'wbcr_comments_plus',
-					'title' => __('Webcraftic comments tweaks', 'comments-plus'),
-					'version' => '1.0.4',
+					'title' => __('Webcraftic Disable comments', 'comments-plus'),
+					'version' => '1.0.5',
 					'host' => 'wordpress.org',
 					'url' => 'https://wordpress.org/plugins/comments-plus/',
 					'assembly' => BUILD_TYPE,

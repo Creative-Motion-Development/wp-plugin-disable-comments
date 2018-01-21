@@ -21,7 +21,7 @@
 
 		public function __construct(Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Comments tweaks', 'comments-plus');
+			$this->menuTitle = __('Disable comments', 'comments-plus');
 
 			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				$this->internal = false;
@@ -29,7 +29,7 @@
 				$this->addLinkToPluginActions = true;
 			}
 
-			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'));
+			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'), 10, 2);
 
 			parent::__construct($plugin);
 		}
@@ -46,8 +46,14 @@
 		 * @param $notices
 		 * @return array
 		 */
-		public function actionsNotice($notices)
+		public function actionsNotice($notices, $plugin)
 		{
+			global $wbcr_comments_plus_plugin;
+
+			if( $wbcr_comments_plus_plugin->pluginName != $plugin->pluginName ) {
+				return $notices;
+			}
+
 			$notices[] = array(
 				'conditions' => array(
 					'wbcr_cmp_clear_comments' => 1
