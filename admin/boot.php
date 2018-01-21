@@ -12,6 +12,17 @@
 		require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/more-features.php');
 	}
 
+	function wbcr_cmp_rating_widget_url($page_url, $plugin_name)
+	{
+		if( $plugin_name == 'wbcr_comments_plus' ) {
+			return 'https://goo.gl/v4QkW5';
+		}
+
+		return $page_url;
+	}
+
+	add_filter('wbcr_factory_imppage_rating_widget_url', 'wbcr_cmp_rating_widget_url', 10, 2);
+
 	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
