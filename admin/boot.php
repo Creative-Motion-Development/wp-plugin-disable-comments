@@ -54,7 +54,7 @@
 	function wbcr_cmp_allow_quick_mods($mods)
 	{
 		$mods['disable_all_comments'] = array(
-			'title' => __('Disable all comments', 'comments-plus'),
+			'title' => __('One click disable all comments', 'comments-plus'),
 			'icon' => 'dashicons-testimonial'
 		);
 		
