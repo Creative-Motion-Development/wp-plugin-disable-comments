@@ -65,12 +65,12 @@
 					array(
 						'disable_comments',
 						__('Everywhere', 'comments-plus'),
-						sprintf(__('You can delete all comments in the database by clicking on this link (<a href="%s">cleaning comments in database</a>).', 'comments-plus'), $this->getActionUrl('clearComments', array('wbcr_cmp_comments_type' => 'all')))
+						sprintf(__('You can delete all comments in the database by clicking on this link (<a href="%s">cleaning comments in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->pluginName))
 					),
 					array(
 						'disable_certain_post_types_comments',
 						__('On certain post types', 'comments-plus'),
-						sprintf(__('You can delete all comments for the selected post types. Select the post types below and save the settings. After that, click the link (<a href="%s">delete all comments for the selected post types in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-wbcr_clearfy'))
+						sprintf(__('You can delete all comments for the selected post types. Select the post types below and save the settings. After that, click the link (<a href="%s">delete all comments for the selected post types in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->pluginName))
 					)
 				),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
