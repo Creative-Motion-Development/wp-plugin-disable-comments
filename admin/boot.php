@@ -7,6 +7,7 @@
 	 */
 
 	require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/comments.php');
+	require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/delete-comments.php');
 
 	if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 		require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/more-features.php');

@@ -200,8 +200,14 @@
 			$disabled_post_types = $this->getDisabledPostTypes();
 			if( get_current_screen()->id == 'options-discussion' && !empty($disabled_post_types) ) {
 				$names = array();
-				foreach($disabled_post_types as $type)
-					$names[$type] = get_post_type_object($type)->labels->name;
+				foreach($disabled_post_types as $type) {
+					$type_object = get_post_type_object($type);
+					if( empty($type_object) ) {
+						continue;
+					}
+					$names[$type] = $type_object->labels->name;
+				}
+
 				?>
 				<script>
 					jQuery(document).ready(function($) {
