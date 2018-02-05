@@ -157,7 +157,7 @@
 				<?php if( class_exists('WooCommerce') ): ?>
 					<p style="margin:15px 0 0">
 						<label>
-							<input type="checkbox" name="wbcr_cmp_delete_order_notes" value="1"/> <?php printf(__('Delete Woocommerce order notices? (%d)'), $stat_data[0]->order_notes_count); ?>
+							<input type="checkbox" name="wbcr_cmp_delete_order_notes" value="1"/> <?php printf(__('Delete Woocommerce order notices? (%d)', 'comments-plus'), $stat_data[0]->order_notes_count); ?>
 						</label>
 					</p>
 				<?php endif; ?>
