@@ -120,8 +120,8 @@
 			
 			private function globalScripts()
 			{
-				//require(WCM_PLUGIN_DIR . '/includes/classes/class.configurate-comments.php');
-				//new WbcrCmp_ConfigComments(self::$app);
+				require(WCM_PLUGIN_DIR . '/includes/classes/class.configurate-comments.php');
+				new WbcrCmp_ConfigComments(self::$app);
 			}
 			/*public function pluginsLoaded()
 			{

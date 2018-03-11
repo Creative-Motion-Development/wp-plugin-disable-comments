@@ -12,7 +12,7 @@
 		exit;
 	}
 
-	class WbcrCmp_ConfigComments extends WbcrFactoryClearfy_Configurate {
+	class WbcrCmp_ConfigComments extends Wbcr_FactoryClearfy000_Configurate {
 
 		private $modified_types = array();
 
