@@ -6,9 +6,24 @@
 	 * @copyright (c) 2017 Webraftic Ltd
 	 * @version 1.0
 	 */
+
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
 	class WbcrCmp_ConfigComments extends WbcrFactoryClearfy_Configurate {
 
 		private $modified_types = array();
+
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
+		{
+			parent::__construct($plugin);
+			$this->plugin = $plugin;
+		}
 
 		public function registerActionsAndFilters()
 		{
@@ -32,8 +47,7 @@
 				add_action('admin_init', array($this, 'filterAdminBar'));
 			} else {
 
-				if( $this->getOption('comment_text_convert_links_pseudo') || $this->getOption('remove_url_from_comment_form') ) {
-
+				if( $this->getOption('comment_text_convert_links_pseudo') || $this->getOption('pseudo_comment_author_link') ) {
 					add_action('wp_enqueue_scripts', array($this, 'assetsUrlSpanScripts'));
 				}
 
@@ -162,7 +176,7 @@
 
 		public function dummyCommentsTemplate()
 		{
-			return WBCR_CMP_PLUGIN_DIR . '/includes/comments-template.php';
+			return WCM_PLUGIN_DIR . '/includes/comments-template.php';
 		}
 
 		/*
@@ -390,13 +404,11 @@
 
 		public function assetsUrlSpanScripts()
 		{
-			global $wbcr_comments_plus_plugin;
-
 			if( !is_singular() ) {
 				return;
 			}
 
-			wp_enqueue_style('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/css/url-span.css', array(), $wbcr_comments_plus_plugin->version);
-			wp_enqueue_script('wbcr-comments-plus-url-span', WBCR_CMP_PLUGIN_URL . '/assets/js/url-span.js', array(), $wbcr_comments_plus_plugin->version, true);
+			wp_enqueue_style('wbcr-comments-plus-url-span', WCM_PLUGIN_URL . '/assets/css/url-span.css', array(), $this->plugin->getPluginVersion());
+			wp_enqueue_script('wbcr-comments-plus-url-span', WCM_PLUGIN_URL . '/assets/js/url-span.js', array(), $this->plugin->getPluginVersion(), true);
 		}
 	}

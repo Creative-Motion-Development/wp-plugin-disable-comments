@@ -1,12 +1,18 @@
 <?php
-
+	
 	/**
 	 * The page Settings.
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrCmp_CommentsPage extends FactoryPages000_ImpressiveThemplate {
-
+	
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+	
+	class WbcrCmp_CommentsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+		
 		/**
 		 * The id of the page in the admin menu.
 		 *
@@ -18,28 +24,31 @@
 		 */
 		public $id = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
-
-		public function __construct(Factory000_Plugin $plugin)
+		
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Disable comments', 'comments-plus');
-
+			$this->menu_title = __('Disable comments', 'comments-plus');
+			
 			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				$this->internal = false;
-				$this->menuTarget = 'options-general.php';
-				$this->addLinkToPluginActions = true;
+				$this->menu_target = 'options-general.php';
+				$this->add_link_to_plugin_actions = true;
 			}
-
+			
 			parent::__construct($plugin);
 		}
-
+		
 		public function getMenuTitle()
 		{
 			return defined('LOADING_COMMENTS_PLUS_AS_ADDON')
 				? __('Comments', 'comments-plus')
 				: __('General', 'comments-plus');
 		}
-
-
+		
+		
 		/**
 		 * Permalinks options.
 		 *
@@ -49,12 +58,18 @@
 		public function getOptions()
 		{
 			$options = array();
+
+			$options[] = array(
+				'type' => 'html',
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Глобальное отключение комментариев', 'comments-plus') . '</strong><p>' . __('Чем отличается эти функции от нативных функций Wordpress? Wordpress отключает комментарии только для новых записей! С помощью функций ниже, вы можете отключить комментарии глобально, даже для старых записей, причем вы можете выбрать для каких типов записей нужно отключить комментарии. Плагин также отключает сам функционал комментариев, который создает определенную нагрузку на сайт.', 'comments-plus') . '</p></div>'
+			);
+			
 			$types = get_post_types(array('public' => true), 'objects');
 			$post_types = array();
 			foreach($types as $type_name => $type) {
 				$post_types[] = array($type_name, $type->label);
 			}
-
+			
 			$options[] = array(
 				'type' => 'dropdown',
 				'name' => 'disable_comments',
@@ -65,12 +80,12 @@
 					array(
 						'disable_comments',
 						__('Everywhere', 'comments-plus'),
-						sprintf(__('You can delete all comments in the database by clicking on this link (<a href="%s">cleaning comments in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->pluginName))
+						sprintf(__('You can delete all comments in the database by clicking on this link (<a href="%s">cleaning comments in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->getPluginName()))
 					),
 					array(
 						'disable_certain_post_types_comments',
 						__('On certain post types', 'comments-plus'),
-						sprintf(__('You can delete all comments for the selected post types. Select the post types below and save the settings. After that, click the link (<a href="%s">delete all comments for the selected post types in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->pluginName))
+						sprintf(__('You can delete all comments for the selected post types. Select the post types below and save the settings. After that, click the link (<a href="%s">delete all comments for the selected post types in database</a>).', 'comments-plus'), admin_url('admin.php?page=delete_comments-' . $this->plugin->getPluginName()))
 					)
 				),
 				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
@@ -78,18 +93,18 @@
 				'default' => 'enable_comments',
 				'events' => array(
 					'disable_certain_post_types_comments' => array(
-						'show' => '.factory-control-disable_comments_for_post_types, .factory-control-remove_x_pingback, .factory-control-comment_text_convert_links_pseudo, .factory-control-pseudo_comment_author_link, .factory-control-remove_url_from_comment_form'
+						'show' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options'
 					),
 					'enable_comments' => array(
-						'show' => '.factory-control-remove_x_pingback, .factory-control-comment_text_convert_links_pseudo, .factory-control-pseudo_comment_author_link, .factory-control-remove_url_from_comment_form',
+						'show' => '#wbcr-clearfy-comments-base-options',
 						'hide' => '.factory-control-disable_comments_for_post_types'
 					),
 					'disable_comments' => array(
-						'hide' => '.factory-control-disable_comments_for_post_types, .factory-control-remove_x_pingback, .factory-control-comment_text_convert_links_pseudo, .factory-control-pseudo_comment_author_link, .factory-control-remove_url_from_comment_form'
+						'hide' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options'
 					)
 				)
 			);
-
+			
 			$options[] = array(
 				'type' => 'list',
 				'way' => 'checklist',
@@ -102,55 +117,60 @@
 			);
 
 			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'remove_url_from_comment_form',
-				'title' => __('Remove field "site" in comment form', 'comments-plus'),
-				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
-				'hint' => __('Tired of spam in the comments? Do visitors leave "blank" comments for the sake of a link to their site?', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the "Site" field from the comment form.', 'comments-plus') . '<br>--<br><span class="hint-warnign-color"> *' . __('Works with the standard comment form, if the form is manually written in your theme-it probably will not work!', 'comments-plus') . '</span>',
-				'default' => false
-			);
-
-			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'comment_text_convert_links_pseudo',
-				'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
-				'layout' => array('hint-type' => 'icon'),
-				'hint' => __('Superfluous external links from comments, which can be typed from a dozen and more for one article, do not bring anything good for promotion.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . sprintf(__('Replaces the links of this kind of %s, on links of this kind %s', 'comments-plus'), '<code>a href="http://yourdomain.com" rel="nofollow"</code>', '<code>span data-uri="http://yourdomain.com"</code>'),
-				'default' => false
-			);
-
-			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'pseudo_comment_author_link',
-				'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
-				'layout' => array('hint-type' => 'icon'),
-				'hint' => __('Up to 90 percent of comments in the blog can be left for the sake of an external link. Even nofollow from page weight loss here does not help.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . __('Replaces the links of the authors of comments on the JavaScript code, it is impossible to distinguish it from usual links.', 'comments-plus') . '<br>--<br><i>' . __('In some Wordpress topics this may not work.', 'comments-plus') . '</i>',
-				'default' => false
-			);
-
-			$options[] = array(
-				'type' => 'checkbox',
-				'way' => 'buttons',
-				'name' => 'remove_x_pingback',
-				'title' => __('Disable XML-RPC', 'clearfy') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
-				'layout' => array('hint-type' => 'icon'),
-				'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
-				'default' => false
+				'type' => 'div',
+				'id' => 'wbcr-clearfy-comments-base-options',
+				'items' => array(
+					array(
+						'type' => 'html',
+						'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Общие настройки комментариев', 'comments-plus') . '</strong><p>' . __('Эти настройки помогут вам улучшить SEO и уменьшить количество спама.', 'comments-plus') . '</p></div>'
+					),
+					array(
+						'type' => 'checkbox',
+						'way' => 'buttons',
+						'name' => 'remove_url_from_comment_form',
+						'title' => __('Remove field "site" in comment form', 'comments-plus'),
+						'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+						'hint' => __('Tired of spam in the comments? Do visitors leave "blank" comments for the sake of a link to their site?', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the "Site" field from the comment form.', 'comments-plus') . '<br>--<br><span class="hint-warnign-color"> *' . __('Works with the standard comment form, if the form is manually written in your theme-it probably will not work!', 'comments-plus') . '</span>',
+						'default' => false
+					),
+					array(
+						'type' => 'checkbox',
+						'way' => 'buttons',
+						'name' => 'comment_text_convert_links_pseudo',
+						'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'layout' => array('hint-type' => 'icon'),
+						'hint' => __('Superfluous external links from comments, which can be typed from a dozen and more for one article, do not bring anything good for promotion.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . sprintf(__('Replaces the links of this kind of %s, on links of this kind %s', 'comments-plus'), '<code>a href="http://yourdomain.com" rel="nofollow"</code>', '<code>span data-uri="http://yourdomain.com"</code>'),
+						'default' => false
+					),
+					array(
+						'type' => 'checkbox',
+						'way' => 'buttons',
+						'name' => 'pseudo_comment_author_link',
+						'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'layout' => array('hint-type' => 'icon'),
+						'hint' => __('Up to 90 percent of comments in the blog can be left for the sake of an external link. Even nofollow from page weight loss here does not help.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . __('Replaces the links of the authors of comments on the JavaScript code, it is impossible to distinguish it from usual links.', 'comments-plus') . '<br>--<br><i>' . __('In some Wordpress topics this may not work.', 'comments-plus') . '</i>',
+						'default' => false
+					),
+					array(
+						'type' => 'checkbox',
+						'way' => 'buttons',
+						'name' => 'remove_x_pingback',
+						'title' => __('Disable XML-RPC', 'clearfy') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'layout' => array('hint-type' => 'icon'),
+						'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
+						'default' => false
+					)
+				)
 			);
 
 			$formOptions = array();
-
+			
 			$formOptions[] = array(
 				'type' => 'form-group',
 				'items' => $options,
 				//'cssClass' => 'postbox'
 			);
-
+			
 			return apply_filters('wbcr_cmp_comments_form_options', $formOptions);
 		}
 	}
-
-	FactoryPages000::register($wbcr_comments_plus_plugin, 'WbcrCmp_CommentsPage');

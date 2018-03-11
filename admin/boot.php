@@ -6,11 +6,9 @@
 	 * @version 1.0
 	 */
 
-	require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/comments.php');
-	require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/delete-comments.php');
-
-	if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
-		require(WBCR_CMP_PLUGIN_DIR . '/admin/pages/more-features.php');
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
 	}
 
 	function wbcr_cmp_rating_widget_url($page_url, $plugin_name)
@@ -77,7 +75,7 @@
 
 	function wbcr_cmp_set_plugin_meta($links, $file)
 	{
-		if( $file == WBCR_CMP_PLUGIN_BASE ) {
+		if( $file == WCM_PLUGIN_BASE ) {
 			$links[] = '<a href="https://goo.gl/TcMcS4" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'comments-plus') . '</a>';
 		}
 

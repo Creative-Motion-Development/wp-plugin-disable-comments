@@ -5,7 +5,14 @@
 	 *
 	 * @since 1.0.0
 	 */
-	class WbcrCmp_DeleteCommentsPage extends FactoryPages000_ImpressiveThemplate {
+
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+
+	class WbcrCmp_DeleteCommentsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -21,9 +28,12 @@
 		public $page_parent_page = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
 
-		public function __construct(Factory000_Plugin $plugin)
+		/**
+		 * @param Wbcr_Factory000_Plugin $plugin
+		 */
+		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
-			$this->menuTitle = __('Comments cleaner', 'comments-plus');
+			$this->menu_title = __('Comments cleaner', 'comments-plus');
 
 			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'), 10, 2);
 
@@ -35,13 +45,13 @@
 		 *
 		 * @see libs\factory\pages\themplates\FactoryPages000_ImpressiveThemplate
 		 * @param $notices
+		 * @param Wbcr_Factory000_Plugin $plugin
 		 * @return array
 		 */
 		public function actionsNotice($notices, $plugin)
 		{
-			global $wbcr_comments_plus_plugin;
 
-			if( $wbcr_comments_plus_plugin->pluginName != $plugin->pluginName ) {
+			if( $this->plugin->getPluginName() != $plugin->getPluginName() ) {
 				return $notices;
 			}
 
@@ -131,7 +141,15 @@
 				});
 			</script>
 
-			<form method="post" action="<?= $this->getActionUrl('delete-all-comments') ?>">
+			<div class="wbcr-factory-page-group-header" style="margin-top:0;">
+				<strong><?php _e('Инструменты для очистки комментариев', 'comments-plus') ?></strong>
+
+				<p>
+					<?php _e('Вам могут быть полезны эти функции в случае глобального отключения комментариев или массовой очистки спам комментариев.', 'comments-plus') ?>
+				</p>
+			</div>
+
+			<form method="post" action="<?= $this->getActionUrl('delete-all-comments') ?>" style="padding: 20px;">
 				<h5><?php _e('Remove all comments', 'comments-plus'); ?></h5>
 
 				<p><?php _e('You can delete all comments in your database with one click.', 'comments-plus'); ?></p>
@@ -167,29 +185,29 @@
 				<?php wp_nonce_field($this->getResultId() . '_delete_all_comments') ?>
 			</form>
 
-			<hr/>
+			<div style="padding: 20px;">
+				<hr/>
+				<h5><?php _e('Remove spam comments', 'comments-plus'); ?></h5>
 
-			<h5><?php _e('Remove spam comments', 'comments-plus'); ?></h5>
-			<p><?php _e('You can remove only spam comments from the database with one click.', 'comments-plus'); ?></p>
-			<a href="<?= wp_nonce_url($this->getActionUrl('delete-spam-comments'), $this->getResultId() . '_delete_spam_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
-				<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->spamcount); ?>
-			</a>
+				<p><?php _e('You can remove only spam comments from the database with one click.', 'comments-plus'); ?></p>
+				<a href="<?= wp_nonce_url($this->getActionUrl('delete-spam-comments'), $this->getResultId() . '_delete_spam_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
+					<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->spamcount); ?>
+				</a>
+				<hr/>
+				<h5><?php _e('Remove unapproved comments', 'comments-plus'); ?></h5>
 
-			<hr/>
+				<p><?php _e('You can remove only unapproved comments from the database with one click.', 'comments-plus'); ?></p>
+				<a href="<?= wp_nonce_url($this->getActionUrl('delete-unaproved-comments'), $this->getResultId() . '_delete_unaproved_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
+					<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->unpcount); ?>
+				</a>
+				<hr/>
+				<h5><?php _e('Remove trashed comments', 'comments-plus'); ?></h5>
 
-			<h5><?php _e('Remove unapproved comments', 'comments-plus'); ?></h5>
-			<p><?php _e('You can remove only unapproved comments from the database with one click.', 'comments-plus'); ?></p>
-			<a href="<?= wp_nonce_url($this->getActionUrl('delete-unaproved-comments'), $this->getResultId() . '_delete_unaproved_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
-				<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->unpcount); ?>
-			</a>
-
-			<hr/>
-
-			<h5><?php _e('Remove trashed comments', 'comments-plus'); ?></h5>
-			<p><?php _e('You can remove only trashed comments from the database with one click.', 'comments-plus'); ?></p>
-			<a href="<?= wp_nonce_url($this->getActionUrl('delete-trash-comments'), $this->getResultId() . '_delete_trash_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
-				<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->trashcount); ?>
-			</a>
+				<p><?php _e('You can remove only trashed comments from the database with one click.', 'comments-plus'); ?></p>
+				<a href="<?= wp_nonce_url($this->getActionUrl('delete-trash-comments'), $this->getResultId() . '_delete_trash_comments') ?>" class="button button-default wbcr-cmp-delete-comments-button">
+					<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->trashcount); ?>
+				</a>
+			</div>
 		<?php
 		}
 
@@ -325,5 +343,3 @@
 			$this->deleteComments('trash');
 		}
 	}
-
-	FactoryPages000::register($wbcr_comments_plus_plugin, 'WbcrCmp_DeleteCommentsPage');

@@ -9,7 +9,12 @@
 	 * Domain Path: /languages/
 	 */
 
-	if( defined('WBCR_CMP_PLUGIN_ACTIVE') || (defined('WBCR_CLEARFY_PLUGIN_ACTIVE') && !defined('LOADING_COMMENTS_PLUS_AS_ADDON')) ) {
+	// Exit if accessed directly
+	if( !defined('ABSPATH') ) {
+		exit;
+	}
+
+	if( defined('WCM_PLUGIN_ACTIVE') || (defined('WCL_PLUGIN_ACTIVE') && !defined('LOADING_COMMENTS_PLUS_AS_ADDON')) ) {
 		function wbcr_cmp_admin_notice_error()
 		{
 			?>
@@ -24,11 +29,11 @@
 		return;
 	} else {
 
-		define('WBCR_CMP_PLUGIN_ACTIVE', true);
+		define('WCM_PLUGIN_ACTIVE', true);
 
-		define('WBCR_CMP_PLUGIN_DIR', dirname(__FILE__));
-		define('WBCR_CMP_PLUGIN_BASE', plugin_basename(__FILE__));
-		define('WBCR_CMP_PLUGIN_URL', plugins_url(null, __FILE__));
+		define('WCM_PLUGIN_DIR', dirname(__FILE__));
+		define('WCM_PLUGIN_BASE', plugin_basename(__FILE__));
+		define('WCM_PLUGIN_URL', plugins_url(null, __FILE__));
 
 		#comp remove
 		// the following constants are used to debug features of diffrent builds
@@ -61,54 +66,22 @@
 		#endcomp
 
 		if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
-			require_once(WBCR_CMP_PLUGIN_DIR . '/libs/factory/core/boot.php');
+			require_once(WCM_PLUGIN_DIR . '/libs/factory/core/boot.php');
 		}
 
-		function wbcr_cmp_plugin_init()
-		{
-			global $wbcr_comments_plus_plugin;
+		require_once(WCM_PLUGIN_DIR . '/includes/class.plugin.php');
 
-			// Localization plugin
-			load_plugin_textdomain('comments-plus', false, dirname(WBCR_CMP_PLUGIN_BASE) . '/languages/');
-
-			if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
-				//return;
-				global $wbcr_clearfy_plugin;
-				$wbcr_comments_plus_plugin = $wbcr_clearfy_plugin;
-			} else {
-
-				$wbcr_comments_plus_plugin = new Factory000_Plugin(__FILE__, array(
-					'name' => 'wbcr_comments_plus',
-					'title' => __('Webcraftic Disable comments', 'comments-plus'),
-					'version' => '1.0.6',
-					'host' => 'wordpress.org',
-					'url' => 'https://wordpress.org/plugins/comments-plus/',
-					'assembly' => BUILD_TYPE,
-					'updates' => WBCR_CMP_PLUGIN_DIR . '/updates/'
-				));
-
-				// requires factory modules
-				$wbcr_comments_plus_plugin->load(array(
-					array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
-					array('libs/factory/forms', 'factory_forms_000', 'admin'),
-					array('libs/factory/pages', 'factory_pages_000', 'admin'),
-					array('libs/factory/clearfy', 'factory_clearfy_000', 'all')
-				));
-			}
-
-			// loading other files
-			if( is_admin() ) {
-				require(WBCR_CMP_PLUGIN_DIR . '/admin/boot.php');
-			}
-
-			require(WBCR_CMP_PLUGIN_DIR . '/includes/classes/class.configurate-comments.php');
-
-			new WbcrCmp_ConfigComments($wbcr_comments_plus_plugin);
-		}
-
-		if( defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
-			wbcr_cmp_plugin_init();
-		} else {
-			add_action('plugins_loaded', 'wbcr_cmp_plugin_init');
+		if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
+			//todo: обновить опции в старом плагине на новый префикс
+			new WCM_Plugin(__FILE__, array(
+				'prefix' => 'wbcr_cmp_',
+				'plugin_name' => 'comments_plus',
+				'plugin_title' => __('Webcraftic Disable comments', 'comments-plus'),
+				'plugin_version' => '1.0.6',
+				'required_php_version' => '5.2',
+				'required_wp_version' => '4.2',
+				'plugin_build' => BUILD_TYPE,
+				'updates' => WCM_PLUGIN_DIR . '/updates/'
+			));
 		}
 	}
