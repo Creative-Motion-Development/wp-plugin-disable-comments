@@ -13,7 +13,7 @@
 
 	function wbcr_cmp_rating_widget_url($page_url, $plugin_name)
 	{
-		if( $plugin_name == 'wbcr_comments_plus' ) {
+		if( $plugin_name == WCM_Plugin::app()->getPluginName() ) {
 			return 'https://goo.gl/v4QkW5';
 		}
 

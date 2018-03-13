@@ -63,6 +63,7 @@
 			require('libs/onepress/compiler/boot.php');
 			// creating a plugin via the factory
 		}
+		// #fix compiller bug new Factory000_Plugin
 		#endcomp
 
 		if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {

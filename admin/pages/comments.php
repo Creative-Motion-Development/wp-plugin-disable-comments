@@ -61,7 +61,7 @@
 
 			$options[] = array(
 				'type' => 'html',
-				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Глобальное отключение комментариев', 'comments-plus') . '</strong><p>' . __('Чем отличается эти функции от нативных функций Wordpress? Wordpress отключает комментарии только для новых записей! С помощью функций ниже, вы можете отключить комментарии глобально, даже для старых записей, причем вы можете выбрать для каких типов записей нужно отключить комментарии. Плагин также отключает сам функционал комментариев, который создает определенную нагрузку на сайт.', 'comments-plus') . '</p></div>'
+				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Global disabling of comments', 'comments-plus') . '</strong><p>' . __('What is the difference between these and native WordPress functions? WordPress disables comments only for new posts! Using the functions below, you can disable comments globally, even for old posts, and you can choose which post types comments to disable. The plugin also disables the comment functionality itself, which creates a certain load on the site.', 'comments-plus') . '</p></div>'
 			);
 			
 			$types = get_post_types(array('public' => true), 'objects');
@@ -122,7 +122,7 @@
 				'items' => array(
 					array(
 						'type' => 'html',
-						'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Общие настройки комментариев', 'comments-plus') . '</strong><p>' . __('Эти настройки помогут вам улучшить SEO и уменьшить количество спама.', 'comments-plus') . '</p></div>'
+						'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('General settings for comments', 'comments-plus') . '</strong><p>' . __('These settings will help you improve SEO and reduce the amount of spam.', 'comments-plus') . '</p></div>'
 					),
 					array(
 						'type' => 'checkbox',
@@ -137,7 +137,7 @@
 						'type' => 'checkbox',
 						'way' => 'buttons',
 						'name' => 'comment_text_convert_links_pseudo',
-						'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'title' => __('Replace external links in comments on the JavaScript code', 'comments-plus'),
 						'layout' => array('hint-type' => 'icon'),
 						'hint' => __('Superfluous external links from comments, which can be typed from a dozen and more for one article, do not bring anything good for promotion.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . sprintf(__('Replaces the links of this kind of %s, on links of this kind %s', 'comments-plus'), '<code>a href="http://yourdomain.com" rel="nofollow"</code>', '<code>span data-uri="http://yourdomain.com"</code>'),
 						'default' => false
@@ -146,7 +146,7 @@
 						'type' => 'checkbox',
 						'way' => 'buttons',
 						'name' => 'pseudo_comment_author_link',
-						'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus'),
 						'layout' => array('hint-type' => 'icon'),
 						'hint' => __('Up to 90 percent of comments in the blog can be left for the sake of an external link. Even nofollow from page weight loss here does not help.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . __('Replaces the links of the authors of comments on the JavaScript code, it is impossible to distinguish it from usual links.', 'comments-plus') . '<br>--<br><i>' . __('In some Wordpress topics this may not work.', 'comments-plus') . '</i>',
 						'default' => false
@@ -155,7 +155,7 @@
 						'type' => 'checkbox',
 						'way' => 'buttons',
 						'name' => 'remove_x_pingback',
-						'title' => __('Disable XML-RPC', 'clearfy') . ' <span class="wbcr-clearfy-recomended-text">(' . __('Recommended', 'comments-plus') . ')</span>',
+						'title' => __('Disable XML-RPC', 'clearfy'),
 						'layout' => array('hint-type' => 'icon'),
 						'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
 						'default' => false

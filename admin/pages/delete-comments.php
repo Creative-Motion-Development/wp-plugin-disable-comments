@@ -142,10 +142,10 @@
 			</script>
 
 			<div class="wbcr-factory-page-group-header" style="margin-top:0;">
-				<strong><?php _e('Инструменты для очистки комментариев', 'comments-plus') ?></strong>
+				<strong><?php _e('Comments clearing tools', 'comments-plus') ?></strong>
 
 				<p>
-					<?php _e('Вам могут быть полезны эти функции в случае глобального отключения комментариев или массовой очистки спам комментариев.', 'comments-plus') ?>
+					<?php _e('These functions can be useful for global disabling comments or bulk cleaning spam comments.', 'comments-plus') ?>
 				</p>
 			</div>
 
