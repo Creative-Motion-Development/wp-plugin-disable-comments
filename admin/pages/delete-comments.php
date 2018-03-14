@@ -35,8 +35,6 @@
 		{
 			$this->menu_title = __('Comments cleaner', 'comments-plus');
 
-			add_filter('wbcr_factory_imppage_actions_notice', array($this, 'actionsNotice'), 10, 2);
-
 			parent::__construct($plugin);
 		}
 
@@ -48,12 +46,8 @@
 		 * @param Wbcr_Factory000_Plugin $plugin
 		 * @return array
 		 */
-		public function actionsNotice($notices, $plugin)
+		public function getActionNotices($notices)
 		{
-
-			if( $this->plugin->getPluginName() != $plugin->getPluginName() ) {
-				return $notices;
-			}
 
 			$notices[] = array(
 				'conditions' => array(
