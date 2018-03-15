@@ -76,7 +76,7 @@
 			//todo: обновить опции в старом плагине на новый префикс
 			new WCM_Plugin(__FILE__, array(
 				'prefix' => 'wbcr_cmp_',
-				'plugin_name' => 'comments_plus',
+				'plugin_name' => 'wbcr_comments_plus',
 				'plugin_title' => __('Webcraftic Disable comments', 'comments-plus'),
 				'plugin_version' => '1.0.7',
 				'required_php_version' => '5.2',
