@@ -7,6 +7,7 @@
 	 * Version: 1.0.7
 	 * Text Domain: comments-plus
 	 * Domain Path: /languages/
+	 * Author URI: http://webcraftic.com
 	 */
 
 	// Exit if accessed directly
@@ -75,14 +76,14 @@
 		if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 			//todo: обновить опции в старом плагине на новый префикс
 			new WCM_Plugin(__FILE__, array(
-				'prefix' => 'wbcr_cmp_',
+				'prefix' => 'wbcr_comments_plus_', // wbcr_cmp
 				'plugin_name' => 'wbcr_comments_plus',
 				'plugin_title' => __('Webcraftic Disable comments', 'comments-plus'),
 				'plugin_version' => '1.0.7',
 				'required_php_version' => '5.2',
 				'required_wp_version' => '4.2',
 				'plugin_build' => BUILD_TYPE,
-				'updates' => WCM_PLUGIN_DIR . '/updates/'
+				//'updates' => WCM_PLUGIN_DIR . '/updates/'
 			));
 		}
 	}
