@@ -1,4 +1,4 @@
-=== Disable Comments for Any Post Types (Disable XML-RPC, Disable Self Pingbacks, Remove Comments)  ===
+=== Disable Comments for Any Post Types (Remove comments)  ===
 Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields, bulk comments management, spam comments cleaner, delete comments by status, no page comment, wp disable comments
 Contributors: webcraftic
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
@@ -108,9 +108,19 @@ If you want to help with the translation, please contact me through this site or
 3. The plugin settings can be accessed via the 'Settings' menu in the administration area (either your site administration for single-site installs).
 
 == Screenshots ==
-1. Control panel
+1. Control panel (General)
+2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.0.7 =
+* Fixed: Update core
+* ADDED: Plugin options caching to reduce database queries for 90%. Clearfy became lighter and faster.
+* ADDED: Compress and cache the plugin core files, to reduce the load on the admin panel
+
+= 1.0.5 =
+* Added a new feature: Added page for cleaning comments
+* Fixed: Bugs with Woocommerce
+
 = 1.0.4 =
 * Update plugin core
 * Fixed bug reduced plugin weight.

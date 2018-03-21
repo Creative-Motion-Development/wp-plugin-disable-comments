@@ -225,7 +225,7 @@
 				?>
 				<script>
 					jQuery(document).ready(function($) {
-						$(".wrap h2").first().after(<?php echo json_encode( '<div style="color: #900"><p>' . sprintf( __( 'Note: The <em>%s</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types.', 'comments-plus' ), $this->plugin->pluginTitle, implode(', ', $names ) ) . '</p></div>' );?>);
+						$(".wrap h2").first().after(<?php echo json_encode( '<div style="color: #900"><p>' . sprintf( __( 'Note: The <em>%s</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types.', 'comments-plus' ), $this->plugin->getPluginTitle(), implode(', ', $names ) ) . '</p></div>' );?>);
 					});
 				</script>
 			<?php

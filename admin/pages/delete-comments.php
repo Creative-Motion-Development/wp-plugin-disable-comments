@@ -83,7 +83,7 @@
 						SUM(comment_approved='spam') as spamcount,
 						SUM(comment_approved='0') as unpcount,
 						SUM(comment_approved='trash') as trashcount
-						FROM wp_comments");
+						FROM {$wpdb->prefix}comments");
 
 			$stat_data_by_post_type = $wpdb->get_results("SELECT
 						SUM(comment_count) as type_comments_count, post_type
