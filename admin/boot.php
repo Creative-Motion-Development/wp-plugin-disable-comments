@@ -20,7 +20,7 @@
 		return $page_url;
 	}
 
-	add_filter('wbcr_factory_imppage_rating_widget_url', 'wbcr_cmp_rating_widget_url', 10, 2);
+	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_cmp_rating_widget_url', 10, 2);
 
 	function wbcr_cmp_group_options($options)
 	{
