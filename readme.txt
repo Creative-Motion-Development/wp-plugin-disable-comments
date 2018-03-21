@@ -93,6 +93,12 @@ Define DISABLE_COMMENTS_REMOVE_COMMENTS_TEMPLATE and set it to false to prevent 
 
 These definitions can be make either in your main wp-config.php or in your theme’s functions.php file.
 
+* [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/clearfy/)
+* [WordPress Assets manager, dequeue scripts, dequeue styles](https://wordpress.org/plugins/gonzales/)
+* [Cyrlitera – transliteration of links and file names](https://wordpress.org/plugins/cyrlitera/)
+* [Disable updates, Disable automatic updates, Updates manager](https://wordpress.org/plugins/webcraftic-updates-manager/)
+* [Disable admin notices individually](https://wordpress.org/plugins/disable-admin-notices/ "Disable admin notices individually")
+
 == Translations ==
 
 * English - default, always included
