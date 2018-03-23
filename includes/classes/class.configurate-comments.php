@@ -356,12 +356,6 @@
 			return $fields;
 		}
 
-		/**
-		 * Remove X-Pingback
-		 * https://github.com/nickyurov/
-
-		 */
-
 		public function removeXPingback($headers)
 		{
 			unset($headers['X-Pingback']);
@@ -409,6 +403,6 @@
 			}
 
 			wp_enqueue_style('wbcr-comments-plus-url-span', WCM_PLUGIN_URL . '/assets/css/url-span.css', array(), $this->plugin->getPluginVersion());
-			wp_enqueue_script('wbcr-comments-plus-url-span', WCM_PLUGIN_URL . '/assets/js/url-span.js', array(), $this->plugin->getPluginVersion(), true);
+			wp_enqueue_script('wbcr-comments-plus-url-span', WCM_PLUGIN_URL . '/assets/js/url-span.js', array('jquery'), $this->plugin->getPluginVersion(), true);
 		}
 	}
