@@ -4,10 +4,10 @@
 	 * Plugin URI: https://wordpress.org/plugins/comments-plus/
 	 * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
 	 * Author: Webcraftic <wordpress.webraftic@gmail.com>
-	 * Version: 1.0.8
+	 * Version: 1.0.9
 	 * Text Domain: comments-plus
 	 * Domain Path: /languages/
-	 * Author URI: http://webcraftic.com
+	 * Author URI: https://clearfy.pro
 	 */
 
 	// Exit if accessed directly
@@ -79,7 +79,7 @@
 				'prefix' => 'wbcr_comments_plus_', // wbcr_cmp
 				'plugin_name' => 'wbcr_comments_plus',
 				'plugin_title' => __('Webcraftic Disable comments', 'comments-plus'),
-				'plugin_version' => '1.0.8',
+				'plugin_version' => '1.0.9',
 				'required_php_version' => '5.2',
 				'required_wp_version' => '4.2',
 				'plugin_build' => BUILD_TYPE,

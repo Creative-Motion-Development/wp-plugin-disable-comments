@@ -76,7 +76,16 @@
 	function wbcr_cmp_set_plugin_meta($links, $file)
 	{
 		if( $file == WCM_PLUGIN_BASE ) {
-			$links[] = '<a href="https://goo.gl/TcMcS4" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'comments-plus') . '</a>';
+
+			$url = 'https://clearfy.pro';
+
+			if( get_locale() == 'ru_RU' ) {
+				$url = 'https://ru.clearfy.pro';
+			}
+
+			$url .= '?utm_source=wordpress.org&utm_campaign=' . WCM_Plugin::app()->getPluginName();
+
+			$links[] = '<a href="' . $url . '" style="color: #FF5722;font-weight: bold;" target="_blank">' . __('Get ultimate plugin free', 'comments-plus') . '</a>';
 		}
 
 		return $links;

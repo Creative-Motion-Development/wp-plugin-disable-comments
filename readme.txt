@@ -97,10 +97,11 @@ These definitions can be make either in your main wp-config.php or in your theme
 We invite you to check out a few other related free plugins that our team has also produced that you may find especially useful:
 
 * [Clearfy – WordPress optimization plugin and disable ultimate tweaker](https://wordpress.org/plugins/clearfy/)
-* [WordPress Assets manager, dequeue scripts, dequeue styles](https://wordpress.org/plugins/gonzales/)
-* [Cyrlitera – transliteration of links and file names](https://wordpress.org/plugins/cyrlitera/)
 * [Disable updates, Disable automatic updates, Updates manager](https://wordpress.org/plugins/webcraftic-updates-manager/)
+* [Cyrlitera – transliteration of links and file names](https://wordpress.org/plugins/cyrlitera/)
+* [Cyr-to-lat reloaded – transliteration of links and file names](https://wordpress.org/plugins/cyr-and-lat/ "Cyr-to-lat reloaded")
 * [Disable admin notices individually](https://wordpress.org/plugins/disable-admin-notices/ "Disable admin notices individually")
+* [WordPress Assets manager, dequeue scripts, dequeue styles](https://wordpress.org/plugins/gonzales/  "WordPress Assets manager, dequeue scripts, dequeue styles")
 * [Hide login page](https://wordpress.org/plugins/hide-login-page/ "Hide login page")
 
 == Translations ==
@@ -121,6 +122,9 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.0.9 =
+* Fixed: Update core
+
 = 1.0.8 =
 * Fixed: Update core
 * Fixed: Small bugs
