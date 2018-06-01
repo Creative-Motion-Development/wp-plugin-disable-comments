@@ -112,15 +112,24 @@
 				 * Select all types by one click.
 				 */
 				jQuery(document).ready(function($) {
+					updateCommentsCounter();
+
 					var allTypesCheckbox = $('#wbcr-cmp-all-types-checkbox');
+
 					allTypesCheckbox.click(function() {
 						$('.wbcr-cmp-post-type-checkbox').prop("checked", $(this).prop("checked"));
+						updateCommentsCounter()
 					});
 
 					$('.wbcr-cmp-post-type-checkbox').click(function() {
 						if( !$(this).prop("checked") ) {
 							allTypesCheckbox.prop("checked", false);
 						}
+						updateCommentsCounter();
+					});
+
+					$('input[name="wbcr_cmp_delete_order_notes"]').click(function() {
+						updateCommentsCounter();
 					});
 
 					$('.wbcr-cmp-delete-comments-button').click(function() {
@@ -132,6 +141,15 @@
 
 						$(this).submit();
 					});
+
+					function updateCommentsCounter() {
+						var commentsCount = 0;
+						$('.wbcr-cmp-post-type-checkbox:checked, input[name="wbcr_cmp_delete_order_notes"]:checked').each(function() {
+							commentsCount += $(this).data('comments-number');
+						});
+
+						$('.wbcr-cmp-delete-comments-button').val('<?php _e('Delete ', 'comments-plus') ?>(' + commentsCount + ')');
+					}
 				});
 			</script>
 
@@ -159,22 +177,24 @@
 					<?php foreach((array)$post_types as $key => $type): ?>
 						<p>
 							<label>
-								<input type="checkbox" class="wbcr-cmp-post-type-checkbox" name="wbcr_cmp_post_type[]" value="<?= esc_attr($key) ?>" checked/> <?= $type['label'] ?>
+								<input type="checkbox" data-comments-number="<?= $type['comments_count'] ?>" class="wbcr-cmp-post-type-checkbox" name="wbcr_cmp_post_type[]" value="<?= esc_attr($key) ?>" checked/> <?= $type['label'] ?>
 								(<?= $type['comments_count'] ?>)
 							</label>
 						</p>
 					<?php endforeach; ?>
 				</div>
 
-				<?php if( class_exists('WooCommerce') ): ?>
+				<?php if( class_exists('WooCommerce') ):
+					?>
 					<p style="margin:15px 0 0">
 						<label>
-							<input type="checkbox" name="wbcr_cmp_delete_order_notes" value="1"/> <?php printf(__('Delete Woocommerce order notices? (%d)', 'comments-plus'), $stat_data[0]->order_notes_count); ?>
+							<input type="checkbox" data-comments-number="<?= $stat_data[0]->order_notes_count ?>" name="wbcr_cmp_delete_order_notes" value="1"/> <?php printf(__('Delete Woocommerce order notices? (%d)', 'comments-plus'), $stat_data[0]->order_notes_count); ?>
 						</label>
 					</p>
-				<?php endif; ?>
+				<?php endif;
+				?>
 				<p style="margin-top:15px;">
-					<input type="submit" name="wbcr_cmp_delete_all" class="button button-default wbcr-cmp-delete-comments-button" value="<?php printf(__('Delete (%d)', 'comments-plus'), $stat_data[0]->total_comments); ?>">
+					<input type="submit" name="wbcr_cmp_delete_all" class="button button-default wbcr-cmp-delete-comments-button" value="<?php printf(__('Delete (%s)', 'comments-plus'), $stat_data[0]->total_comments); ?>">
 				</p>
 				<?php wp_nonce_field($this->getResultId() . '_delete_all_comments') ?>
 			</form>
