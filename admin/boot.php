@@ -48,7 +48,7 @@
 		$options[] = array(
 			'name' => 'remove_x_pingback',
 			'title' => __('Disable X-Pingback', 'comments-plus'),
-			'tags' => array('recommended', 'defence', 'disable_all_comments')
+			'tags' => array('recommended', 'defence', 'disable_all_comments', 'hide_my_wp')
 		);
 		$options[] = array(
 			'name' => 'remove_url_from_comment_form',
