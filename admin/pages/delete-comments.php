@@ -27,6 +27,7 @@
 		public $type = "page";
 		public $page_parent_page = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
+		public $available_for_multisite = true;
 
 		/**
 		 * @param Wbcr_Factory000_Plugin $plugin
@@ -68,16 +69,71 @@
 
 			return $notices;
 		}
-
-		/**
-		 * Prints the content of the page
-		 *
-		 * @see libs\factory\pages\themplates\FactoryPages000_ImpressiveThemplate
-		 */
-		public function showPageContent()
-		{
+		
+		public function getStats() {
+			if ( WCM_Plugin::app()->isNetworkActive() ) {
+				$stats = $this->getMultisiteStats();
+			} else {
+				$stats = $this->getSiteStats();
+			}
+			return $stats;
+		}
+		
+		public function getBlogs() {
 			global $wpdb;
-
+			$blogs = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND deleted = '0'", $wpdb->siteid ) );
+			return $blogs;
+		}
+		
+		public function getMultisiteStats() {
+			global $wpdb;
+			$stats = array();
+			$blogs = $this->getBlogs();
+			foreach ( $blogs as $id ) {
+				switch_to_blog( $id );
+				$site_stats = $this->getSiteStats();
+				$stats = $this->mergeStats( $stats, $site_stats );
+				restore_current_blog();
+			}
+			return $stats;
+		}
+		
+		public function mergeStats( $current_stats, $new_stats ) {
+			if ( ! isset( $current_stats['stat_data'] ) ) {
+				$current_stats['stat_data'] = $new_stats['stat_data'];
+			} else {
+				$comment_fields = array( 'total_comments', 'order_notes_count', 'spamcount', 'unpcount', 'trashcount' );
+				foreach ( $comment_fields as $comment_field ) {
+					if( is_null( $current_stats['stat_data'][0]->$comment_field ) ) {
+						$current_stats['stat_data'][0]->$comment_field = 0;
+					}
+					if( is_null( $new_stats['stat_data'][0]->$comment_field ) ) {
+						$new_stats['stat_data'][0]->$comment_field = 0;
+					}
+					if( $new_stats['stat_data'][0]->$comment_field ) {
+						$current_stats['stat_data'][0]->$comment_field = $current_stats['stat_data'][0]->$comment_field + $new_stats['stat_data'][0]->$comment_field;
+					}
+				}
+			}
+			
+			if ( ! isset( $current_stats['post_types'] ) ) {
+				$current_stats['post_types'] = $new_stats['post_types'];
+			} else {
+				foreach( $new_stats['post_types'] as $post_type_key => $post_type ) {
+					if ( array_key_exists( $post_type_key, $current_stats['post_types'] ) ) {
+						$current_stats['post_types'][ $post_type_key ]['comments_count'] += $new_stats['post_types'][ $post_type_key ]['comments_count'];
+					} else {
+						$current_stats['post_types'][ $post_type_key ] = $new_stats['post_types'][ $post_type_key ];
+					}
+				}
+			}
+			
+			return $current_stats;
+		}
+		
+		
+		public function getSiteStats() {
+			global $wpdb;
 			$stat_data = $wpdb->get_results("SELECT count(*) as total_comments,
 						SUM(comment_type='order_note') as order_notes_count,
 						SUM(comment_approved='spam') as spamcount,
@@ -105,6 +161,22 @@
 
 				$post_types[$type_name] = array('label' => $type->label, 'comments_count' => $comments_count);
 			}
+			return array(
+				'stat_data'  => $stat_data,
+				'post_types' => $post_types
+			);
+		}
+
+		/**
+		 * Prints the content of the page
+		 *
+		 * @see libs\factory\pages\themplates\FactoryPages000_ImpressiveThemplate
+		 */
+		public function showPageContent()
+		{
+			$stats = $this->getStats();
+			$stat_data = $stats['stat_data'];
+			$post_types = $stats['post_types'];
 
 			?>
 			<script>
@@ -224,6 +296,57 @@
 			</div>
 		<?php
 		}
+		
+		protected function deleteAllComments() {
+			global $wpdb;
+			if( $wpdb->query("TRUNCATE $wpdb->commentmeta") != false ) {
+				$delete_all_sql = "TRUNCATE $wpdb->comments";
+				if( class_exists( 'WooCommerce' ) ) {
+					if( ! $delete_order_notes ) {
+						$delete_all_sql = "DELETE FROM $wpdb->comments WHERE comment_type != 'order_note'";
+					}
+				}
+				if( $wpdb->query($delete_all_sql) != false ) {
+					$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0");
+					$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
+					$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		protected function deleteCommentsByPostType( $post_type = 'post' ) {
+			global $wpdb;
+			$delete_post_type = $post_type;
+			$wpdb->query("DELETE cmeta FROM $wpdb->commentmeta cmeta INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'");
+
+			$delete_certain_sql = "DELETE comments FROM $wpdb->comments comments INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'";
+
+			if( class_exists('WooCommerce') ) {
+				if( !$delete_order_notes ) {
+					$delete_certain_sql .= " and comment_type != 'order_note'";
+				}
+			}
+
+			$wpdb->query($delete_certain_sql);
+			$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0 AND post_type = '$delete_post_type'");
+			return true;
+		}
+		
+		protected function deleteCommentsByPostTypes( $post_types ) {
+			global $wpdb;
+			if ( ! $post_types ) {
+				return;
+			}
+			foreach ( $post_types as $post_type ) {
+				$this->deleteCommentsByPostType( $post_type );
+			}
+
+			$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
+			$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
+			return true;
+		}
 
 		/**
 		 * This action deletes all comments from the database without restoring.
@@ -238,57 +361,49 @@
 				$delete_order_notes = $this->request->post('wbcr_cmp_delete_order_notes', false, 'intval');
 
 				if( empty($post_types) || in_array('all', $post_types) ) {
-					if( $wpdb->query("TRUNCATE $wpdb->commentmeta") != false ) {
-						$delete_all_sql = "TRUNCATE $wpdb->comments";
-
-						if( class_exists('WooCommerce') ) {
-							if( !$delete_order_notes ) {
-								$delete_all_sql = "DELETE FROM $wpdb->comments WHERE comment_type != 'order_note'";
+					if ( WCM_Plugin::app()->isNetworkActive() ) {
+						$blogs = $this->getBlogs();
+						foreach ( $blogs as $id ) {
+							switch_to_blog( $id );
+							$res = $this->deleteAllComments();
+							restore_current_blog();
+							if ( ! $res ) {
+								$this->redirectToAction('index', array(
+									'wbcr_cmp_clear_comments_error' => '1',
+									'wbcr_cmp_code' => 'interal_error',
+								));
 							}
-						}
-						if( $wpdb->query($delete_all_sql) != false ) {
-							$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0");
-							$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
-							$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
-
-							$this->redirectToAction('index', array(
-								'wbcr_cmp_clear_comments' => '1'
-							));
-						} else {
-							$this->redirectToAction('index', array(
-								'wbcr_cmp_clear_comments_error' => '1',
-								'wbcr_cmp_code' => 'interal_error',
-							));
 						}
 					} else {
-						$this->redirectToAction('index', array(
-							'wbcr_cmp_clear_comments_error' => '1',
-							'wbcr_cmp_code' => 'interal_error',
-						));
+						$res = $this->deleteAllComments();
 					}
 				} else {
-
-					// Loop through post_types and remove comments/meta and set posts comment_count to 0
-					foreach($post_types as $delete_post_type) {
-						$wpdb->query("DELETE cmeta FROM $wpdb->commentmeta cmeta INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'");
-
-						$delete_certain_sql = "DELETE comments FROM $wpdb->comments comments INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'";
-
-						if( class_exists('WooCommerce') ) {
-							if( !$delete_order_notes ) {
-								$delete_certain_sql .= " and comment_type != 'order_note'";
+					if ( WCM_Plugin::app()->isNetworkActive() ) {
+						$blogs = $this->getBlogs();
+						foreach ( $blogs as $id ) {
+							switch_to_blog( $id );
+							$res = $this->deleteCommentsByPostTypes( $post_types );
+							restore_current_blog();
+							if ( ! $res ) {
+								$this->redirectToAction('index', array(
+									'wbcr_cmp_clear_comments_error' => '1',
+									'wbcr_cmp_code' => 'interal_error',
+								));
 							}
 						}
-
-						$wpdb->query($delete_certain_sql);
-						$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0 AND post_type = '$delete_post_type'");
+					} else {
+						$res = $this->deleteCommentsByPostTypes( $post_types );
 					}
-
-					$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
-					$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
-
+				}
+				
+				if ( $res ) {
 					$this->redirectToAction('index', array(
 						'wbcr_cmp_clear_comments' => '1'
+					));
+				} else {
+					$this->redirectToAction('index', array(
+						'wbcr_cmp_clear_comments_error' => '1',
+						'wbcr_cmp_code' => 'interal_error',
 					));
 				}
 			}
@@ -306,25 +421,37 @@
 			global $wpdb;
 
 			if( in_array($type, array('spam', 'trash', 0)) ) {
-				$wpdb->query("DELETE cmeta
-					FROM $wpdb->commentmeta cmeta
-					INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID
-					WHERE comment_approved='{$type}'");
-
-				if( $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_approved='{$type}'") ) {
-					$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
-					$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
-
-					$this->redirectToAction('index', array(
-						'wbcr_cmp_clear_comments' => '1'
-					));
+				
+				if ( WCM_Plugin::app()->isNetworkActive() ) {
+					$blogs = $this->getBlogs();
+					foreach ( $blogs as $id ) {
+						switch_to_blog( $id );
+						$res = $this->deleteCommentsByType( $type );
+						restore_current_blog();
+					}
 				} else {
-					$this->redirectToAction('index', array(
-						'wbcr_cmp_clear_comments_error' => '1',
-						'wbcr_cmp_code' => 'interal_error',
-					));
+					$res = $this->deleteCommentsByType( $type );
 				}
+
+				$this->redirectToAction('index', array(
+					'wbcr_cmp_clear_comments' => '1'
+				));
 			}
+		}
+		
+		private function deleteCommentsByType( $type = 0 ) {
+			global $wpdb;
+			$wpdb->query("DELETE cmeta
+				FROM $wpdb->commentmeta cmeta
+				INNER JOIN {$wpdb->comments} comments ON cmeta.comment_id=comments.comment_ID
+				WHERE comment_approved='{$type}'");
+				
+			$res = $wpdb->query("DELETE FROM {$wpdb->comments} WHERE comment_approved='{$type}'");
+			if( $res ) {
+				$wpdb->query("OPTIMIZE TABLE {$wpdb->comments}");
+				$wpdb->query("OPTIMIZE TABLE {$wpdb->commentmeta}");
+			}
+			return $res;
 		}
 
 		/**
