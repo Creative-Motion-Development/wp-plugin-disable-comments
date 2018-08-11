@@ -130,7 +130,7 @@
 						'name' => 'remove_url_from_comment_form',
 						'title' => __('Remove field "site" in comment form', 'comments-plus'),
 						'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
-						'hint' => __('Tired of spam in the comments? Do visitors leave "blank" comments for the sake of a link to their site?', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the "Site" field from the comment form.', 'comments-plus') . '<br>--<br><span class="hint-warnign-color"> *' . __('Works with the standard comment form, if the form is manually written in your theme-it probably will not work!', 'comments-plus') . '</span>',
+						'hint' => __('Tired of spam in the comments? Do visitors leave "blank" comments for the sake of a link to their site?', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the "Site" field from the comment form.', 'comments-plus') . '<br>--<br><span class="wbcr-factory-light-orange-color"> *' . __('Works with the standard comment form, if the form is manually written in your theme-it probably will not work!', 'comments-plus') . '</span>',
 						'default' => false
 					),
 					array(

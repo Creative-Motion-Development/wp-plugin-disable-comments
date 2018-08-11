@@ -396,6 +396,7 @@
 			ob_flush();
 		}
 
+		// todo: Убрать это грязное решение со скриптами.
 		public function assetsUrlSpanScripts()
 		{
 			if( !is_singular() ) {
