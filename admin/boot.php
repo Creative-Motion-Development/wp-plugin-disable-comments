@@ -11,17 +11,6 @@
 		exit;
 	}
 
-	function wbcr_cmp_rating_widget_url($page_url, $plugin_name)
-	{
-		if( $plugin_name == WCM_Plugin::app()->getPluginName() ) {
-			return 'https://goo.gl/v4QkW5';
-		}
-
-		return $page_url;
-	}
-
-	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_cmp_rating_widget_url', 10, 2);
-
 	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
@@ -94,6 +83,17 @@
 	if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 		add_filter('plugin_row_meta', 'wbcr_cmp_set_plugin_meta', 10, 2);
 	}
+
+	function wbcr_cmp_rating_widget_url($page_url, $plugin_name)
+	{
+		if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') && ($plugin_name == WCM_Plugin::app()->getPluginName()) ) {
+			return 'https://goo.gl/v4QkW5';
+		}
+
+		return $page_url;
+	}
+
+	add_filter('wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_cmp_rating_widget_url', 10, 2);
 
 
 
