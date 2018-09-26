@@ -96,19 +96,11 @@
 			}
 			return $stats;
 		}
-		
-		public function getBlogs() {
-			global $wpdb;
-			$blogs = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND deleted = '0'", $wpdb->siteid ) );
-			return $blogs;
-		}
-		
+
 		public function getMultisiteStats() {
-			global $wpdb;
 			$stats = array();
-			$blogs = $this->getBlogs();
-			foreach ( $blogs as $id ) {
-				switch_to_blog( $id );
+			foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
+				switch_to_blog( $site->blog_id );
 				$site_stats = $this->getSiteStats();
 				$stats = $this->mergeStats( $stats, $site_stats );
 				restore_current_blog();
@@ -380,9 +372,8 @@
 
 				if( empty($post_types) || in_array('all', $post_types) ) {
 					if ( WCM_Plugin::app()->isNetworkActive() ) {
-						$blogs = $this->getBlogs();
-						foreach ( $blogs as $id ) {
-							switch_to_blog( $id );
+						foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
+							switch_to_blog( $site->blog_id );
 							$res = $this->deleteAllComments();
 							restore_current_blog();
 							if ( ! $res ) {
@@ -397,9 +388,8 @@
 					}
 				} else {
 					if ( WCM_Plugin::app()->isNetworkActive() ) {
-						$blogs = $this->getBlogs();
-						foreach ( $blogs as $id ) {
-							switch_to_blog( $id );
+						foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
+							switch_to_blog( $site->blog_id );
 							$res = $this->deleteCommentsByPostTypes( $post_types );
 							restore_current_blog();
 							if ( ! $res ) {
@@ -436,19 +426,16 @@
 		 */
 		public function deleteComments($type = 0)
 		{
-			global $wpdb;
-
 			if( in_array($type, array('spam', 'trash', 0)) ) {
 				
 				if ( WCM_Plugin::app()->isNetworkActive() ) {
-					$blogs = $this->getBlogs();
-					foreach ( $blogs as $id ) {
-						switch_to_blog( $id );
-						$res = $this->deleteCommentsByType( $type );
+					foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
+						switch_to_blog( $site->blog_id );
+						$this->deleteCommentsByType( $type );
 						restore_current_blog();
 					}
 				} else {
-					$res = $this->deleteCommentsByType( $type );
+					$this->deleteCommentsByType( $type );
 				}
 
 				$this->redirectToAction('index', array(
