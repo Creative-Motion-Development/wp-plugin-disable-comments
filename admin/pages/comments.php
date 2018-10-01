@@ -24,6 +24,7 @@
 		 */
 		public $id = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
+		public $available_for_multisite = true;
 		
 		/**
 		 * @param Wbcr_Factory000_Plugin $plugin

@@ -37,6 +37,8 @@
 			 */
 			private $as_addon;
 			
+			private $network_active;
+			
 			/**
 			 * @param string $plugin_path
 			 * @param array $data
@@ -44,6 +46,7 @@
 			 */
 			public function __construct($plugin_path, $data)
 			{
+				$this->network_active = ( is_multisite() && array_key_exists( WCM_PLUGIN_BASE, (array) get_site_option( 'active_sitewide_plugins' ) ) );
 				$this->as_addon = isset($data['as_addon']);
 				
 				if( $this->as_addon ) {
@@ -94,9 +97,18 @@
 				}
 			}
 			
+			public function isNetworkActive() {
+				if ( $this->network_active ) {
+					return true;
+				}
+				return false;
+			}
+			
 			private function registerPages()
 			{
-
+				if ( $this->isNetworkActive() and ! is_network_admin() ) {
+					return;
+				}
 				$admin_path = WCM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WbcrCmp_CommentsPage', $admin_path . '/comments.php');
