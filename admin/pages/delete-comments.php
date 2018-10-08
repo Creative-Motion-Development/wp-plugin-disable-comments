@@ -12,7 +12,7 @@
 	}
 
 
-	class WbcrCmp_DeleteCommentsPage extends Wbcr_FactoryPages000_ImpressiveThemplate {
+	class WbcrCmp_DeleteCommentsPage extends Wbcr_FactoryClearfy000_PageBase {
 
 		/**
 		 * The id of the page in the admin menu.
@@ -37,24 +37,6 @@
 			$this->menu_title = __('Comments cleaner', 'comments-plus');
 
 			parent::__construct($plugin);
-		}
-
-		/**
-		 * Requests assets (js and css) for the page.
-		 *
-		 * @see Wbcr_FactoryPages000_AdminPage
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public function assets($scripts, $styles)
-		{
-			parent::assets($scripts, $styles);
-
-			// Add Clearfy styles for HMWP pages
-			if( defined('WBCR_CLEARFY_PLUGIN_ACTIVE') ) {
-				$this->styles->add(WCL_PLUGIN_URL . '/admin/assets/css/general.css');
-			}
 		}
 
 		/**
@@ -99,7 +81,7 @@
 
 		public function getMultisiteStats() {
 			$stats = array();
-			foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
+			foreach ( WCM_Plugin::app()->getActiveSites() as $site ) {
 				switch_to_blog( $site->blog_id );
 				$site_stats = $this->getSiteStats();
 				$stats = $this->mergeStats( $stats, $site_stats );
