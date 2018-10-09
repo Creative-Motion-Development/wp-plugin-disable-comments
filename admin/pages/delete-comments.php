@@ -27,6 +27,10 @@
 		public $type = "page";
 		public $page_parent_page = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
+		/**
+		 * Доступена для мультисайтов
+		 * @var bool
+		 */
 		public $available_for_multisite = true;
 
 		/**
@@ -70,36 +74,41 @@
 			return $notices;
 		}
 		
-		public function getStats() {
-			if ( WCM_Plugin::app()->isNetworkActive() ) {
+		public function getStats()
+		{
+			if( WCM_Plugin::app()->isNetworkActive() ) {
 				$stats = $this->getMultisiteStats();
 			} else {
 				$stats = $this->getSiteStats();
 			}
+
 			return $stats;
 		}
 
-		public function getMultisiteStats() {
+		public function getMultisiteStats()
+		{
 			$stats = array();
-			foreach ( WCM_Plugin::app()->getActiveSites() as $site ) {
-				switch_to_blog( $site->blog_id );
+			foreach(WCM_Plugin::app()->getActiveSites() as $site) {
+				switch_to_blog($site->blog_id);
 				$site_stats = $this->getSiteStats();
-				$stats = $this->mergeStats( $stats, $site_stats );
+				$stats = $this->mergeStats($stats, $site_stats);
 				restore_current_blog();
 			}
+
 			return $stats;
 		}
 		
-		public function mergeStats( $current_stats, $new_stats ) {
-			if ( ! isset( $current_stats['stat_data'] ) ) {
+		public function mergeStats($current_stats, $new_stats)
+		{
+			if( !isset($current_stats['stat_data']) ) {
 				$current_stats['stat_data'] = $new_stats['stat_data'];
 			} else {
-				$comment_fields = array( 'total_comments', 'order_notes_count', 'spamcount', 'unpcount', 'trashcount' );
-				foreach ( $comment_fields as $comment_field ) {
-					if( is_null( $current_stats['stat_data'][0]->$comment_field ) ) {
+				$comment_fields = array('total_comments', 'order_notes_count', 'spamcount', 'unpcount', 'trashcount');
+				foreach($comment_fields as $comment_field) {
+					if( is_null($current_stats['stat_data'][0]->$comment_field) ) {
 						$current_stats['stat_data'][0]->$comment_field = 0;
 					}
-					if( is_null( $new_stats['stat_data'][0]->$comment_field ) ) {
+					if( is_null($new_stats['stat_data'][0]->$comment_field) ) {
 						$new_stats['stat_data'][0]->$comment_field = 0;
 					}
 					if( $new_stats['stat_data'][0]->$comment_field ) {
@@ -108,14 +117,14 @@
 				}
 			}
 			
-			if ( ! isset( $current_stats['post_types'] ) ) {
+			if( !isset($current_stats['post_types']) ) {
 				$current_stats['post_types'] = $new_stats['post_types'];
 			} else {
-				foreach( $new_stats['post_types'] as $post_type_key => $post_type ) {
-					if ( array_key_exists( $post_type_key, $current_stats['post_types'] ) ) {
-						$current_stats['post_types'][ $post_type_key ]['comments_count'] += $new_stats['post_types'][ $post_type_key ]['comments_count'];
+				foreach($new_stats['post_types'] as $post_type_key => $post_type) {
+					if( array_key_exists($post_type_key, $current_stats['post_types']) ) {
+						$current_stats['post_types'][$post_type_key]['comments_count'] += $new_stats['post_types'][$post_type_key]['comments_count'];
 					} else {
-						$current_stats['post_types'][ $post_type_key ] = $new_stats['post_types'][ $post_type_key ];
+						$current_stats['post_types'][$post_type_key] = $new_stats['post_types'][$post_type_key];
 					}
 				}
 			}
@@ -124,7 +133,8 @@
 		}
 		
 		
-		public function getSiteStats() {
+		public function getSiteStats()
+		{
 			global $wpdb;
 			$stat_data = $wpdb->get_results("SELECT count(*) as total_comments,
 						SUM(comment_type='order_note') as order_notes_count,
@@ -153,8 +163,9 @@
 
 				$post_types[$type_name] = array('label' => $type->label, 'comments_count' => $comments_count);
 			}
+
 			return array(
-				'stat_data'  => $stat_data,
+				'stat_data' => $stat_data,
 				'post_types' => $post_types
 			);
 		}
@@ -289,12 +300,13 @@
 		<?php
 		}
 		
-		protected function deleteAllComments() {
+		protected function deleteAllComments()
+		{
 			global $wpdb;
 			if( $wpdb->query("TRUNCATE $wpdb->commentmeta") != false ) {
 				$delete_all_sql = "TRUNCATE $wpdb->comments";
-				if( class_exists( 'WooCommerce' ) ) {
-					if( ! $delete_order_notes ) {
+				if( class_exists('WooCommerce') ) {
+					if( !$delete_order_notes ) {
 						$delete_all_sql = "DELETE FROM $wpdb->comments WHERE comment_type != 'order_note'";
 					}
 				}
@@ -302,13 +314,16 @@
 					$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0");
 					$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
 					$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
+
 					return true;
 				}
 			}
+
 			return false;
 		}
 		
-		protected function deleteCommentsByPostType( $post_type = 'post' ) {
+		protected function deleteCommentsByPostType($post_type = 'post')
+		{
 			global $wpdb;
 			$delete_post_type = $post_type;
 			$wpdb->query("DELETE cmeta FROM $wpdb->commentmeta cmeta INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'");
@@ -323,20 +338,23 @@
 
 			$wpdb->query($delete_certain_sql);
 			$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0 AND post_type = '$delete_post_type'");
+
 			return true;
 		}
 		
-		protected function deleteCommentsByPostTypes( $post_types ) {
+		protected function deleteCommentsByPostTypes($post_types)
+		{
 			global $wpdb;
-			if ( ! $post_types ) {
+			if( !$post_types ) {
 				return;
 			}
-			foreach ( $post_types as $post_type ) {
-				$this->deleteCommentsByPostType( $post_type );
+			foreach($post_types as $post_type) {
+				$this->deleteCommentsByPostType($post_type);
 			}
 
 			$wpdb->query("OPTIMIZE TABLE $wpdb->commentmeta");
 			$wpdb->query("OPTIMIZE TABLE $wpdb->comments");
+
 			return true;
 		}
 
@@ -353,12 +371,12 @@
 				$delete_order_notes = $this->request->post('wbcr_cmp_delete_order_notes', false, 'intval');
 
 				if( empty($post_types) || in_array('all', $post_types) ) {
-					if ( WCM_Plugin::app()->isNetworkActive() ) {
-						foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
-							switch_to_blog( $site->blog_id );
+					if( WCM_Plugin::app()->isNetworkActive() ) {
+						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+							switch_to_blog($site->blog_id);
 							$res = $this->deleteAllComments();
 							restore_current_blog();
-							if ( ! $res ) {
+							if( !$res ) {
 								$this->redirectToAction('index', array(
 									'wbcr_cmp_clear_comments_error' => '1',
 									'wbcr_cmp_code' => 'interal_error',
@@ -369,12 +387,12 @@
 						$res = $this->deleteAllComments();
 					}
 				} else {
-					if ( WCM_Plugin::app()->isNetworkActive() ) {
-						foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
-							switch_to_blog( $site->blog_id );
-							$res = $this->deleteCommentsByPostTypes( $post_types );
+					if( WCM_Plugin::app()->isNetworkActive() ) {
+						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+							switch_to_blog($site->blog_id);
+							$res = $this->deleteCommentsByPostTypes($post_types);
 							restore_current_blog();
-							if ( ! $res ) {
+							if( !$res ) {
 								$this->redirectToAction('index', array(
 									'wbcr_cmp_clear_comments_error' => '1',
 									'wbcr_cmp_code' => 'interal_error',
@@ -382,11 +400,11 @@
 							}
 						}
 					} else {
-						$res = $this->deleteCommentsByPostTypes( $post_types );
+						$res = $this->deleteCommentsByPostTypes($post_types);
 					}
 				}
 				
-				if ( $res ) {
+				if( $res ) {
 					$this->redirectToAction('index', array(
 						'wbcr_cmp_clear_comments' => '1'
 					));
@@ -410,14 +428,14 @@
 		{
 			if( in_array($type, array('spam', 'trash', 0)) ) {
 				
-				if ( WCM_Plugin::app()->isNetworkActive() ) {
-					foreach ( WCTR_Plugin::app()->getActiveSites() as $site ) {
-						switch_to_blog( $site->blog_id );
-						$this->deleteCommentsByType( $type );
+				if( WCM_Plugin::app()->isNetworkActive() ) {
+					foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+						switch_to_blog($site->blog_id);
+						$this->deleteCommentsByType($type);
 						restore_current_blog();
 					}
 				} else {
-					$this->deleteCommentsByType( $type );
+					$this->deleteCommentsByType($type);
 				}
 
 				$this->redirectToAction('index', array(
@@ -426,18 +444,20 @@
 			}
 		}
 		
-		private function deleteCommentsByType( $type = 0 ) {
+		private function deleteCommentsByType($type = 0)
+		{
 			global $wpdb;
 			$wpdb->query("DELETE cmeta
 				FROM $wpdb->commentmeta cmeta
 				INNER JOIN {$wpdb->comments} comments ON cmeta.comment_id=comments.comment_ID
 				WHERE comment_approved='{$type}'");
-				
+
 			$res = $wpdb->query("DELETE FROM {$wpdb->comments} WHERE comment_approved='{$type}'");
 			if( $res ) {
 				$wpdb->query("OPTIMIZE TABLE {$wpdb->comments}");
 				$wpdb->query("OPTIMIZE TABLE {$wpdb->commentmeta}");
 			}
+
 			return $res;
 		}
 

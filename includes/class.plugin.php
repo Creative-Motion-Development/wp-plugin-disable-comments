@@ -46,7 +46,7 @@
 			 */
 			public function __construct($plugin_path, $data)
 			{
-				$this->network_active = ( is_multisite() && array_key_exists( WCM_PLUGIN_BASE, (array) get_site_option( 'active_sitewide_plugins' ) ) );
+				$this->network_active = (is_multisite() && array_key_exists(WCM_PLUGIN_BASE, (array)get_site_option('active_sitewide_plugins')));
 				$this->as_addon = isset($data['as_addon']);
 				
 				if( $this->as_addon ) {
@@ -65,8 +65,6 @@
 					parent::__construct($plugin_path, $data);
 				}
 
-				self::app()->setTextDomain('comments-plus', WCM_PLUGIN_DIR);
-
 				$this->setModules();
 				
 				$this->globalScripts();
@@ -74,7 +72,8 @@
 				if( is_admin() ) {
 					$this->adminScripts();
 				}
-				//add_action('plugins_loaded', array($this, 'pluginsLoaded'));
+
+				add_action('plugins_loaded', array($this, 'pluginsLoaded'));
 			}
 			
 			/**
@@ -83,6 +82,11 @@
 			public static function app()
 			{
 				return self::$app;
+			}
+
+			public function pluginsLoaded()
+			{
+				self::app()->setTextDomain('comments-plus', WCM_PLUGIN_DIR);
 			}
 
 			protected function setModules()
@@ -97,16 +101,18 @@
 				}
 			}
 			
-			public function isNetworkActive() {
-				if ( $this->network_active ) {
+			public function isNetworkActive()
+			{
+				if( $this->network_active ) {
 					return true;
 				}
+
 				return false;
 			}
 			
 			private function registerPages()
 			{
-				if ( $this->isNetworkActive() and ! is_network_admin() ) {
+				if( $this->isNetworkActive() and !is_network_admin() ) {
 					return;
 				}
 				$admin_path = WCM_PLUGIN_DIR . '/admin/pages';
@@ -130,9 +136,5 @@
 				require(WCM_PLUGIN_DIR . '/includes/classes/class.configurate-comments.php');
 				new WbcrCmp_ConfigComments(self::$app);
 			}
-			/*public function pluginsLoaded()
-			{
-
-			}*/
 		}
 	}

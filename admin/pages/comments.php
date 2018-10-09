@@ -24,6 +24,10 @@
 		 */
 		public $id = "comments";
 		public $page_menu_dashicon = 'dashicons-testimonial';
+		/**
+		 * Доступена для мультисайтов
+		 * @var bool
+		 */
 		public $available_for_multisite = true;
 		
 		/**
