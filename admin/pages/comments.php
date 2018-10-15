@@ -49,9 +49,7 @@
 		
 		public function getMenuTitle()
 		{
-			return defined('LOADING_COMMENTS_PLUS_AS_ADDON')
-				? __('Comments', 'comments-plus')
-				: __('General', 'comments-plus');
+			return defined('LOADING_COMMENTS_PLUS_AS_ADDON') ? __('Comments', 'comments-plus') : __('General', 'comments-plus');
 		}
 
 		/**
@@ -60,7 +58,7 @@
 		 * @since 1.0.0
 		 * @return mixed[]
 		 */
-		public function getOptions()
+		public function getPopulateOptions()
 		{
 			$options = array();
 
@@ -68,8 +66,20 @@
 				'type' => 'html',
 				'html' => '<div class="wbcr-factory-page-group-header"><strong>' . __('Global disabling of comments', 'comments-plus') . '</strong><p>' . __('What is the difference between these and native WordPress functions? WordPress disables comments only for new posts! Using the functions below, you can disable comments globally, even for old posts, and you can choose which post types comments to disable. The plugin also disables the comment functionality itself, which creates a certain load on the site.', 'comments-plus') . '</p></div>'
 			);
-			
-			$types = get_post_types(array('public' => true), 'objects');
+
+			$args = array('public' => true);
+
+			if( $this->plugin->isNetworkActive() ) {
+				$args['_builtin'] = true;
+			}
+
+			$types = get_post_types($args, 'objects');
+
+			/*foreach( array_keys( $types ) as $type ) {
+				if( ! in_array( $type, $this->modified_types ) && ! post_type_supports( $type, 'comments' ) )	// the type doesn't support comments anyway
+					unset( $types[$type] );
+			}*/
+
 			$post_types = array();
 			foreach($types as $type_name => $type) {
 				$post_types[] = array($type_name, $type->label);
@@ -98,14 +108,14 @@
 				'default' => 'enable_comments',
 				'events' => array(
 					'disable_certain_post_types_comments' => array(
-						'show' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options'
+						'show' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types, #wbcr-clearfy-comments-base-options'
 					),
 					'enable_comments' => array(
 						'show' => '#wbcr-clearfy-comments-base-options',
-						'hide' => '.factory-control-disable_comments_for_post_types'
+						'hide' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types'
 					),
 					'disable_comments' => array(
-						'hide' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options'
+						'hide' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types, #wbcr-clearfy-comments-base-options'
 					)
 				)
 			);
@@ -120,6 +130,18 @@
 				'hint' => __('Select the post types for which comments will be disabled', 'comments-plus'),
 				'default' => 'post,page,attachment'
 			);
+
+			if( $this->plugin->isNetworkActive() ) {
+				$options[] = array(
+					'type' => 'textbox',
+					'name' => 'extra_post_types',
+					'title' => __('Custom post types', 'comments-plus'),
+					'data' => $post_types,
+					'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+					'hint' => __('Only the built-in post types appear above. If you want to disable comments on other custom post types on the entire network, you can supply a comma-separated list of post types below (use the slug that identifies the post type).', 'comments-plus'),
+					'default' => ''
+				);
+			}
 
 			$options[] = array(
 				'type' => 'div',

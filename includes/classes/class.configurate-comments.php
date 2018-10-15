@@ -28,7 +28,7 @@
 		public function registerActionsAndFilters()
 		{
 			// Removes the server responses a reference to the xmlrpc file.
-			if( $this->getOption('remove_x_pingback') || $this->isDisabledAllPosts() ) {
+			if( $this->getPopulateOption('remove_x_pingback') || $this->isDisabledAllPosts() ) {
 				add_filter('template_redirect', array($this, 'removeXPingbackHeaders'));
 				add_filter('wp_headers', array($this, 'removeXPingback'));
 
@@ -47,19 +47,19 @@
 				add_action('admin_init', array($this, 'filterAdminBar'));
 			} else {
 
-				if( $this->getOption('comment_text_convert_links_pseudo') || $this->getOption('pseudo_comment_author_link') ) {
+				if( $this->getPopulateOption('comment_text_convert_links_pseudo') || $this->getPopulateOption('pseudo_comment_author_link') ) {
 					add_action('wp_enqueue_scripts', array($this, 'assetsUrlSpanScripts'));
 				}
 
-				if( $this->getOption('comment_text_convert_links_pseudo') ) {
+				if( $this->getPopulateOption('comment_text_convert_links_pseudo') ) {
 					add_filter('comment_text', array($this, 'commentTextConvertLinksPseudo'));
 				}
 
-				if( $this->getOption('pseudo_comment_author_link') ) {
+				if( $this->getPopulateOption('pseudo_comment_author_link') ) {
 					add_filter('get_comment_author_link', array($this, 'pseudoCommentAuthorLink'), 100, 3);
 				}
 
-				if( $this->getOption('remove_url_from_comment_form') ) {
+				if( $this->getPopulateOption('remove_url_from_comment_form') ) {
 					add_filter('comment_form_default_fields', array($this, 'removeUrlFromCommentForm'));
 				}
 			}
@@ -71,17 +71,17 @@
 
 		private function isDisabledAllPosts()
 		{
-			return $this->getOption('disable_comments', 'enable_comments') == 'disable_comments';
+			return $this->getPopulateOption('disable_comments', 'enable_comments') == 'disable_comments';
 		}
 
 		private function isDisabledCertainPostTypes()
 		{
-			return $this->getOption('disable_comments', 'enable_comments') == 'disable_certain_post_types_comments';
+			return $this->getPopulateOption('disable_comments', 'enable_comments') == 'disable_certain_post_types_comments';
 		}
 
 		private function isEnabledComments()
 		{
-			return $this->getOption('disable_comments', 'enable_comments') == 'enable_comments';
+			return $this->getPopulateOption('disable_comments', 'enable_comments') == 'enable_comments';
 		}
 
 		/*
@@ -89,13 +89,29 @@
 		 */
 		private function getDisabledPostTypes()
 		{
-			$post_types = $this->getOption('disable_comments_for_post_types');
+			$post_types = $this->getPopulateOption('disable_comments_for_post_types');
 
 			if( $this->isDisabledAllPosts() ) {
-				$all_post_types = get_post_types(array('public' => true), 'objects');
+
+				$args = array('public' => true);
+
+				if( $this->plugin->isNetworkActive() ) {
+					$args['_builtin'] = true;
+				}
+
+				$all_post_types = get_post_types($args, 'objects');
 
 				return array_keys($all_post_types);
 			}
+
+			// Not all extra_post_types might be registered on this particular site
+			/*if( $this->networkactive ) {
+				foreach( (array) $this->options['extra_post_types'] as $extra ) {
+					if( post_type_exists( $extra ) ) {
+						$types[] = $extra;
+					}
+				}
+			}*/
 
 			if( is_array($post_types) ) {
 				return $post_types;
@@ -378,7 +394,6 @@
 			$old_buffer = $buffer;
 			$buffer = preg_replace('/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer);
 
-			// todo: fixed bug when return buffer null
 			if( empty($buffer) ) {
 				return $old_buffer;
 			}
