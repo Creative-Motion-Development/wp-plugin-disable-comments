@@ -27,16 +27,6 @@
 
 		public function registerActionsAndFilters()
 		{
-			// Removes the server responses a reference to the xmlrpc file.
-			if( $this->getPopulateOption('remove_x_pingback') || $this->isDisabledAllPosts() ) {
-				add_filter('template_redirect', array($this, 'removeXPingbackHeaders'));
-				add_filter('wp_headers', array($this, 'removeXPingback'));
-
-				add_action('template_redirect', array($this, 'linkRelBufferStart'), -1);
-				add_action('get_header', array($this, 'linkRelBufferStart'));
-				add_action('wp_head', array($this, 'linkRelBufferEnd'), 999);
-			}
-
 			// These need to happen now
 			if( $this->isDisabledAllPosts() ) {
 				add_action('widgets_init', array($this, 'disableRcWidget'));
@@ -372,44 +362,6 @@
 			return $fields;
 		}
 
-		public function removeXPingback($headers)
-		{
-			unset($headers['X-Pingback']);
-
-			return $headers;
-		}
-
-		public function removeXPingbackHeaders($headers)
-		{
-			if( function_exists('header_remove') ) {
-				header_remove('X-Pingback');
-				header_remove('Server');
-			}
-		}
-
-		//https://wordpress.stackexchange.com/questions/158700/how-to-remove-pingback-from-head
-
-		public function linkRelBufferCallback($buffer)
-		{
-			$old_buffer = $buffer;
-			$buffer = preg_replace('/(<link.*?rel=("|\')pingback("|\').*?href=("|\')(.*?)("|\')(.*?)?\/?>|<link.*?href=("|\')(.*?)("|\').*?rel=("|\')pingback("|\')(.*?)?\/?>)/i', '', $buffer);
-
-			if( empty($buffer) ) {
-				return $old_buffer;
-			}
-
-			return $buffer;
-		}
-
-		public function linkRelBufferStart()
-		{
-			ob_start(array($this, "linkRelBufferCallback"));
-		}
-
-		public function linkRelBufferEnd()
-		{
-			ob_flush();
-		}
 
 		// todo: Убрать это грязное решение со скриптами.
 		public function assetsUrlSpanScripts()

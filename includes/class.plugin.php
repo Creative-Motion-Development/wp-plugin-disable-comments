@@ -87,6 +87,10 @@
 			public function pluginsLoaded()
 			{
 				self::app()->setTextDomain('comments-plus', WCM_PLUGIN_DIR);
+
+				if( is_admin() ) {
+					$this->registerPages();
+				}
 			}
 
 			protected function setModules()
@@ -112,9 +116,6 @@
 			
 			private function registerPages()
 			{
-				if( $this->isNetworkActive() and !is_network_admin() ) {
-					return;
-				}
 				$admin_path = WCM_PLUGIN_DIR . '/admin/pages';
 
 				self::app()->registerPage('WbcrCmp_CommentsPage', $admin_path . '/comments.php');
@@ -128,7 +129,6 @@
 			private function adminScripts()
 			{
 				require(WCM_PLUGIN_DIR . '/admin/boot.php');
-				$this->registerPages();
 			}
 			
 			private function globalScripts()

@@ -36,7 +36,7 @@
 		public function __construct(Wbcr_Factory000_Plugin $plugin)
 		{
 			$this->menu_title = __('Disable comments', 'comments-plus');
-			$this->page_menu_short_description = __('Manage site comments', 'clearfy');
+			$this->page_menu_short_description = __('Manage site comments', 'comments-plus');
 
 			if( !defined('LOADING_COMMENTS_PLUS_AS_ADDON') ) {
 				$this->internal = false;
@@ -58,7 +58,7 @@
 		 * @since 1.0.0
 		 * @return mixed[]
 		 */
-		public function getPopulateOptions()
+		public function getPageOptions()
 		{
 			$options = array();
 
@@ -176,15 +176,6 @@
 						'title' => __('Replace external links from comment authors on the JavaScript code', 'comments-plus'),
 						'layout' => array('hint-type' => 'icon'),
 						'hint' => __('Up to 90 percent of comments in the blog can be left for the sake of an external link. Even nofollow from page weight loss here does not help.', 'comments-plus') . '<br><br><b>Clearfy: </b>' . __('Replaces the links of the authors of comments on the JavaScript code, it is impossible to distinguish it from usual links.', 'comments-plus') . '<br>--<br><i>' . __('In some Wordpress topics this may not work.', 'comments-plus') . '</i>',
-						'default' => false
-					),
-					array(
-						'type' => 'checkbox',
-						'way' => 'buttons',
-						'name' => 'remove_x_pingback',
-						'title' => __('Disable XML-RPC', 'clearfy'),
-						'layout' => array('hint-type' => 'icon'),
-						'hint' => __('A pingback is basically an automated comment that gets created when another blog links to you. A self-pingback is created when you link to an article within your own blog. Pingbacks are essentially nothing more than spam and simply waste resources.', 'comments-plus') . '<br><b>Clearfy: </b>' . __('Removes the server responses a reference to the xmlrpc file.', 'clearfy'),
 						'default' => false
 					)
 				)

@@ -299,10 +299,15 @@
 			</div>
 		<?php
 		}
-		
+
+		/**
+		 * @return bool
+		 */
 		protected function deleteAllComments()
 		{
 			global $wpdb;
+			$delete_order_notes = $this->request->post('wbcr_cmp_delete_order_notes', false, 'intval');
+
 			if( $wpdb->query("TRUNCATE $wpdb->commentmeta") != false ) {
 				$delete_all_sql = "TRUNCATE $wpdb->comments";
 				if( class_exists('WooCommerce') ) {
@@ -321,14 +326,20 @@
 
 			return false;
 		}
-		
+
+		/**
+		 * @param string $post_type
+		 * @return bool
+		 */
 		protected function deleteCommentsByPostType($post_type = 'post')
 		{
 			global $wpdb;
-			$delete_post_type = $post_type;
-			$wpdb->query("DELETE cmeta FROM $wpdb->commentmeta cmeta INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'");
 
-			$delete_certain_sql = "DELETE comments FROM $wpdb->comments comments INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '$delete_post_type'";
+			$delete_order_notes = $this->request->post('wbcr_cmp_delete_order_notes', false, 'intval');
+
+			$wpdb->query("DELETE cmeta FROM $wpdb->commentmeta cmeta INNER JOIN $wpdb->comments comments ON cmeta.comment_id=comments.comment_ID INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '%s'");
+
+			$delete_certain_sql = "DELETE comments FROM $wpdb->comments comments INNER JOIN $wpdb->posts posts ON comments.comment_post_ID=posts.ID WHERE posts.post_type = '%s'";
 
 			if( class_exists('WooCommerce') ) {
 				if( !$delete_order_notes ) {
@@ -336,18 +347,24 @@
 				}
 			}
 
-			$wpdb->query($delete_certain_sql);
-			$wpdb->query("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0 AND post_type = '$delete_post_type'");
+			$wpdb->query($wpdb->prepare($delete_certain_sql, $post_type));
+			$wpdb->query($wpdb->prepare("UPDATE $wpdb->posts SET comment_count = 0 WHERE post_author != 0 AND post_type = '%s'", $post_type));
 
 			return true;
 		}
-		
+
+		/**
+		 * @param $post_types
+		 * @return bool
+		 */
 		protected function deleteCommentsByPostTypes($post_types)
 		{
 			global $wpdb;
-			if( !$post_types ) {
-				return;
+
+			if( empty($post_types) || !is_array($post_types) ) {
+				return false;
 			}
+
 			foreach($post_types as $post_type) {
 				$this->deleteCommentsByPostType($post_type);
 			}
@@ -363,48 +380,36 @@
 		 */
 		public function deleteAllCommentsAction()
 		{
-			global $wpdb;
 			check_admin_referer($this->getResultId() . '_delete_all_comments');
 
 			if( isset($_POST['wbcr_cmp_delete_all']) ) {
 				$post_types = $this->request->post('wbcr_cmp_post_type', array(), true);
-				$delete_order_notes = $this->request->post('wbcr_cmp_delete_order_notes', false, 'intval');
+
+				$result = false;
 
 				if( empty($post_types) || in_array('all', $post_types) ) {
 					if( WCM_Plugin::app()->isNetworkActive() ) {
 						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
 							switch_to_blog($site->blog_id);
-							$res = $this->deleteAllComments();
+							$result = $this->deleteAllComments();
 							restore_current_blog();
-							if( !$res ) {
-								$this->redirectToAction('index', array(
-									'wbcr_cmp_clear_comments_error' => '1',
-									'wbcr_cmp_code' => 'interal_error',
-								));
-							}
 						}
 					} else {
-						$res = $this->deleteAllComments();
+						$result = $this->deleteAllComments();
 					}
 				} else {
 					if( WCM_Plugin::app()->isNetworkActive() ) {
 						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
 							switch_to_blog($site->blog_id);
-							$res = $this->deleteCommentsByPostTypes($post_types);
+							$result = $this->deleteCommentsByPostTypes($post_types);
 							restore_current_blog();
-							if( !$res ) {
-								$this->redirectToAction('index', array(
-									'wbcr_cmp_clear_comments_error' => '1',
-									'wbcr_cmp_code' => 'interal_error',
-								));
-							}
 						}
 					} else {
-						$res = $this->deleteCommentsByPostTypes($post_types);
+						$result = $this->deleteCommentsByPostTypes($post_types);
 					}
 				}
 				
-				if( $res ) {
+				if( $result ) {
 					$this->redirectToAction('index', array(
 						'wbcr_cmp_clear_comments' => '1'
 					));
@@ -443,16 +448,22 @@
 				));
 			}
 		}
-		
+
+		/**
+		 * @param int $type
+		 * @return false|int
+		 */
 		private function deleteCommentsByType($type = 0)
 		{
 			global $wpdb;
+
 			$wpdb->query("DELETE cmeta
 				FROM $wpdb->commentmeta cmeta
 				INNER JOIN {$wpdb->comments} comments ON cmeta.comment_id=comments.comment_ID
 				WHERE comment_approved='{$type}'");
 
 			$res = $wpdb->query("DELETE FROM {$wpdb->comments} WHERE comment_approved='{$type}'");
+
 			if( $res ) {
 				$wpdb->query("OPTIMIZE TABLE {$wpdb->comments}");
 				$wpdb->query("OPTIMIZE TABLE {$wpdb->commentmeta}");
