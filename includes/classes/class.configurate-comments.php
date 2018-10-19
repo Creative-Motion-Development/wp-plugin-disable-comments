@@ -59,6 +59,21 @@
 			add_action('wp_loaded', array($this, 'initWploadedFilters'));
 		}
 
+		/*
+	     * Remove comment links from the admin bar in a multisite network.
+	     */
+		public function removeNetworkCommentLinks($wp_admin_bar)
+		{
+			if( $this->plugin->isNetworkActive() && is_user_logged_in() ) {
+				foreach((array)$wp_admin_bar->user->blogs as $blog) {
+					$wp_admin_bar->remove_menu('blog-' . $blog->userblog_id . '-c');
+				}
+			} else {
+				// We have no way to know whether the plugin is active on other sites, so only remove this one
+				$wp_admin_bar->remove_menu('blog-' . get_current_blog_id() . '-c');
+			}
+		}
+
 		private function isDisabledAllPosts()
 		{
 			return $this->getPopulateOption('disable_comments', 'enable_comments') == 'disable_comments';
@@ -79,35 +94,7 @@
 		 */
 		private function getDisabledPostTypes()
 		{
-			$post_types = $this->getPopulateOption('disable_comments_for_post_types');
-
-			if( $this->isDisabledAllPosts() ) {
-
-				$args = array('public' => true);
-
-				if( $this->plugin->isNetworkActive() ) {
-					$args['_builtin'] = true;
-				}
-
-				$all_post_types = get_post_types($args, 'objects');
-
-				return array_keys($all_post_types);
-			}
-
-			// Not all extra_post_types might be registered on this particular site
-			/*if( $this->networkactive ) {
-				foreach( (array) $this->options['extra_post_types'] as $extra ) {
-					if( post_type_exists( $extra ) ) {
-						$types[] = $extra;
-					}
-				}
-			}*/
-
-			if( is_array($post_types) ) {
-				return $post_types;
-			}
-
-			return explode(',', $post_types);
+			return wbcr_cmp_get_disabled_post_types();
 		}
 
 		/*
@@ -139,7 +126,6 @@
 			// Filters for the admin only
 			if( is_admin() ) {
 				add_action('admin_print_footer_scripts', array($this, 'discussionNotice'));
-				//add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
 
 				// if only certain types are disabled, remember the original post status
 				if( !$this->isDisabledAllPosts() ) {
@@ -203,6 +189,10 @@
 			if( is_admin_bar_showing() ) {
 				// Remove comments links from admin bar
 				remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
+			}
+			
+			if( is_multisite() ) {
+				add_action('admin_bar_menu', array($this, 'removeNetworkCommentLinks'), 500);
 			}
 		}
 
@@ -269,18 +259,14 @@
 		{
 			$post = get_post($post_id);
 
-			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type))
-				? array()
-				: $comments;
+			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type)) ? array() : $comments;
 		}
 
 		public function filterCommentStatus($open, $post_id)
 		{
 			$post = get_post($post_id);
 
-			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type))
-				? false
-				: $open;
+			return ($this->isDisabledAllPosts() || $this->isPostTypeDisabled($post->post_type)) ? false : $open;
 		}
 
 		public function disableRcWidget()

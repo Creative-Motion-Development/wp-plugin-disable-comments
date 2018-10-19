@@ -1,5 +1,4 @@
 <?php
-	
 	/**
 	 * The page Settings.
 	 *
@@ -108,14 +107,15 @@
 				'default' => 'enable_comments',
 				'events' => array(
 					'disable_certain_post_types_comments' => array(
-						'show' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types, #wbcr-clearfy-comments-base-options'
+						'show' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options,.factory-control-disable_comments_permanent,.factory-control-disable_comments_extra_post_types'
 					),
 					'enable_comments' => array(
 						'show' => '#wbcr-clearfy-comments-base-options',
-						'hide' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types'
+						'hide' => '.factory-control-disable_comments_for_post_types,.factory-control-disable_comments_permanent,.factory-control-disable_comments_extra_post_types'
 					),
 					'disable_comments' => array(
-						'hide' => '.factory-control-disable_comments_for_post_types,.factory-control-extra_post_types, #wbcr-clearfy-comments-base-options'
+						'show' => '.factory-control-disable_comments_permanent',
+						'hide' => '.factory-control-disable_comments_for_post_types, #wbcr-clearfy-comments-base-options,.factory-control-disable_comments_extra_post_types'
 					)
 				)
 			);
@@ -134,7 +134,7 @@
 			if( $this->plugin->isNetworkActive() ) {
 				$options[] = array(
 					'type' => 'textbox',
-					'name' => 'extra_post_types',
+					'name' => 'disable_comments_extra_post_types',
 					'title' => __('Custom post types', 'comments-plus'),
 					'data' => $post_types,
 					'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
@@ -142,6 +142,15 @@
 					'default' => ''
 				);
 			}
+			$options[] = array(
+				'type' => 'checkbox',
+				'way' => 'buttons',
+				'name' => 'disable_comments_permanent',
+				'title' => __('Use persistent mode', 'comments-plus'),
+				'layout' => array('hint-type' => 'icon', 'hint-icon-color' => 'grey'),
+				'hint' => __('This will make persistent changes to your database &mdash; comments will remain closed even if you later disable the plugin! You should not use it if you only want to disable comments temporarily.', 'comments-plus'),
+				'default' => false
+			);
 
 			$options[] = array(
 				'type' => 'div',

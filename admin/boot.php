@@ -11,6 +11,97 @@
 		exit;
 	}
 
+	/**
+	 * Массово проходится по комментарием в базе данных и отключает, какждый индивидуально.
+	 */
+	function wbcr_cmp_enter_permanent_mode()
+	{
+		global $wpdb;
+
+		if( !WCM_Plugin::app()->getPopulateOption('disable_comments_permanent') ) {
+			return;
+		}
+
+		$types = wbcr_cmp_get_disabled_post_types();
+
+		if( empty($types) ) {
+			return;
+		}
+
+		if( WCM_Plugin::app()->isNetworkActive() ) {
+			// NOTE: this can be slow on large networks!
+			$blogs = $wpdb->get_col($wpdb->prepare("SELECT blog_id
+							FROM $wpdb->blogs
+							WHERE site_id = %d
+							AND public = '1'
+							AND archived = '0'
+							AND deleted = '0'", $wpdb->siteid));
+
+			foreach($blogs as $id) {
+				switch_to_blog($id);
+				$this->wbcr_close_comments_in_db($types);
+				restore_current_blog();
+			}
+		} else {
+			$this->wbcr_close_comments_in_db($types);
+		}
+	}
+
+	add_action('wbcr/factory/pages/impressive/after_form_save', 'wbcr_cmp_enter_permanent_mode');
+	add_action('wbcr_clearfy_configurated_quick_mode', 'wbcr_cmp_enter_permanent_mode');
+
+	/**
+	 * Закрывает комментарии в базе данных
+	 * @param $types
+	 */
+	function wbcr_close_comments_in_db($types)
+	{
+		global $wpdb;
+		$bits = implode(', ', array_pad(array(), count($types), '%s'));
+
+		$wpdb->query($wpdb->prepare("UPDATE `$wpdb->posts`
+				SET `comment_status` = 'closed', ping_status = 'closed'
+				WHERE `post_type`
+				IN ( $bits )", $types));
+	}
+
+	/**
+	 * Получает список отключенных типов записей
+	 * @return array|bool|mixed|void
+	 */
+	function wbcr_cmp_get_disabled_post_types()
+	{
+		$post_types = WCM_Plugin::app()->getPopulateOption('disable_comments_for_post_types');
+
+		if( WCM_Plugin::app()->getPopulateOption('disable_comments', 'enable_comments') == 'disable_comments' ) {
+
+			$args = array('public' => true);
+
+			if( WCM_Plugin::app()->isNetworkActive() ) {
+				$args['_builtin'] = true;
+			}
+
+			$all_post_types = get_post_types($args, 'objects');
+
+			return array_keys($all_post_types);
+		}
+
+		// Not all extra_post_types might be registered on this particular site
+		/*if( $this->networkactive ) {
+			foreach( (array) $this->options['extra_post_types'] as $extra ) {
+				if( post_type_exists( $extra ) ) {
+					$types[] = $extra;
+				}
+			}
+		}*/
+
+		if( is_array($post_types) ) {
+			return $post_types;
+		}
+
+		return explode(',', $post_types);
+	}
+
 	function wbcr_cmp_group_options($options)
 	{
 		$options[] = array(
@@ -22,6 +113,16 @@
 		$options[] = array(
 			'name' => 'disable_comments_for_post_types',
 			'title' => __('Select post types', 'comments-plus'),
+			'tags' => array()
+		);
+		$options[] = array(
+			'name' => 'disable_comments_extra_post_types',
+			'title' => __('Custom post types', 'comments-plus'),
+			'tags' => array()
+		);
+		$options[] = array(
+			'name' => 'disable_comments_permanent',
+			'title' => __('Use persistent mode', 'comments-plus'),
 			'tags' => array()
 		);
 		$options[] = array(
