@@ -389,7 +389,7 @@
 
 				if( empty($post_types) || in_array('all', $post_types) ) {
 					if( WCM_Plugin::app()->isNetworkActive() ) {
-						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+						foreach(WCM_Plugin::app()->getActiveSites() as $site) {
 							switch_to_blog($site->blog_id);
 							$result = $this->deleteAllComments();
 							restore_current_blog();
@@ -399,7 +399,7 @@
 					}
 				} else {
 					if( WCM_Plugin::app()->isNetworkActive() ) {
-						foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+						foreach(WCM_Plugin::app()->getActiveSites() as $site) {
 							switch_to_blog($site->blog_id);
 							$result = $this->deleteCommentsByPostTypes($post_types);
 							restore_current_blog();
@@ -434,7 +434,7 @@
 			if( in_array($type, array('spam', 'trash', 0)) ) {
 				
 				if( WCM_Plugin::app()->isNetworkActive() ) {
-					foreach(WCTR_Plugin::app()->getActiveSites() as $site) {
+					foreach(WCM_Plugin::app()->getActiveSites() as $site) {
 						switch_to_blog($site->blog_id);
 						$this->deleteCommentsByType($type);
 						restore_current_blog();
