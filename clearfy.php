@@ -38,13 +38,13 @@ if ( ! defined( 'WCM_PLUGIN_ACTIVE' ) ) {
 		require_once( WCM_PLUGIN_DIR . '/includes/3rd-party/class-clearfy-plugin.php' );
 		new WCM_Plugin();
 	} catch( Exception $e ) {
-		$wrio_plugin_error_func = function () use ( $e ) {
+		$wcm_plugin_error_func = function () use ( $e ) {
 			$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Webcraftic Disable Comments', $e->getMessage(), $e->getCode() );
 			echo '<div class="notice notice-error"><p>' . $error . '</p></div>';
 		};
 
-		add_action( 'admin_notices', $wrio_plugin_error_func );
-		add_action( 'network_admin_notices', $wrio_plugin_error_func );
+		add_action( 'admin_notices', $wcm_plugin_error_func );
+		add_action( 'network_admin_notices', $wcm_plugin_error_func );
 	}
 }
 
