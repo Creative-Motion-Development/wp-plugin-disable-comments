@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Webcraftic Disable Comments
- * Plugin URI: https://wordpress.org/plugins/comments-plus/
+ * Plugin URI: https://webcraftic.com
  * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
  * Author: Webcraftic <wordpress.webraftic@gmail.com>
- * Version: 1.0.9
+ * Version: 1.1.0
  * Text Domain: comments-plus
  * Domain Path: /languages/
- * Author URI: https://clearfy.pro
+ * Author URI: https://webcraftic.com
  * Framework Version: FACTORY_000_VERSION
  */
 
@@ -15,31 +15,103 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( ! defined( 'WCM_PLUGIN_VERSION' ) ) {
-	define( 'WCM_PLUGIN_VERSION', '1.0.9' );
+
+/**
+ * Developers who contributions in the development plugin:
+ *
+ * Alexander Kovalev
+ * ---------------------------------------------------------------------------------
+ * Full plugin development.
+ *
+ * Email:         alex.kovalevv@gmail.com
+ * Personal card: https://alexkovalevv.github.io
+ * Personal repo: https://github.com/alexkovalevv
+ * ---------------------------------------------------------------------------------
+ */
+
+/**
+ * -----------------------------------------------------------------------------
+ * CHECK REQUIREMENTS
+ * Check compatibility with php and wp version of the user's site. As well as checking
+ * compatibility with other plugins from Webcraftic.
+ * -----------------------------------------------------------------------------
+ */
+
+require_once( dirname( __FILE__ ) . '/libs/factory/core/includes/class-factory-requirements.php' );
+
+// @formatter:off
+$wcm_plugin_info = array(
+	'prefix'         => 'wbcr_comments_plus_', // wbcr_cmp
+	'plugin_name'    => 'wbcr_comments_plus',
+	'plugin_title'   => __( 'Webcraftic Disable comments', 'comments-plus' ),
+
+	// PLUGIN SUPPORT
+	'support_details'      => array(
+		'url'       => 'https://webcraftic.com',
+		'pages_map' => array(
+			'support'  => 'support',           // {site}/support
+			'docs'     => 'docs'               // {site}/docs
+		)
+	),
+
+	// FRAMEWORK MODULES
+	'load_factory_modules' => array(
+		array( 'libs/factory/bootstrap', 'factory_bootstrap_000', 'admin' ),
+		array( 'libs/factory/forms', 'factory_forms_000', 'admin' ),
+		array( 'libs/factory/pages', 'factory_pages_000', 'admin' ),
+		array( 'libs/factory/clearfy', 'factory_clearfy_000', 'all' ),
+		array( 'libs/factory/adverts', 'factory_adverts_000', 'admin')
+	)
+);
+
+$wcm_compatibility = new Wbcr_Factory000_Requirements( __FILE__, array_merge( $wcm_plugin_info, array(
+	'plugin_already_activate'          => defined( 'WCM_PLUGIN_ACTIVE' ),
+	'required_php_version'             => '5.4',
+	'required_wp_version'              => '4.2.0',
+	'required_clearfy_check_component' => false
+) ) );
+
+
+/**
+ * If the plugin is compatible, then it will continue its work, otherwise it will be stopped,
+ * and the user will throw a warning.
+ */
+if ( ! $wcm_compatibility->check() ) {
+	return;
 }
-if ( ! defined( 'WCM_PLUGIN_DIR' ) ) {
-	define( 'WCM_PLUGIN_DIR', dirname( __FILE__ ) );
-}
-if ( ! defined( 'WCM_PLUGIN_BASE' ) ) {
-	define( 'WCM_PLUGIN_BASE', plugin_basename( __FILE__ ) );
-}
-if ( ! defined( 'WCM_PLUGIN_URL' ) ) {
-	define( 'WCM_PLUGIN_URL', plugins_url( null, __FILE__ ) );
-}
+
+/**
+ * -----------------------------------------------------------------------------
+ * CONSTANTS
+ * Install frequently used constants and constants for debugging, which will be
+ * removed after compiling the plugin.
+ * -----------------------------------------------------------------------------
+ */
+
+// This plugin is activated
+define( 'WCM_PLUGIN_ACTIVE', true );
+define( 'WCM_PLUGIN_VERSION', $wcm_compatibility->get_plugin_version() );
+define( 'WCM_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'WCM_PLUGIN_BASE', plugin_basename( __FILE__ ) );
+define( 'WCM_PLUGIN_URL', plugins_url( null, __FILE__ ) );
+
 
 #comp remove
-// the following constants are used to debug features of diffrent builds
-// on developer machines before compiling the plugin
+// Эта часть кода для компилятора, не требует редактирования.
+// Все отладочные константы будут удалены после компиляции плагина.
 
+// Сборка плагина
 // build: free, premium, ultimate
 if ( ! defined( 'BUILD_TYPE' ) ) {
 	define( 'BUILD_TYPE', 'free' );
 }
+// Языки уже не используются, нужно для работы компилятора
 // language: en_US, ru_RU
 if ( ! defined( 'LANG_TYPE' ) ) {
 	define( 'LANG_TYPE', 'en_EN' );
 }
+
+// Тип лицензии
 // license: free, paid
 if ( ! defined( 'LICENSE_TYPE' ) ) {
 	define( 'LICENSE_TYPE', 'free' );
@@ -49,61 +121,82 @@ if ( ! defined( 'LICENSE_TYPE' ) ) {
 if ( ! defined( 'WPLANG' ) ) {
 	define( 'WPLANG', LANG_TYPE );
 }
+
+/**
+ * Включить режим отладки миграций с версии x.x.x до x.x.y. Если true и
+ * установлена константа FACTORY_MIGRATIONS_FORCE_OLD_VERSION, ваш файл
+ * миграции будет вызваться постоянно.
+ */
+if ( ! defined( 'FACTORY_MIGRATIONS_DEBUG' ) ) {
+	define( 'FACTORY_MIGRATIONS_DEBUG', false );
+
+	/**
+	 * Так как, после первого выполнения миграции, плагин обновляет
+	 * опцию plugin_version, чтобы миграция больше не выполнялась,
+	 * в тестовом режиме миграций, старая версия плагина берется не
+	 * из опции в базе данных, а из текущей константы.
+	 *
+	 * Новая версия плагина всегда берется из константы WCM_PLUGIN_VERSION
+	 * или из комментариев к входному файлу плагина.
+	 */
+	//define( 'FACTORY_MIGRATIONS_FORCE_OLD_VERSION', '1.1.9' );
+}
+
+/**
+ * Включить режим отладки обновлений плагина и обновлений его премиум версии.
+ * Если true, плагин не будет кешировать результаты проверки обновлений, а
+ * будет проверять обновления через установленный интервал в константе
+ * FACTORY_CHECK_UPDATES_INTERVAL.
+ */
+if ( ! defined( 'FACTORY_UPDATES_DEBUG' ) ) {
+	define( 'FACTORY_UPDATES_DEBUG', false );
+
+	// Через какой интервал времени проверять обновления на удаленном сервере?
+	define( 'FACTORY_CHECK_UPDATES_INTERVAL', MINUTE_IN_SECONDS );
+}
+
+/**
+ * Включить режим отладки для рекламного модуля. Если FACTORY_ADVERTS_DEBUG true,
+ * то рекламный модуля не будет кешировать запросы к сереверу. Упрощает настройку
+ * рекламы.
+ */
+if ( ! defined( 'FACTORY_ADVERTS_DEBUG' ) ) {
+	define( 'FACTORY_ADVERTS_DEBUG', true );
+}
+
 // the compiler library provides a set of functions like onp_build and onp_license
 // to check how the plugin work for diffrent builds on developer machines
 
-if ( ! defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ) ) {
-	require( 'libs/onepress/compiler/boot.php' );
-	// creating a plugin via the factory
-}
+require_once( WCM_PLUGIN_DIR . '/libs/onepress/compiler/boot.php' );
+// creating a plugin via the factory
+
 // #fix compiller bug new Factory000_Plugin
 #endcomp
 
-if ( ! defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ) ) {
-	require_once( WCM_PLUGIN_DIR . '/libs/factory/core/includes/check-compatibility.php' );
-	require_once( WCM_PLUGIN_DIR . '/libs/factory/clearfy/includes/check-clearfy-compatibility.php' );
-}
-
-$plugin_info = array(
-	'prefix'         => 'wbcr_comments_plus_', // wbcr_cmp
-	'plugin_name'    => 'wbcr_comments_plus',
-	'plugin_title'   => __( 'Webcraftic Disable comments', 'comments-plus' ),
-	'plugin_version' => WCM_PLUGIN_VERSION,
-	'plugin_build'   => BUILD_TYPE,
-	//'updates' => WCM_PLUGIN_DIR . '/updates/'
-);
-
 /**
- * Проверяет совместимость с Wordpress, php и другими плагинами.
+ * -----------------------------------------------------------------------------
+ * PLUGIN INIT
+ * -----------------------------------------------------------------------------
  */
-$compatibility = new Wbcr_FactoryClearfy_Compatibility( array_merge( $plugin_info, array(
-	'factory_version'                  => 'FACTORY_000_VERSION',
-	'plugin_already_activate'          => defined( 'WCM_PLUGIN_ACTIVE' ),
-	'plugin_as_component'              => defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ),
-	'plugin_dir'                       => WCM_PLUGIN_DIR,
-	'plugin_base'                      => WCM_PLUGIN_BASE,
-	'plugin_url'                       => WCM_PLUGIN_URL,
-	'required_php_version'             => '5.3',
-	'required_wp_version'              => '4.2.0',
-	'required_clearfy_check_component' => true
-) ) );
 
-/**
- * Если плагин совместим, то он продолжит свою работу, иначе будет остановлен,
- * а пользователь получит предупреждение.
- */
-if ( ! $compatibility->check() ) {
-	return;
+require_once( WCM_PLUGIN_DIR . '/libs/factory/core/boot.php' );
+require_once( WCM_PLUGIN_DIR . '/includes/class-plugin.php' );
+
+try {
+	new WCM_Plugin( __FILE__, array_merge( $wcm_plugin_info, array(
+		'plugin_version'     => WCM_PLUGIN_VERSION,
+		'plugin_text_domain' => $wcm_compatibility->get_text_domain(),
+	) ) );
+} catch( Exception $e ) {
+	// Plugin wasn't initialized due to an error
+	define( 'WCM_PLUGIN_THROW_ERROR', true );
+
+	$wcm_plugin_error_func = function () use ( $e ) {
+		$error = sprintf( "The %s plugin has stopped. <b>Error:</b> %s Code: %s", 'Webcraftic Disable Comments', $e->getMessage(), $e->getCode() );
+		echo '<div class="notice notice-error"><p>' . $error . '</p></div>';
+	};
+
+	add_action( 'admin_notices', $wcm_plugin_error_func );
+	add_action( 'network_admin_notices', $wcm_plugin_error_func );
 }
-
-define( 'WCM_PLUGIN_ACTIVE', true );
-
-if ( ! defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ) ) {
-	require_once( WCM_PLUGIN_DIR . '/libs/factory/core/boot.php' );
-}
-
-require_once( WCM_PLUGIN_DIR . '/includes/class.plugin.php' );
-
-if ( ! defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ) ) {
-	new WCM_Plugin( __FILE__, $plugin_info );
-}
+// @formatter:on

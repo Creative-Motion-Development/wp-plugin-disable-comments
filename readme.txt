@@ -1,10 +1,10 @@
 === Disable Comments for Any Post Types (Remove comments)  ===
 Tags: disable comments, disable XML-RPC, remove comments, delete comments, no self pings, wp disable, disable pingback comments, comments manager, webcraftic update manager, clearfy, replace external links, remove comment form, comment form, remove comment form fields, bulk comments management, spam comments cleaner, delete comments by status, no page comment, wp disable comments
-Contributors: webcraftic
+Contributors: webcraftic, alexkovalevv, creativemotion
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 4.2
-Tested up to: 4.9
-Requires PHP: 5.2
+Tested up to: 5.2
+Requires PHP: 5.4
 Stable tag: trunk
 License: GPLv2
 
@@ -122,6 +122,11 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.1.0 =
+* Added: Compatibility with Wordpress 4.2 - 5.x
+* Added: Multisite support
+* Fixed: Minor bugs
+
 = 1.0.9 =
 * Fixed: Update core
 
