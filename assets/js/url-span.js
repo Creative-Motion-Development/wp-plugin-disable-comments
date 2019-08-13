@@ -1,6 +1,6 @@
 /**
  * Url span
- * @author Webcraftic <wordpress.webraftic@gmail.com>
+ * @author    Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright (c) 17.11.2017, Webcraftic
  * @version 1.0
  */

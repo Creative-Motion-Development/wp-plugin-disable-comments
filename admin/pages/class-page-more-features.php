@@ -15,7 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * НЕ поддерживает режим работы с мультисаймами!
  *
- * @author        Alexander Kovalev <alex.kovalevv@gmail.com>
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
+ *
  * @copyright (c) 2018 Webraftic Ltd
  */
 class WbcrCmp_MoreFeaturesPage extends Wbcr_FactoryClearfy000_MoreFeaturesPage {

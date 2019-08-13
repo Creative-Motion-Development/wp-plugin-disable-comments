@@ -1,17 +1,17 @@
 <?php
-/**
- * This class configures the parameters advanced
- *
- * @author        Webcraftic <wordpress.webraftic@gmail.com>
- * @copyright (c) 2017 Webraftic Ltd
- * @version       1.0
- */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * This class configures the parameters advanced
+ *
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
+ *
+ * @copyright (c) 2017 Webraftic Ltd
+ */
 class WbcrCmp_ConfigComments extends Wbcr_FactoryClearfy000_Configurate {
 
 	private $modified_types = [];

@@ -122,7 +122,7 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
-= 1.1.0 =
+= 1.1.1 =
 * Added: Compatibility with Wordpress 4.2 - 5.x
 * Added: Multisite support
 * Fixed: Minor bugs

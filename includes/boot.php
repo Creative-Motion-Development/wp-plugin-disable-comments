@@ -2,9 +2,9 @@
 /**
  * Admin boot
  *
- * @author    Webcraftic <wordpress.webraftic@gmail.com>
+ * @author    Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
+ *
  * @copyright Webcraftic 25.05.2017
- * @version   1.0
  */
 
 // Exit if accessed directly

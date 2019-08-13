@@ -72,7 +72,6 @@ class WCM_Plugin extends Wbcr_Factory000_Plugin {
 	public function plugins_loaded() {
 		if ( is_admin() ) {
 			$this->register_pages();
-			$this->register_adverts_blocks();
 		}
 	}
 
@@ -96,22 +95,6 @@ class WCM_Plugin extends Wbcr_Factory000_Plugin {
 	}
 
 	/**
-	 * Регистрирует рекламные объявления от студии Webcraftic
-	 *
-	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
-	 * @since  3.0.0
-	 */
-	private function register_adverts_blocks() {
-		global $wdan_adverts;
-
-		$wdan_adverts = new WBCR\Factory_Adverts_000\Base( __FILE__, array_merge( $this->plugin_data, [
-			'dashboard_widget' => true, // show dashboard widget (default: false)
-			'right_sidebar'    => true, // show adverts sidebar (default: false)
-			'notice'           => true, // show notice message (default: false)
-		] ) );
-	}
-
-	/**
 	 * @author Alexander Kovalev <alex.kovalevv@gmail.com>
 	 */
 	private function admin_scripts() {
@@ -124,6 +107,7 @@ class WCM_Plugin extends Wbcr_Factory000_Plugin {
 	private function global_scripts() {
 		require( WCM_PLUGIN_DIR . '/includes/boot.php' );
 		require( WCM_PLUGIN_DIR . '/includes/classes/class-configurate-comments.php' );
+
 		new WbcrCmp_ConfigComments( self::$app );
 	}
 }

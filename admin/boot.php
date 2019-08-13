@@ -2,7 +2,7 @@
 /**
  * Admin boot
  *
- * @author    Webcraftic <wordpress.webraftic@gmail.com>
+ * @author    Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
  * @copyright Webcraftic 25.05.2017
  * @version   1.0
  */
@@ -159,7 +159,7 @@ add_filter( 'wbcr_factory_pages_000_imppage_rating_widget_url', 'wbcr_cmp_rating
  */
 add_filter( 'wbcr/factory/pages/impressive/widgets', function ( $widgets, $position, $plugin ) {
 	if ( WCM_Plugin::app()->getPluginName() == $plugin->getPluginName() && 'right' == $position ) {
-		unset( $widgets['businnes_suggetion'] );
+		unset( $widgets['business_suggetion'] );
 		unset( $widgets['rating_widget'] );
 		unset( $widgets['info_widget'] );
 	}

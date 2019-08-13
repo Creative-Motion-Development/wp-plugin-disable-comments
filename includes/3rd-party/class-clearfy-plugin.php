@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Disable comments
  *
- * @author        Alexander Kovalev <alex.kovalevv@gmail.com>
+ * @author        Alex Kovalev <alex.kovalevv@gmail.com>, Github: https://github.com/alexkovalevv
+ *
  * @copyright (c) 2018 Webraftic Ltd
- * @version       1.0
  */
 class WCM_Plugin {
 
