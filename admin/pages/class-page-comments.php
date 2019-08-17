@@ -78,7 +78,7 @@ class WbcrCmp_CommentsPage extends Wbcr_FactoryClearfy000_PageBase {
 	 * @return string
 	 */
 	public function getPageTitle() {
-		return __( 'General', 'comments-plus' );
+		return defined( 'LOADING_COMMENTS_PLUS_AS_ADDON' ) ? __( 'Comments', 'comments-plus' ) : __( 'General', 'comments-plus' );
 	}
 
 	/**
