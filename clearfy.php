@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! defined( 'WCM_PLUGIN_ACTIVE' ) ) {
 	define( 'WCM_PLUGIN_VERSION', '1.1.0' );
+	define( 'WCM_TEXT_DOMAIN', 'comments-plus' );
 	define( 'WCM_PLUGIN_ACTIVE', true );
 
 	// Этот плагин загружен, как аддон для плагина Clearfy
