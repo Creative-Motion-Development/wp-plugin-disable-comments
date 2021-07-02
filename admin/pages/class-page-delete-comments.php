@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @copyright (c) 2018 Webraftic Ltd
  */
-class WbcrCmp_DeleteCommentsPage extends Wbcr_FactoryClearfy000_PageBase {
+class WbcrCmp_DeleteCommentsPage extends WBCR\Factory_Templates_000\Pages\PageBase {
 
 	/**
 	 * {@inheritDoc}
