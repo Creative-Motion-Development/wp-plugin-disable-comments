@@ -122,6 +122,10 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.1.3 (20.10.2021) =
+* Added: Compatibility with Wordpress 5.8
+* Fixed: Minor bugs
+
 = 1.1.2 (16.12.2020) =
 * Added: Subscribe form
 * Fixed: Minor bugs

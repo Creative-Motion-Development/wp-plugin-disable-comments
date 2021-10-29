@@ -4,7 +4,7 @@
  * Plugin URI: https://webcraftic.com
  * Description: Allows administrators to globally disable comments on their site. Comments can be disabled for individual record types.
  * Author: Webcraftic <wordpress.webraftic@gmail.com>
- * Version: 1.1.2
+ * Version: 1.1.3
  * Text Domain: comments-plus
  * Domain Path: /languages/
  * Author URI: https://webcraftic.com
@@ -71,7 +71,7 @@ $wcm_plugin_info = array(
 		array('libs/factory/bootstrap', 'factory_bootstrap_000', 'admin'),
 		array('libs/factory/forms', 'factory_forms_000', 'admin'),
 		array('libs/factory/pages', 'factory_pages_000', 'admin'),
-		array('libs/factory/clearfy', 'factory_templates_000', 'all'),
+		array('libs/factory/templates', 'factory_templates_000', 'all'),
 		array('libs/factory/adverts', 'factory_adverts_000', 'admin')
 	)
 );
