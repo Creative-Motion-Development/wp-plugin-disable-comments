@@ -122,6 +122,9 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.1.5 (23.03.2022) =
+* Added: Compatibility with Disable admin notices plugin
+
 = 1.1.4 (23.03.2022) =
 * Added: Compatibility with Wordpress 5.9
 * Fixed: Minor bugs
