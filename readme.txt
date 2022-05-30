@@ -3,7 +3,7 @@ Tags: disable comments, disable XML-RPC, remove comments, delete comments, no se
 Contributors: webcraftic, alexkovalevv, creativemotion
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VDX7JNTQPNPFW
 Requires at least: 4.2
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.4
 Stable tag: trunk
 License: GPLv2
@@ -122,6 +122,9 @@ If you want to help with the translation, please contact me through this site or
 2. Control panel (Remove comments)
 
 == Changelog ==
+= 1.1.6 (30.05.2022) =
+* Added: Compatibility with Wordpress 6.0
+
 = 1.1.5 (23.03.2022) =
 * Added: Compatibility with Disable admin notices plugin
 
